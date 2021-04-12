@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="profile" href="https://gmpg.org/xfn/11">
+	<link href="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/favicon/favicon.png" rel="icon">
+  <title>HTTP与HTTPS与SSL与TLS的区别以及介绍 - Lixypro博客</title>
+
+	<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+
+	<!-- This site is optimized with the Yoast SEO plugin v16.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+	<title>HTTP与HTTPS与SSL与TLS的区别以及介绍 - Lixypro博客</title>
+	<meta name="description" content="Lixypro博客 - 后端运维 HTTP与HTTPS与SSL与TLS的区别以及介绍 HTTPS协议是由SSL/TLS+HTTP协议构建的可进行加密传输、身份认证的网络协议，要比http协议安全.">
+	<link rel="canonical" href="https://blog.lixypro.com/houduanyunwei/the-difference-and-introduction-between-http-and-https-and-ssl-and-tls.html">
+	<meta property="og:locale" content="zh_CN">
+	<meta property="og:type" content="article">
+	<meta property="og:title" content="HTTP与HTTPS与SSL与TLS的区别以及介绍 - Lixypro博客">
+	<meta property="og:description" content="Lixypro博客 - 后端运维 HTTP与HTTPS与SSL与TLS的区别以及介绍 HTTPS协议是由SSL/TLS+HTTP协议构建的可进行加密传输、身份认证的网络协议，要比http协议安全.">
+	<meta property="og:url" content="https://blog.lixypro.com/houduanyunwei/the-difference-and-introduction-between-http-and-https-and-ssl-and-tls.html">
+	<meta property="og:site_name" content="Lixypro博客">
+	<meta property="article:published_time" content="2021-04-10T10:10:44+00:00">
+	<meta property="article:modified_time" content="2021-04-11T11:53:15+00:00">
+	<meta property="og:image" content="https://blog.lixypro.com/wp-content/uploads/2021/04/1618140921-5e056c500a1c4b6.png">
+	<meta property="og:image:width" content="1920">
+	<meta property="og:image:height" content="400">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:label1" content="作者">
+	<meta name="twitter:data1" content="administrator">
+	<meta name="twitter:label2" content="预计阅读时间">
+	<meta name="twitter:data2" content="2分">
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://blog.lixypro.com/#website","url":"https://blog.lixypro.com/","name":"Lixypro博客","description":"技术分享|网页前端|后端运维|网络安全|日常记事","potentialAction":[{"@type":"SearchAction","target":"https://blog.lixypro.com/?s={search_term_string}","query-input":"required name=search_term_string"}],"inLanguage":"zh-CN"},{"@type":"ImageObject","@id":"https://blog.lixypro.com/houduanyunwei/the-difference-and-introduction-between-http-and-https-and-ssl-and-tls.html#primaryimage","inLanguage":"zh-CN","url":"https://blog.lixypro.com/wp-content/uploads/2021/04/1618140921-5e056c500a1c4b6.png","contentUrl":"https://blog.lixypro.com/wp-content/uploads/2021/04/1618140921-5e056c500a1c4b6.png","width":1920,"height":400},{"@type":"WebPage","@id":"https://blog.lixypro.com/houduanyunwei/the-difference-and-introduction-between-http-and-https-and-ssl-and-tls.html#webpage","url":"https://blog.lixypro.com/houduanyunwei/the-difference-and-introduction-between-http-and-https-and-ssl-and-tls.html","name":"HTTP与HTTPS与SSL与TLS的区别以及介绍 - Lixypro博客","isPartOf":{"@id":"https://blog.lixypro.com/#website"},"primaryImageOfPage":{"@id":"https://blog.lixypro.com/houduanyunwei/the-difference-and-introduction-between-http-and-https-and-ssl-and-tls.html#primaryimage"},"datePublished":"2021-04-10T10:10:44+00:00","dateModified":"2021-04-11T11:53:15+00:00","author":{"@id":"https://blog.lixypro.com/#/schema/person/504c3e2a3d8a31f292936e7a2241373b"},"description":"Lixypro博客 - 后端运维 HTTP与HTTPS与SSL与TLS的区别以及介绍 HTTPS协议是由SSL/TLS+HTTP协议构建的可进行加密传输、身份认证的网络协议，要比http协议安全.","breadcrumb":{"@id":"https://blog.lixypro.com/houduanyunwei/the-difference-and-introduction-between-http-and-https-and-ssl-and-tls.html#breadcrumb"},"inLanguage":"zh-CN","potentialAction":[{"@type":"ReadAction","target":["https://blog.lixypro.com/houduanyunwei/the-difference-and-introduction-between-http-and-https-and-ssl-and-tls.html"]}]},{"@type":"BreadcrumbList","@id":"https://blog.lixypro.com/houduanyunwei/the-difference-and-introduction-between-http-and-https-and-ssl-and-tls.html#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"item":{"@type":"WebPage","@id":"https://blog.lixypro.com/","url":"https://blog.lixypro.com/","name":"首页"}},{"@type":"ListItem","position":2,"item":{"@type":"WebPage","@id":"https://blog.lixypro.com/houduanyunwei/the-difference-and-introduction-between-http-and-https-and-ssl-and-tls.html","url":"https://blog.lixypro.com/houduanyunwei/the-difference-and-introduction-between-http-and-https-and-ssl-and-tls.html","name":"HTTP与HTTPS与SSL与TLS的区别以及介绍"}}]},{"@type":"Person","@id":"https://blog.lixypro.com/#/schema/person/504c3e2a3d8a31f292936e7a2241373b","name":"administrator","image":{"@type":"ImageObject","@id":"https://blog.lixypro.com/#personlogo","inLanguage":"zh-CN","url":"https://secure.gravatar.com/avatar/957d4bcaf62a121072d884ad505a9b2a?s=96&d=mm&r=g","contentUrl":"https://secure.gravatar.com/avatar/957d4bcaf62a121072d884ad505a9b2a?s=96&d=mm&r=g","caption":"administrator"},"sameAs":["https://blog.lixypro.com"]}]}</script>
+	<!-- / Yoast SEO plugin. -->
+
+
+<link rel="stylesheet" id="toc-screen-css" href="https://blog.lixypro.com/wp-content/plugins/table-of-contents-plus/screen.min.css?ver=2002" type="text/css" media="all">
+<link rel="stylesheet" id="Katex-css" href="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/KaTeX/katex.min.css?ver=10.2.1" type="text/css" media="all">
+<link rel="stylesheet" id="prism-theme-style-css" href="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/themes/prism-okaidia.css?ver=1.15.0" type="text/css" media="all">
+<link rel="stylesheet" id="prism-plugin-toolbar-css" href="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/toolbar/prism-toolbar.css?ver=1.15.0" type="text/css" media="all">
+<link rel="stylesheet" id="prism-plugin-line-numbers-css" href="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/line-numbers/prism-line-numbers.css?ver=1.15.0" type="text/css" media="all">
+<link rel="stylesheet" id="external-css" href="https://blog.lixypro.com/wp-content/themes/ripro/assets/css/external.css?ver=7.1.0" type="text/css" media="all">
+<link rel="stylesheet" id="sweetalert2-css" href="https://blog.lixypro.com/wp-content/themes/ripro/assets/css/sweetalert2.min.css?ver=7.1.0" type="text/css" media="all">
+<link rel="stylesheet" id="app-css" href="https://blog.lixypro.com/wp-content/themes/ripro/assets/css/app.css?ver=7.1.0" type="text/css" media="all">
+<link rel="stylesheet" id="diy-css" href="https://blog.lixypro.com/wp-content/themes/ripro/assets/css/diy.css?ver=7.1.0" type="text/css" media="all">
+<link rel="stylesheet" id="fancybox-css" href="https://blog.lixypro.com/wp-content/themes/ripro/assets/css/jquery.fancybox.min.css?ver=7.1.0" type="text/css" media="all">
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/jquery-2.2.4.min.js?ver=2.2.4" id="jquery-js"></script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/plugins/sweetalert2.min.js?ver=7.1.0" id="sweetalert2-js"></script>
+		<script>
+			document.documentElement.className = document.documentElement.className.replace( 'no-js', 'js' );
+		</script>
+				<style>.no-js img.lazyload { display: none; }
+			figure.wp-block-image img.lazyloading { min-width: 150px; }
+							.lazyload, .lazyloading { opacity: 0; }
+				.lazyloaded {
+					opacity: 1;
+					transition: opacity 400ms;
+					transition-delay: 0ms;
+				}</style>
+			<!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+      <script src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/html5shiv.js"></script>
+      <script src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/respond.min.js"></script>
+    <![endif]-->
+          <script> $(document).ready(function() { NProgress.start(); $(window).load(function() { NProgress.done(); }); });</script>
+    </head>
+
+<body class="post-template-default single single-post postid-41 single-format-standard  max_width navbar-sticky navbar-full navbar-slide no-search sidebar-none pagination-numeric no-off-canvas">
+
+<div class="site">
+    
+<header class="site-header">
+      <div class="navbar">
+      <div class="logo-wrapper">
+              <a href="https://blog.lixypro.com/">
+          <img data-dark="" alt="Lixypro博客" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" class="logo regular tap-logo lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img class="logo regular tap-logo" src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" data-dark="" alt="Lixypro博客"></noscript>
+        </a>
+            </div>
+      <div class="sep"></div>
+      
+      <nav class="main-menu hidden-xs hidden-sm hidden-md">
+        <ul id="menu-menu-1" class="nav-list u-plain-list">
+<li id="menu-item-12" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-12"><a href="https://blog.lixypro.com/">本站首页</a></li>
+<li id="menu-item-15" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-15"><a href="https://blog.lixypro.com/tags">标签集合</a></li>
+<li id="menu-item-18" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-18"><a href="https://blog.lixypro.com/qianduansixiang">前端思想</a></li>
+<li id="menu-item-19" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-19"><a href="https://blog.lixypro.com/houduanyunwei">后端运维</a></li>
+<li id="menu-item-20" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-20"><a href="https://blog.lixypro.com/zaixianfuwu">在线服务</a></li>
+<li id="menu-item-21" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-21"><a href="https://blog.lixypro.com/diannaojichu">电脑基础</a></li>
+<li id="menu-item-22" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-22"><a href="https://blog.lixypro.com/kejizixun">科技资讯</a></li>
+<li id="menu-item-23" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-23"><a href="https://blog.lixypro.com/wangluoanquan">网络安全</a></li>
+</ul>      </nav>
+      
+      <div class="main-search">
+        <form method="get" class="search-form inline" action="https://blog.lixypro.com/">
+  <input type="search" class="search-field inline-field" placeholder="输入关键词，回车..." autocomplete="off" value="" name="s" required="required">
+  <button type="submit" class="search-submit"><i class="mdi mdi-magnify"></i></button>
+</form>        <div class="search-close navbar-button"><i class="mdi mdi-close"></i></div>
+      </div>
+
+      <div class="actions">
+                <!-- user end -->
+        <div class="search-open navbar-button"><i class="mdi mdi-magnify"></i></div>
+                <div class="burger"></div>
+      </div>
+    </div>
+  </header>
+
+<div class="header-gap"></div>    
+    <div class="site-content">
+    
+
+<div class="container">
+	<div class="breadcrumbs">
+	当前位置：<a href="https://blog.lixypro.com/">Lixypro博客</a> <small>></small> <a href="https://blog.lixypro.com/houduanyunwei">后端运维</a> <small>></small> HTTP与HTTPS与SSL与TLS的区别以及介绍	</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="content-area">
+				<main class="site-main">
+					<article id="post-41" class="article-content">
+    <div class="container">
+  
+<div class="cao_entry_header">
+
+  <header class="entry-header">    
+    <h1 class="entry-title">HTTP与HTTPS与SSL与TLS的区别以及介绍</h1>  </header>
+</div>
+</div>  <div class="container">
+    <div class="entry-wrapper">
+            <div class="entry-content u-text-format u-clearfix">
+        <h2>1. HTTP与HTTPS介绍</h2>
+<ul>
+<li>超文本传输协议HTTP协议被用于在Web浏览器和网站服务器之间传递信息，HTTP协议以明文方式发送内容，不提供任何方式的数据加密，如果攻击者截取了Web浏览器和网 站服务器之间的传输报文，就可以直接读懂其中的信息，因此，HTTP协议不适合传输一些敏感信息，比如：信用卡号、密码等支付信息。</li>
+<li>为了解决HTTP协议的这一缺陷，需要使用另一种协议：安全套接字层超文本传输协议HTTPS，为了数据传输的安全，HTTPS在HTTP的基础上加入了SSL/TLS协议，SSL/TLS依靠证书来验证服务器的身份，并为浏览器和服务器之间的通信加密。</li>
+<li>HTTPS协议是由SSL/TLS+HTTP协议构建的可进行加密传输、身份认证的网络协议，要比http协议安全.</li>
+<li>HTTPS协议的主要作用可以分为两种：一种是建立一个信息安全通道，来保证数据传输的安全；另一种就是确认网站的真实性。</li>
+</ul>
+<h2>2. HTTPS和HTTP的主要区别</h2>
+<ol>
+<li>https协议需要到CA申请证书，一般免费证书较少，因而需要一定费用。</li>
+<li>http是超文本传输协议，信息是明文传输，https则是具有安全性的ssl/tls加密传输协议。</li>
+<li>http和https使用的是完全不同的连接方式，用的端口也不一样，前者是80，后者是443。</li>
+<li>http的连接很简单，是无状态的；HTTPS协议是由SSL/TLS+HTTP协议构建的可进行加密传输、身份认证的网络协议，比http协议安全。</li>
+</ol>
+<h2>3. 客户端在使用HTTPS方式与Web服务器通信时的步骤</h2>
+<ol>
+<li>客户使用https的URL访问Web服务器，要求与Web服务器建立SSL连接。</li>
+<li>Web服务器收到客户端请求后，会将网站的证书信息（证书中包含公钥）传送一份给客户端。</li>
+<li>客户端的浏览器与Web服务器开始协商SSL/TLS连接的安全等级，也就是信息加密的等级。</li>
+<li>客户端的浏览器根据双方同意的安全等级，建立会话密钥，然后利用网站的公钥将会话密钥加密，并传送给网站。</li>
+<li>Web服务器利用自己的私钥解密出会话密钥。</li>
+<li>Web服务器利用会话密钥加密与客户端之间的通信。</li>
+</ol>
+<p><img class="lazyload " src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="https://blog.lixypro.com/wp-content/uploads/2021/04/1618140921-5e056c500a1c4b6.png" alt=""><noscript>
+<img alt="" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618140921-5e056c500a1c4b6.png" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618140921-5e056c500a1c4b6.png" alt=""></noscript>
+</noscript></p>
+<h2>4. 介绍下非对称加密</h2>
+<p>客户端使用HTTPS与服务器通信中使用到了CA认证，这里可能大家会问为什么不直接使用非对称加密的形式直接进行?<br>
+首先这里先介绍下非对称加密;</p>
+<ul>
+<li>非对称加密：客户端和服务端均拥有一个公有密匙和一个私有密匙。公有密匙可以对外暴露，而私有密匙只有自己可见。</li>
+</ul>
+<p>使用公有密匙加密的消息，只有对应的私有密匙才能解开。反过来，使用私有密匙加密的消息，只有公有密匙才能解开。这样客户端在发送消息前，先用服务器的公匙对消息进行加密，服务器收到后再用自己的私匙进行解密。</p>
+<p><strong>非对称加密的优点</strong>：<br>
+非对称加密采用公有密匙和私有密匙的方式，解决了http中消息保密性问题，而且使得私有密匙泄露的风险降低。因为公匙加密的消息只有对应的私匙才能解开，所以较大程度上保证了消息的来源性以及消息的准确性和完整性。</p>
+<p><strong>非对称加密的缺点</strong>：</p>
+<ul>
+<li>非对称加密时需要使用到接收方的公匙对消息进行加密，但是公匙不是保密的，任何人都可以拿到，中间人也可以。那么中间人可以做两件事，第一件是中间人可以在客户端与服务器交换公匙的时候，将客户端的公匙替换成自己的。这样服务器拿到的公匙将不是客户端的，而是中间人的。服务器也无法判断公匙来源的正确性。第二件是中间人可以不替换公匙，但是他可以截获客户端发来的消息，然后篡改，然后用服务器的公匙加密再发往服务器，服务器将收到错误的消息。
+</li>
+<li>
+<p>非对称加密的性能相对对称加密来说会慢上几倍甚至几百倍，比较消耗系统资源。</p>
+</li>
+</ul>
+<h2>5. https将两种加密结合了起来</h2>
+<p>正是因为如此，https将两种加密结合了起来。为了应对上面非对称加密带来的问题，我们就引入了数字证书与数字签名,故CA认证介入我们的HTTPS连接的过程如下：</p>
+<ol>
+<li>服务器拥有自己的私钥与公钥</li>
+<li>服务器将公钥交给CA认证机构，请求给予一份数字证书</li>
+<li>CA认证机构生成数字证书，并颁发给服务器</li>
+<li>服务器将带有公钥信息的数字证书发给客户端</li>
+<li>进入客户端生成对称密钥再进行对接的过程&#8230;&#8230;</li>
+</ol>
+<p><strong>HTTPS的缺点</strong></p>
+<ul>
+<li>虽然说HTTPS有很大的优势，但其相对来说，还是存在不足之处的：</li>
+<li>HTTPS协议握手阶段比较费时，会使页面的加载时间延长近50%，增加10%到20%的耗电；</li>
+<li>HTTPS连接缓存不如HTTP高效，会增加数据开销和功耗，甚至已有的安全措施也会因此而受到影响；</li>
+<li>SSL证书需要钱，功能越强大的证书费用越高，个人网站、小网站没有必要一般不会用。</li>
+<li>SSL证书通常需要绑定IP，不能在同一IP上绑定多个域名，IPv4资源不可能支撑这个消耗。</li>
+<li>HTTPS协议的加密范围也比较有限，在黑客攻击、拒绝服务攻击、服务器劫持等方面几乎起不到什么作用。最关键的，SSL证书的信用链体系并不安全，特别是在某些国家可以控制CA根证书的情况下，中间人攻击一样可行。</li>
+</ul>
+<h2>6. SSL与TLS的区别？</h2>
+<ul>
+<li>SSL：（Secure Socket Layer，安全套接字层），位于可靠的面向连接的网络层协议和应用层协议之间的一种协议层。SSL通过互相认证、使用数字签名确保完整性、使用加密确保私密性，以实现客户端和服务器之间的安全通讯。该协议由两层组成：SSL记录协议和SSL握手协议。
+</li>
+<li>
+<p>TLS：(Transport Layer Security，传输层安全协议)，用于两个应用程序之间提供保密性和数据完整性。该协议由两层组成：TLS记录协议和TLS握手协议。</p>
+</li>
+</ul>
+<h3>6.1. SSL/TLS历史</h3>
+<ul>
+<li>1994年，NetScape公司设计了SSL协议（Secure Sockets Layer）的1.0版，但是未发布。</li>
+<li>1995年，NetScape公司发布SSL 2.0版，很快发现有严重漏洞。</li>
+<li>1996年，SSL 3.0版问世，得到大规模应用。</li>
+<li>1999年，互联网标准化组织ISOC接替NetScape公司，发布了SSL的升级版TLS 1.0版。</li>
+<li>2006年和2008年，TLS进行了两次升级，分别为TLS 1.1版和TLS 1.2版。最新的变动是2011年TLS 1.2的修订版。</li>
+<li>目前，应用最广泛的是TLS 1.0，接下来是SSL 3.0。但是，主流浏览器都已经实现了TLS 1.2的支持。</li>
+<li>TLS 1.0通常被标示为SSL 3.1，TLS 1.1为SSL 3.2，TLS 1.2为SSL 3.3。</li>
+</ul>
+<h3>6.2. SSL/TLS协议的基本过程</h3>
+<ol>
+<li>客户端向服务器端索要并验证公钥。</li>
+<li>双方协商生成&#8221;对话密钥&#8221;。</li>
+<li>双方采用&#8221;对话密钥&#8221;进行加密通信。</li>
+</ol>
+<p>上面过程的前两步，又称为&#8221;握手阶段&#8221;（handshake）</p>
+<ul>
+<li>客户端发出请求（ClientHello）</li>
+</ul>
+<ol>
+<li>支持的协议版本，比如TLS 1.0版。</li>
+<li>一个客户端生成的随机数，稍后用于生成&#8221;对话密钥&#8221;。</li>
+<li>支持的加密方法，比如RSA公钥加密。</li>
+<li>支持的压缩方法。</li>
+</ol>
+<ul>
+<li>服务器回应（SeverHello）</li>
+</ul>
+<ol>
+<li>确认使用的加密通信协议版本，比如TLS 1.0版本。如果浏览器与服务器支持的版本不一致，服务器关闭加密通信。</li>
+<li>一个服务器生成的随机数，稍后用于生成&#8221;对话密钥&#8221;。</li>
+<li>确认使用的加密方法，比如RSA公钥加密，此时带有公钥信息。</li>
+<li>服务器证书。</li>
+</ol>
+<ul>
+<li>客户端回应</li>
+</ul>
+<ol>
+<li>一个随机数pre-master key。该随机数用服务器公钥加密，防止被窃听。</li>
+<li>编码改变通知，表示随后的信息都将用双方商定的加密方法和密钥发送。</li>
+<li>客户端握手结束通知，表示客户端的握手阶段已经结束。这一项同时也是前面发送的所有内容的hash值，用来供服务器校验。</li>
+</ol>
+<p>上面客户端回应中第一项的随机数，是整个握手阶段出现的第三个随机数，又称&#8221;pre-master key&#8221;。有了它以后，客户端和服务器就同时有了三个随机数，接着双方就用事先商定的加密方法，各自生成本次会话所用的同一把&#8221;会话密钥&#8221;。</p>
+<ul>
+<li>服务器的最后回应</li>
+</ul>
+<ol>
+<li>服务器收到客户端的第三个随机数pre-master key之后，计算生成本次会话所用的&#8221;会话密钥&#8221;。（客户端在第三阶段也生成这个“会话秘钥”）。然后，向客户端最后发送下面信息。</li>
+<li>编码改变通知，表示随后的信息都将用双方商定的加密方法和密钥发送。</li>
+<li>服务器握手结束通知，表示服务器的握手阶段已经结束。这一项同时也是前面发送的所有内容的hash值，用来供客户端校验。</li>
+</ol>
+<p>至此，整个握手阶段全部结束。接下来，客户端与服务器进入加密通信，就完全是使用普通的HTTP协议，只不过用&#8221;会话密钥&#8221;加密内容。</p>
+<h4>6.2.1. 那么为什么一定要用三个随机数，来生成&#8221;会话密钥&#8221;呢？</h4>
+<ul>
+<li>&#8220;不管是客户端还是服务器，都需要随机数，这样生成的密钥才不会每次都一样。由于SSL协议中证书是静态的，因此十分有必要引入一种随机因素来保证协商出来的密钥的随机性。
+</li>
+<li>
+<p>对于RSA密钥交换算法来说，pre-master-key本身就是一个随机数，再加上hello消息中的随机数，三个随机数通过一个密钥导出器最终导出一个对称密钥。</p>
+</li>
+<li>
+<p>pre master的存在在于SSL协议不信任每个主机都能产生完全随机的随机数，如果随机数不随机，那么pre master secret就有可能被猜出来，那么仅适用pre master secret作为密钥就不合适了，因此必须引入新的随机因素，那么客户端和服务器加上pre master secret三个随机数一同生成的密钥就不容易被猜出了，一个伪随机可能完全不随机，可是是三个伪随机就十分接近随机了，每增加一个自由度，随机性增加的可不是一。&#8221;</p>
+</li>
+</ul>
+<p>此外，如果前一步，服务器要求客户端证书，客户端会在这一步发送证书及相关信息。</p>
+<p>TLS的主要目标是使SSL更安全，并使协议的规范更精确和完善。<strong>TLS 在SSL v3.0 的基础上，提供了以下增强内容</strong>：</p>
+<ul>
+<li>更安全的MAC算法</li>
+<li>更严密的警报</li>
+<li>“灰色区域”规范的更明确的定义</li>
+</ul>
+<p>TLS对于<strong>安全性的改进点</strong>如下：</p>
+<ul>
+<li>对于消息认证使用密钥散列法：TLS 使用“消息认证代码的密钥散列法”（HMAC），当记录在开放的网络（如因特网）上传送时，该代码确保记录不会被变更。SSLv3.0还提供键控消息认证，但HMAC比SSLv3.0使用的（消息认证代码）MAC 功能更安全。
+</li>
+<li>
+<p>增强的伪随机功能（PRF）：PRF生成密钥数据。在TLS中，HMAC定义PRF。PRF使用两种散列算法保证其安全性。如果任一算法暴露了，只要第二种算法未暴露，则数据仍然是安全的。</p>
+</li>
+<li>
+<p>改进的已完成消息验证：TLS和SSLv3.0都对两个端点提供已完成的消息，该消息认证交换的消息没有被变更。然而，TLS将此已完成消息基于PRF和HMAC值之上，这也比SSLv3.0更安全。</p>
+</li>
+<li>
+<p>一致证书处理：与SSLv3.0不同，TLS试图指定必须在TLS之间实现交换的证书类型。</p>
+</li>
+<li>特定警报消息：TLS提供更多的特定和附加警报，以指示任一会话端点检测到的问题。TLS还对何时应该发送某些警报进行记录。</li>
+</ul>
+<h3>6.3. SSL的三大误区</h3>
+<p>(此文刊登在《计算机世界》第5期)</p>
+<p><strong>说明：此文中所指的 SSL数字证书 应该是指只验证域名所有权的 <a class="wp-editor-md-post-content-link" href="https://www.wosign.com/DVSSL/DV_SSL.htm">超快SSL证书</a>，因为WoSign 当时(2005年1月)代理销售GeoTrust QuickSSL Premium产品。GeoTrust QuickSSL + TrueSite认证 = 超真SSL，笔者实际上是强调购买验证真实身份的“超真SSL证书”的重要性！</strong></p>
+<p>网站欺诈（Phishing）目前日益猖獗，而很多安全厂商对此却束手无策，在目前条件下，这类攻击不是靠技术能解决的，需要靠人们搽亮眼睛。此外，网站作为受害方之一，也可以采取一定的措施自我保护。<a class="wp-editor-md-post-content-link" href="https://www.wosign.com/">SSL认证</a>曾经被认为是好方法，但目前存在认识误区。那么，还有什么好方法呢？</p>
+<h4>6.3.1. 误区一:</h4>
+<p>对SSL数字证书(SSL证书)功能的误解。</p>
+<p>许多网站开发者认为只要部署了SSL数字证书(SSL证书)就万事大吉了，错误地夸大了数字证书的功能。实际上部署了SSL数字证书(SSL证书)，只能证明如下三点：</p>
+<ol>
+<li>从用户的浏览器到正在访问的Web服务器之间所传输的数据是通过加密传输的，是不可被篡改、窃取和破译的，保证了用户输入的机密信息(如银行卡信息)在网络传输过程中是安全的。
+</li>
+<li>
+<p>浏览器右方有锁标志说明了此数字证书是由信任的机构颁发，并且与用户正在使用的浏览器兼容。</p>
+</li>
+<li>
+<p>说明用户正在访问的Web服务器已经申请了SSL数字证书(SSL证书)，并且正在访问的网站的域名的所有者与SSL数字证书(SSL证书)申请时填写的域名所有者是一致的。</p>
+</li>
+</ol>
+<h4>6.3.2. 误区二:</h4>
+<p>以为在屏幕右下角有“显示锁标志”就可以放心地在线填写信用卡等机密信息了。</p>
+<p>有锁标志只能说明机密数据在传输过程是安全的，但是网上用户首先应该搞清楚的是您正在与谁交易，正在付钱给谁。一个假冒在线购物的网站也可以申请一个SSL数字证书(SSL证书)来麻痹用户，用户应该检查正在访问的网站是否就是要访问的购物网站，域名是否正确。点击锁标志，检查此证书是颁发给哪个网站的?此证书的网址是否就是您要访问的网址?再点击“详细信息”的“主题”项，WoSign的数字证书一般在“O”或“OU”字段会列出此证书的网站的所有者，即会清楚地告诉您此网站是否是您计划与之交易的公司的网站。而一个假冒的网站即使也有SSL数字证书(SSL证书)，如果检查证书的详细信息就会发现问题。如招商银行信用卡网站的安全链接网址为：https://creditcard.cmbchina.com，访问后会发现浏览器下面有锁标志，点击锁标志后会显示此证书是颁发给creditcard.cmbchina.com，而再点击“详细信息”的“主题”项后会显示：CN = creditcard.cmbchina.com (Web服务器公用名称), OU = head office (申请机构的部门信息), O = China Merchants Bank (申请机构信息), L = Shenzhen (机构所在城市), S = Guangdong (机构所在州/省), C = CN (机构国家)。</p>
+<p>但是，用户一定要明白，SSL数字证书(SSL证书)仅仅是为了保证数据传输的安全，它并不等于身份验证。要搞清楚的是用户正在访问的网站是否就是用户希望与之发生交易的公司的网站，这是最重要的。所以，要保证网上安全交易，还需要对网站的身份进行验证，验证此网站是否就是交易方的正宗网站。假如有一个假冒招商银行信用卡网站的安全链接网址为：https://creditcard.cmb-china.com，该假冒者在注册域名时也是填写域名注册者为China Merchants Bank，申请SSL数字证书(SSL证书)时也都是填写与域名cmbchina.com一样的信息，该假冒者当然也可以申请到SSL数字证书(SSL证书)，只要申请证书时的信息与注册域名的信息一样。所以，此假冒网站也会显示锁标志，按以上方法验证证书，都可以是同样的正确信息。但是此网站是假冒网站，而用户只能以网站的网址做判断了。</p>
+<h4>6.3.3. 误区三:</h4>
+<p>选择SSL数字证书(SSL证书)颁发机构的误区。</p>
+<p>目前国内各种数字证书颁发机构有近百家，网站应该根据自己的业务需要正确选择数字证书颁发机构。对于面向国际市场和希望有国际合作的网站(希望国外用户也能正确浏览安全页面的网站)，推荐申请支持所有浏览器的WoSign服务器数字证书，此类证书无需要求客户端浏览器下载和安装根证书，使用非常方便。</p>
+<p>总之，目前国内电子商务和网上购物网站越来越多，而且盗版的银行网站也越来越猖狂，通过互联网的欺骗和盗用行为日益增加，作者认为，对于要求用户输入机密信息的网站，一定要部署SSL数字证书(SSL证书)来确保用户输入的机密信息的安全，保护输入的机密信息不会被泄露，让人们放心地进行网上消费。同时，我们建议所有网站都应该申请认证，让现实世界的真实企业与网络虚拟世界的企业网站实现真正的一一对应关系，让假冒网站没有可乘之机。而对于网上消费者，一定要提高安全防范意识，掌握辨别真伪网站的方法，不给网络犯罪分子有可乘之机</p>
+<h2>7. HTTPS很安全，很古老也很成熟，为什么一直到今天我们还有66%的网站不支持HTTPS呢？</h2>
+<ol>
+<li>慢，HTTPS未经任何优化的情况下要比HTTP慢几百毫秒以上，特别在移动端可能要慢500毫秒以上，关于HTTPS慢和如何优化已经是一个非常系统和复杂的话题
+</li>
+<li>
+<p>贵，特别在计算性能和服务器成本方面。HTTPS为什么会增加服务器的成本？相信大家也都清楚HTTPS要额外计算，要频繁地做加密和解密操作，几乎每一个字节都需要做加解密，这就产生了服务器成本</p>
+</li>
+<li>TLS协议的封装和解析。HTTPS所有数据都是按照TLS record格式进行封装和解析的。</li>
+<li>协议的网络交互。从TLS的握手过程可以看出，即使不需要进行任何计算，TLS的握手也需要至少1个RTT（round trip time)以上的网络交互。</li>
+<li>RTT(Round-Trip Time): 往返时延。在计算机网络中它是一个重要的性能指标，表示从发送端发送数据开始，到发送端收到来自接收端的确认（接收端收到数据后便立即发送确认），总共经历的时延。</li>
+<li>HTTPS降低用户访问速度（需多次握手）</li>
+<li>网站改用 HTTPS 以后，由 HTTP 跳转到 HTTPS 的方式增加了用户访问耗时（多数网站采用 301、302 跳转）</li>
+<li>HTTPS 涉及到的安全算法会消耗 CPU 资源，需要增加服务器资源（https 访问过程需要加解密）</li>
+</ol>
+<h3>7.1. HTTPS涉及的计算环节</h3>
+<ul>
+<li>
+<p>非对称密钥交换。比如RSA, Diffie-Hellman, ECDHE.这类算法的主要作用就是根据客户端和服务端不对称的信息，经过高强度的密钥生成算法，生成对称密钥，用于加解密后续应用消息。</p>
+</li>
+<li>
+<p>对称加解密。服务端使用密钥A对响应内容进行加密，客户端使用相同的密钥A对加密内容进行解密，反之亦然。</p>
+</li>
+<li>
+<p>消息一致性验证。每一段加密的内容都会附加一个MAC消息，即消息认证码。简单地说就是对内容进行的安全哈希计算，接收方需要校验MAC码。</p>
+</li>
+<li>
+<p>证书签名校验。这个阶段主要发生在客户端校验服务端证书身份时，需要对证书签名进行校验，确保证书的真实性。</p>
+</li>
+</ul>
+<h3>7.2. 如何优化HTTPS的速度?</h3>
+<ul>
+<li>HSTS重定向技术</li>
+</ul>
+<p><strong>HSTS（HTTP Strict Transport Security）技术，启用HSTS后，将保证浏览器始终连接到网站的 HTTPS 加密版本。</strong></p>
+<ol>
+<li>用户在浏览器里输入 HTTP 协议进行访问时，浏览器会自动将 HTTP 转换为 HTTPS 进行访问，确保用户访问安全；</li>
+<li>省去301跳转的出现，缩短访问时间；</li>
+<li>能阻止基于 SSL Strip 的中间人攻击，万一证书有错误，则显示错误，用户不能回避警告，从而能够更加有效安全的保障用户的访问。</li>
+</ol>
+<ul>
+<li>TLS握手优化</li>
+</ul>
+<ol>
+<li>在传输应用数据之前，客户端必须与服务端协商密钥、加密算法等信息，服务端还要把自己的证书发给客户端表明其身份，这些环节构成 TLS 握手过程。</li>
+<li>采用 False Start （抢先开始）技术，浏览器在与服务器完成 TLS 握手前，就开始发送请求数据，服务器在收到这些数据后，完成 TLS 握手的同时，开始发送响应数据。</li>
+<li>开启 False Start 功能后，数据传输时间将进一步缩短。</li>
+</ol>
+<ul>
+<li>Session Identifier（会话标识符）复用</li>
+</ul>
+<p>如果用户的一个业务请求包含了多条的加密流，客户端与服务器将会反复握手，必定会导致更多的时间损耗。或者某些特殊情况导致了对话突然中断，双方就需要重新握手，增加了用户访问时间。</p>
+<ol>
+<li>服务器为每一次的会话都生成并记录一个 ID 号，然后发送给客户端；</li>
+<li>如果客户端发起重新连接，则只要向服务器发送该 ID 号；</li>
+<li>服务器收到客户端发来的 ID 号，然后查找自己的会话记录，匹配 ID 之后，双方就可以重新使用之前的对称加密秘钥进行数据加密传输，而不必重新生成，减少交互时间。</li>
+</ol>
+<ul>
+<li>开启OSCP Stapling，提高TLS握手效率</li>
+</ul>
+<ol>
+<li>采用OCSP Stapling ，提升 HTTPS 性能。服务端主动获取 OCSP 查询结果并随着证书一起发送给客户端，从而客户端可直接通过 Web Server 验证证书，提高 TLS 握手效率。</li>
+<li>服务器模拟浏览器向 CA 发起请求，并将带有 CA 机构签名的 OCSP 响应保存到本地，然后在与客户端握手阶段，将 OCSP 响应下发给浏览器，省去浏览器的在线验证过程。由于浏览器不需要直接向 CA 站点查询证书状态，这个功能对访问速度的提升非常明显。</li>
+</ol>
+<h2>8. 面试常见问题,HTTPS优化总结</h2>
+<p>面试常见问题，HTTPS优化总结易记版：</p>
+<ol>
+<li>HSTS重定向技术：将http自动转换为https，减少301重定向</li>
+<li>TLS握手优化：在TLS握手完成前客户端就提前向服务器发送数据</li>
+<li>会话标识符：服务器记录下与某客户端的会话ID，下次连接客户端发ID过来就可以直接用之前的私钥交流了</li>
+<li>OSCP Stapling：服务器将带有 CA 机构签名的 OCSP 响应在握手时发给客户端，省的客户端再去CA查询</li>
+<li>完全前向加密PFS：使用更牛逼复杂的秘钥算法</li>
+</ol>
+<h2>9. 百度发布公告，对https站点的优先收录</h2>
+<p>百度站长平台发布公告，百度放开对<a class="wp-editor-md-post-content-link" href="https://www.wosign.com/">https站点</a>的收录，https站点不需要再做任何额外的工作就可以被百度顺利抓取。这是百度继今年3月份全站启用https加密之后的又一重大举措，再度体现百度在https安全加密方面的积极态度，势必加快https全网化进程。以下是公告原文：</p>
+<h3>9.1. 百度开放收录https站点公告</h3>
+<p>亲爱的网站管理员:</p>
+<p>从今天开始，百度放开对https站点的收录，https站点不需要再做任何额外的工作就可以被百度顺利抓收。</p>
+<p>在此之前，百度站长学院曾发表文章，指导https站点制作http可访问版便于百度抓收。技术升级后，<strong>百度视同一个域名的http版和https版为一个站点，优先收录https版。</strong>建议站长关闭http版，或者将http页面直接跳转到对应的https页面。</p>
+<p>文章来源：百度官方站长平台,原文地址：<a class="wp-editor-md-post-content-link" href="https://zhanzhang.baidu.com/wiki/392">http://zhanzhang.baidu.com/wiki/392</a></p>
+<h3>9.2. 百度spider工程师给https站点的技术建议(11月16日更新)</h3>
+<p>核心摘录：</p>
+<p>“全面支持https页面直接收录”；</p>
+<p>“百度搜索引擎认为权值相同的站点，<strong>采用https协议的页面更加安全，排名上会优先对待</strong>。”；</p>
+<p>“链接提交工具的sitemap工具已也支持站长提交https数据”；</p>
+<p>文章来源：百度官方站长平台,原文地址：<a class="wp-editor-md-post-content-link" href="https://zhanzhang.baidu.com/college/articleinfo?id=489">http://zhanzhang.baidu.com/college/articleinfo?id=489</a></p>
+<h3>9.3. http协议逐步被弃用</h3>
+<p>http协议是互联网建立初期的一种超文本传输协议，传统的HTTP明文传输模式，存在着大量的灰色中间环节，明文信息在中间代理服务器、路由器、wifi热点、通信服务运营商等层层节点中转，每一层都有可能导致传输数据被窃取或被第三方篡改，http协议已经被认为是非常不安全的传输协议。</p>
+<p>HTTPS加密协议，在用户浏览器与服务器之间建立SSL加密通道，将数据加密后传输，大大降低了被第三方窃取或篡改的风险。搜索引擎厂商以及浏览器厂商都纷纷提出弃用http的计划，支持https全网化。</p>
+<p><strong>· 百度搜索引擎</strong></p>
+<p>百度放开对https站点的收录，https站点不需要再做任何额外的工作就可以被百度顺利抓取，同一个域名优先收录https版本。</p>
+<p><strong>· 谷歌搜索引擎</strong></p>
+<p>Google在自己的官方博客发布公告，已经调整其搜索引擎算法，采用HTTPS加密的网站在搜索结果中的排名将会更高。参考：<a class="wp-editor-md-post-content-link" href="https://www.wosign.com/News/Google_https.htm">https加密网站将获得更好的谷歌排名</a></p>
+<p><strong>· 火狐浏览器</strong></p>
+<p>火狐安全团队负责人Richard Barnes公开表示，将会逐步淘汰“不安全”的HTTP协议。</p>
+<p><strong>· 谷歌浏览器</strong></p>
+<p>年初，谷歌发布了最新版本Chrome浏览器的测试版本，该版本可在用户试图打开没有使用https加密传输的连接时向用户发出明确警告，用户将会在地址栏左侧看到红色“X”符号。</p>
+<h2>10. 为保护用户隐私安全,谷歌优先索引HTTPS网页</h2>
+<p>摘要：近日，为进一步保护用户隐私信息安全，谷歌宣布将搜索结果优先指向<strong>HTTPS 网页</strong>。此举旨在鼓励全球网站采用安全度更高的HTTPS加密通讯以保证访客安全。在去年谷歌已经调整其搜索引擎算法，采用<a class="wp-editor-md-post-content-link" href="https://www.wosign.com/">HTTPS加密</a>的网站在搜索结果中的排名将会更高。</p>
+<p>谷歌本周宣布将调整搜索引擎的索引系统，以HTTPS网页为优先索引对象。当谷歌发现两个拥有同样内容但分别采用HTTP与HTTPS不同协议时，就算没有其他网站链接到该HTTPS网页，谷歌也会优先索引基于HTTPS的网页，此举意味着谷歌搜索结果所出现的HTTPS网页比例将会迅速增长。<br>
+过去几年来，谷歌已相继将全球的谷歌搜索首页、Gmail及YouTube从未加密的HTTP协议改为加密的HTTPS协议，并在去年8月提高HTTPS网页的搜索排名。<br>
+谷歌安全及索引团队网站管理员趋势分析师Zineb Ait Bahajji表示，网络浏览应该属于使用者与网站之间的私人通讯，且不应遭受窃听或中间人攻击，也不应有资料被修改，因此谷歌强力推广HTTPS加密协议。<br>
+谷歌称要优先索引HTTPS网页有几个前提，包括不得含有不安全的内容、不得封锁谷歌的爬梳、不得将使用者引导到不安全的HTTP网页，必须具备有效的TLS凭证等。<br>
+谷歌还提醒企业主和创业者可以在服务器配置SSL功能，让浏览器优先指向HTTPS网页访问，这样可以获得优先的排名和更高的安全性。</p>
+<p>部分内容参考：<br>
+<a class="wp-editor-md-post-content-link" href="https://www.cnblogs.com/wqhwe/p/5407468.html">https://www.cnblogs.com/wqhwe/p/5407468.html</a><br>
+<a class="wp-editor-md-post-content-link" href="https://www.cnblogs.com/xzwblog/p/6834663.html">https://www.cnblogs.com/xzwblog/p/6834663.html</a><br>
+<a class="wp-editor-md-post-content-link" href="https://segmentfault.com/p/1210000009272802/read">https://segmentfault.com/p/1210000009272802/read</a></p>
+      </div>
+      <div id="pay-single-box"></div>
+          <div class="entry-tags">
+          <a href="https://blog.lixypro.com/tag/http" rel="tag">
+        http      </a>
+          <a href="https://blog.lixypro.com/tag/https" rel="tag">
+        https      </a>
+          <a href="https://blog.lixypro.com/tag/tls" rel="tag">
+        tls      </a>
+      </div>
+<div class="article-copyright">RIPRO主题是一个优秀的主题，极致后台体验，无插件，集成会员系统<br><a href="https://blog.lixypro.com/">Lixypro博客</a> &raquo; <a href="https://blog.lixypro.com/houduanyunwei/the-difference-and-introduction-between-http-and-https-and-ssl-and-tls.html">HTTP与HTTPS与SSL与TLS的区别以及介绍</a>
+</div>
+
+<div class="article-footer">
+    <div class="author-box">
+    <div class="author-image">
+      <img alt="administrator" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/avatar/1.png" class="lazyload avatar avatar-140 photo " height="140" width="140">    </div>
+    <div class="author-info">
+      <h4 class="author-name">
+        <a target="_blank" href="javascript:;">administrator</a>
+        <span class="label label-default"><i class="fa fa-diamond"></i> 普通</span>      </h4>
+    </div>
+  </div>
+      <div class="xshare">
+      <span class="xshare-title">分享到：</span>
+            <a etap="share" data-share="qq" class="share-qq"><i class="fa fa-qq"></i></a>
+      <a etap="share" data-share="weibo" class="share-weibo"><i class="fa fa-weibo"></i></a>
+              <a href="javascript:;" class="btn-bigger-cover share-weixin" data-nonce="710c66f345" data-id="41" data-action="create-bigger-image" id="bigger-cover"><i class="fa fa-paper-plane"></i></a>
+        </div>
+   
+</div>    </div>
+  </div>
+</article>
+
+
+  <div class="entry-navigation">
+    <nav class="article-nav">
+        <span class="article-nav-prev">上一篇<br><a href="https://blog.lixypro.com/houduanyunwei/explanation-dns-cache-poisoning-is-also-called-dns-spoofing.html" rel="prev">解释:DNS缓存中毒也称为DNS欺骗</a></span>
+        <span class="article-nav-next">下一篇<br><a href="https://blog.lixypro.com/houduanyunwei/iptables-for-linux-detailed-explanation-and-examples.html" rel="next">IPtables for Linux详解以及实例</a></span>
+    </nav>
+    
+  </div>
+
+      <!-- # 标准网格模式... -->
+      <div class="related-posts-grid">
+        <h4 class="u-border-title">相关推荐</h4>
+        <div class="row">
+                     <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
+              <article class="post">
+                  <div class="entry-media">
+    <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+      <a target="_blank" href="https://blog.lixypro.com/diannaojichu/dns-over-tls-collection-how-to-set-up-a-more-secure-dns.html">
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/uploads/2021/04/1618048229-9b8d05929b6de56.jpg&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="DNS-over-TLS 收集，如何设置一个更安全的 DNS？">  
+      </a>
+            <div class="cao-cover">
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" width="50" height="50px"></noscript>
+</div>
+          </div>
+      </div>
+                  <div class="entry-wrapper">
+                  
+  <header class="entry-header">    
+    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/diannaojichu/dns-over-tls-collection-how-to-set-up-a-more-secure-dns.html" title="DNS-over-TLS 收集，如何设置一个更安全的 DNS？" rel="bookmark">DNS-over-TLS 收集，如何设置一个更安全的 DNS？</a></h4>  </header>                </div>
+              </article>
+            </div>
+                  </div>
+      </div>
+    
+  
+
+<div class="bottom-area">
+    <div id="comments" class="comments-area">
+        
+        
+        
+        	<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">发表评论 <small><a rel="nofollow" id="cancel-comment-reply-link" href="https://blog.lixypro.com/houduanyunwei/the-difference-and-introduction-between-http-and-https-and-ssl-and-tls.html#respond" style="display:none;">取消回复</a></small>
+</h3>
+<form action="https://blog.lixypro.com/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate>
+<p class="comment-form-comment"><textarea id="comment" name="comment" rows="8" aria-required="true"></textarea></p>
+<div class="row comment-author-inputs">
+<div class="col-md-4 input"><p class="comment-form-author"><label for="author">昵称*</label><input id="author" name="author" type="text" value="" size="30" aria-required="true"></p></div>
+<div class="col-md-4 input"><p class="comment-form-email"><label for="email">E-mail*</label><input id="email" name="email" type="text" value="" size="30" aria-required="true"></p></div>
+<div class="col-md-4 input"><p class="comment-form-url"><label for="url">网站</label><input id="url" name="url" type="text" value="" size="30"></p></div>
+</div>
+<p class="comment-form-cookies-consent"><input id="wp-comment-cookies-consent" name="wp-comment-cookies-consent" type="checkbox" value="yes"> <label for="wp-comment-cookies-consent">下次发表评论时，请在此浏览器中保存我的姓名、电子邮件和网站</label></p>
+<p class="form-submit"><input name="submit" type="submit" id="submit" class="button" value="发表评论"> <input type="hidden" name="comment_post_ID" value="41" id="comment_post_ID">
+<input type="hidden" name="comment_parent" id="comment_parent" value="0">
+</p>
+</form>	</div>
+<!-- #respond -->
+	    </div>
+</div>				</main>
+			</div>
+		</div>
+			</div>
+</div>
+
+
+</div>
+<!-- end sitecoent --> 
+
+	
+	<div class="module parallax">
+		<img class="jarallax-img lazyload" data-srcset="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/background/bg-1.jpg" data-sizes="auto" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="">
+		<div class="container">
+			<h4 class="entry-title">
+				提供最优质的资源集合			</h4>
+							<a target="_blank" class="button" href="https://blog.lixypro.com/">立即查看</a>
+										<a target="_blank" class="button transparent" href="https://blog.lixypro.com/">了解详情</a>
+					</div>
+	</div>
+	
+	<footer class="site-footer">
+		<div class="container">
+			
+			<div class="footer-widget">
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-3 widget--about">
+            <div class="widget--content">
+                <div class="footer--logo mb-20">
+                    <img data-dark="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" alt="Lixypro博客" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" class="tap-logo lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img class="tap-logo" src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" data-dark="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" alt="Lixypro博客"></noscript>
+                </div>
+                <p class="mb-10">Lixypro博客网站,专注于各种技术类.</p>
+            </div>
+        </div>
+        <!-- .col-md-2 end -->
+        <div class="col-xs-12 col-sm-3 col-md-2 col-md-offset-1 widget--links">
+            <div class="widget--title">
+                <h5>本站导航</h5>
+            </div>
+            <div class="widget--content">
+                <ul class="list-unstyled mb-0">
+                                    </ul>
+            </div>
+        </div>
+        <!-- .col-md-2 end -->
+        <div class="col-xs-12 col-sm-3 col-md-2 widget--links">
+            <div class="widget--title">
+                <h5>友情链接</h5>
+            </div>
+            <div class="widget--content">
+                <ul class="list-unstyled mb-0">
+                    <li><a target="_blank" href="https://www.baidu.com/">百度一下</a></li>
+<li><a target="_blank" href="https://www.zhihu.com/">知乎官网</a></li>                </ul>
+            </div>
+        </div>
+        <!-- .col-md-2 end -->
+        <div class="col-xs-12 col-sm-12 col-md-4 widget--newsletter">
+            <div class="widget--title">
+                <h5>快速搜索</h5>
+            </div>
+            <div class="widget--content">
+                <form class="newsletter--form mb-30" action="https://blog.lixypro.com/" method="get">
+                    <input type="text" class="form-control" name="s" placeholder="关键词">
+                    <button type="submit"><i class="fa fa-arrow-right"></i></button>
+                </form>
+                <h6>本站由WordPress程序强力驱动</h6>
+            </div>
+        </div>
+
+    </div>
+</div>						  <div class="site-info">
+			    © 2021 Lixypro博客 & WordPress Theme. All rights reserved			    			  </div>
+					</div>
+	</footer>
+	
+<div class="rollbar">
+	
+	<div class="rollbar-item" etap="to_full" title="全屏页面"><i class="fa fa-arrows-alt"></i></div>
+
+	
+		<div class="rollbar-item" etap="to_top" title="返回顶部"><i class="fa fa-angle-up"></i></div>
+</div>
+
+<div class="dimmer"></div>
+
+
+
+<div class="off-canvas">
+  <div class="canvas-close"><i class="mdi mdi-close"></i></div>
+  <div class="logo-wrapper">
+      <a href="https://blog.lixypro.com/">
+      <img alt="Lixypro博客" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" class="logo regular lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img class="logo regular" src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" alt="Lixypro博客"></noscript>
+    </a>
+    </div>
+  <div class="mobile-menu hidden-lg hidden-xl"></div>
+  <aside class="widget-area">
+      </aside>
+</div>
+<script>
+    console.log("\n %c RiPro V7.1.0 %c https://blog.lixypro.com \n\n", "color: #fadfa3; background: #030307; padding:5px 0;", "background: #fadfa3; padding:5px 0;");
+    console.log("SQL 请求数：66");
+    console.log("页面生成耗时： 0.31973");
+</script>
+
+
+
+<script type="text/javascript" id="toc-front-js-extra">
+/* <![CDATA[ */
+var tocplus = {"visibility_show":"show","visibility_hide":"hide","width":"Auto"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/plugins/table-of-contents-plus/front.min.js?ver=2002" id="toc-front-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/jQuery/jquery.min.js?ver=10.2.1" id="jQuery-CDN-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/KaTeX/katex.min.js?ver=10.2.1" id="Katex-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/ClipBoard/clipboard.min.js?ver=2.0.1" id="copy-clipboard-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/components/prism-core.min.js?ver=1.15.0" id="prism-core-js-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/autoloader/prism-autoloader.min.js?ver=1.15.0" id="prism-plugin-autoloader-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/toolbar/prism-toolbar.min.js?ver=1.15.0" id="prism-plugin-toolbar-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/line-numbers/prism-line-numbers.min.js?ver=1.15.0" id="prism-plugin-line-numbers-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/show-language/prism-show-language.min.js?ver=1.15.0" id="prism-plugin-show-language-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js?ver=1.15.0" id="prism-plugin-copy-to-clipboard-js"></script>
+<script type="text/javascript" id="Front_Style-js-extra">
+/* <![CDATA[ */
+var FrontStyle = {"openLinkInNewTab":"on"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/FrontStyle/frontstyle.min.js?ver=10.2.1" id="Front_Style-js"></script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/plugins/wp-smushit/app/assets/js/smush-lazy-load.min.js?ver=3.8.4" id="smush-lazy-load-js"></script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/plugins.js?ver=7.1.0" id="plugins-js"></script>
+<script type="text/javascript" id="app-js-extra">
+/* <![CDATA[ */
+var caozhuti = {"site_name":"Lixypro博客","home_url":"https:\/\/blog.lixypro.com","ajaxurl":"https:\/\/blog.lixypro.com\/wp-admin\/admin-ajax.php","is_singular":"1","tencent_captcha":{"is":"","appid":""},"infinite_load":"加载更多","infinite_loading":"<i class=\"fa fa-spinner fa-spin\"><\/i> 加载中...","site_notice":{"is":"0","color":"rgb(33, 150, 243)","html":"<div class=\"notify-content\"><h3>Lixypro欢迎你!<\/h3><div>这是一条网站公告，可在后台开启或关闭，可自定义背景颜色，标题，内容，用户首次打开关闭后不再重复弹出，此处可使用html标签...<\/div><\/div>"},"pay_type_html":{"html":"<div class=\"pay-button-box\"><\/div><p style=\"font-size: 13px; padding: 0; margin: 0;\">免费或钻石免费资源仅限余额支付<\/p>","alipay":0,"weixinpay":0}};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/app.js?ver=7.1.0" id="app-js"></script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/plugins/jquery.fancybox.min.js?ver=7.1.0" id="fancybox-js"></script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-includes/js/comment-reply.min.js?ver=5.7" id="comment-reply-js"></script>
+        <script type="text/javascript">
+            (function ($) {
+                $(document).ready(function () {
+                    $(".katex.math.inline").each(function () {
+                        var parent = $(this).parent()[0];
+                        if (parent.localName !== "code") {
+                            var texTxt = $(this).text();
+                            var el = $(this).get(0);
+                            try {
+                                katex.render(texTxt, el);
+                            } catch (err) {
+                                $(this).html("<span class=\"err\">" + err);
+                            }
+                        } else {
+                            $(this).parent().text($(this).parent().text());
+                        }
+                    });
+                    $(".katex.math.multi-line").each(function () {
+                        var texTxt = $(this).text();
+                        var el = $(this).get(0);
+                        try {
+                            katex.render(texTxt, el, {displayMode: true})
+                        } catch (err) {
+                            $(this).html("<span class=\"err\">" + err)
+                        }
+                    });
+                })
+            })(jQuery);
+        </script>
+                <script type="text/javascript">
+            Prism.plugins.autoloader.languages_path = "https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/components/";
+        </script>
+        
+</div>
+</body>
+</html>

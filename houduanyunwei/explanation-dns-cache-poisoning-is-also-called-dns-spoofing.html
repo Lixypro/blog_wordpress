@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="profile" href="https://gmpg.org/xfn/11">
+	<link href="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/favicon/favicon.png" rel="icon">
+  <title>解释:DNS缓存中毒也称为DNS欺骗 - 后端运维 Lixypro博客</title>
+
+	<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+
+	<!-- This site is optimized with the Yoast SEO plugin v16.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+	<title>解释:DNS缓存中毒也称为DNS欺骗 - 后端运维 Lixypro博客</title>
+	<meta name="description" content="Lixypro博客 - 后端运维 解释:DNS缓存中毒也称为DNS欺骗 DNS缓存漏洞。此漏洞直接表明我们的应用程序中Internet的脆弱性，而安全性差的根本原因是设计缺陷。使用此漏洞可能使用户无法打开网页，另一个是网络钓鱼和金融欺诈，给受害者造成巨大损失。">
+	<link rel="canonical" href="https://blog.lixypro.com/houduanyunwei/explanation-dns-cache-poisoning-is-also-called-dns-spoofing.html">
+	<meta property="og:locale" content="zh_CN">
+	<meta property="og:type" content="article">
+	<meta property="og:title" content="解释:DNS缓存中毒也称为DNS欺骗 - 后端运维 Lixypro博客">
+	<meta property="og:description" content="Lixypro博客 - 后端运维 解释:DNS缓存中毒也称为DNS欺骗 DNS缓存漏洞。此漏洞直接表明我们的应用程序中Internet的脆弱性，而安全性差的根本原因是设计缺陷。使用此漏洞可能使用户无法打开网页，另一个是网络钓鱼和金融欺诈，给受害者造成巨大损失。">
+	<meta property="og:url" content="https://blog.lixypro.com/houduanyunwei/explanation-dns-cache-poisoning-is-also-called-dns-spoofing.html">
+	<meta property="og:site_name" content="Lixypro博客">
+	<meta property="article:published_time" content="2021-04-10T10:06:13+00:00">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:label1" content="作者">
+	<meta name="twitter:data1" content="administrator">
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://blog.lixypro.com/#website","url":"https://blog.lixypro.com/","name":"Lixypro博客","description":"技术分享|网页前端|后端运维|网络安全|日常记事","potentialAction":[{"@type":"SearchAction","target":"https://blog.lixypro.com/?s={search_term_string}","query-input":"required name=search_term_string"}],"inLanguage":"zh-CN"},{"@type":"WebPage","@id":"https://blog.lixypro.com/houduanyunwei/explanation-dns-cache-poisoning-is-also-called-dns-spoofing.html#webpage","url":"https://blog.lixypro.com/houduanyunwei/explanation-dns-cache-poisoning-is-also-called-dns-spoofing.html","name":"解释:DNS缓存中毒也称为DNS欺骗 - 后端运维 Lixypro博客","isPartOf":{"@id":"https://blog.lixypro.com/#website"},"datePublished":"2021-04-10T10:06:13+00:00","dateModified":"2021-04-10T10:06:13+00:00","author":{"@id":"https://blog.lixypro.com/#/schema/person/504c3e2a3d8a31f292936e7a2241373b"},"description":"Lixypro博客 - 后端运维 解释:DNS缓存中毒也称为DNS欺骗 DNS缓存漏洞。此漏洞直接表明我们的应用程序中Internet的脆弱性，而安全性差的根本原因是设计缺陷。使用此漏洞可能使用户无法打开网页，另一个是网络钓鱼和金融欺诈，给受害者造成巨大损失。","breadcrumb":{"@id":"https://blog.lixypro.com/houduanyunwei/explanation-dns-cache-poisoning-is-also-called-dns-spoofing.html#breadcrumb"},"inLanguage":"zh-CN","potentialAction":[{"@type":"ReadAction","target":["https://blog.lixypro.com/houduanyunwei/explanation-dns-cache-poisoning-is-also-called-dns-spoofing.html"]}]},{"@type":"BreadcrumbList","@id":"https://blog.lixypro.com/houduanyunwei/explanation-dns-cache-poisoning-is-also-called-dns-spoofing.html#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"item":{"@type":"WebPage","@id":"https://blog.lixypro.com/","url":"https://blog.lixypro.com/","name":"首页"}},{"@type":"ListItem","position":2,"item":{"@type":"WebPage","@id":"https://blog.lixypro.com/houduanyunwei/explanation-dns-cache-poisoning-is-also-called-dns-spoofing.html","url":"https://blog.lixypro.com/houduanyunwei/explanation-dns-cache-poisoning-is-also-called-dns-spoofing.html","name":"解释:DNS缓存中毒也称为DNS欺骗"}}]},{"@type":"Person","@id":"https://blog.lixypro.com/#/schema/person/504c3e2a3d8a31f292936e7a2241373b","name":"administrator","image":{"@type":"ImageObject","@id":"https://blog.lixypro.com/#personlogo","inLanguage":"zh-CN","url":"https://secure.gravatar.com/avatar/957d4bcaf62a121072d884ad505a9b2a?s=96&d=mm&r=g","contentUrl":"https://secure.gravatar.com/avatar/957d4bcaf62a121072d884ad505a9b2a?s=96&d=mm&r=g","caption":"administrator"},"sameAs":["https://blog.lixypro.com"]}]}</script>
+	<!-- / Yoast SEO plugin. -->
+
+
+<link rel="stylesheet" id="toc-screen-css" href="https://blog.lixypro.com/wp-content/plugins/table-of-contents-plus/screen.min.css?ver=2002" type="text/css" media="all">
+<link rel="stylesheet" id="Katex-css" href="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/KaTeX/katex.min.css?ver=10.2.1" type="text/css" media="all">
+<link rel="stylesheet" id="prism-theme-style-css" href="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/themes/prism-okaidia.css?ver=1.15.0" type="text/css" media="all">
+<link rel="stylesheet" id="prism-plugin-toolbar-css" href="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/toolbar/prism-toolbar.css?ver=1.15.0" type="text/css" media="all">
+<link rel="stylesheet" id="prism-plugin-line-numbers-css" href="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/line-numbers/prism-line-numbers.css?ver=1.15.0" type="text/css" media="all">
+<link rel="stylesheet" id="external-css" href="https://blog.lixypro.com/wp-content/themes/ripro/assets/css/external.css?ver=7.1.0" type="text/css" media="all">
+<link rel="stylesheet" id="sweetalert2-css" href="https://blog.lixypro.com/wp-content/themes/ripro/assets/css/sweetalert2.min.css?ver=7.1.0" type="text/css" media="all">
+<link rel="stylesheet" id="app-css" href="https://blog.lixypro.com/wp-content/themes/ripro/assets/css/app.css?ver=7.1.0" type="text/css" media="all">
+<link rel="stylesheet" id="diy-css" href="https://blog.lixypro.com/wp-content/themes/ripro/assets/css/diy.css?ver=7.1.0" type="text/css" media="all">
+<link rel="stylesheet" id="fancybox-css" href="https://blog.lixypro.com/wp-content/themes/ripro/assets/css/jquery.fancybox.min.css?ver=7.1.0" type="text/css" media="all">
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/jquery-2.2.4.min.js?ver=2.2.4" id="jquery-js"></script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/plugins/sweetalert2.min.js?ver=7.1.0" id="sweetalert2-js"></script>
+		<script>
+			document.documentElement.className = document.documentElement.className.replace( 'no-js', 'js' );
+		</script>
+				<style>.no-js img.lazyload { display: none; }
+			figure.wp-block-image img.lazyloading { min-width: 150px; }
+							.lazyload, .lazyloading { opacity: 0; }
+				.lazyloaded {
+					opacity: 1;
+					transition: opacity 400ms;
+					transition-delay: 0ms;
+				}</style>
+			<!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+      <script src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/html5shiv.js"></script>
+      <script src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/respond.min.js"></script>
+    <![endif]-->
+          <script> $(document).ready(function() { NProgress.start(); $(window).load(function() { NProgress.done(); }); });</script>
+    </head>
+
+<body class="post-template-default single single-post postid-38 single-format-standard  max_width navbar-sticky navbar-full navbar-slide no-search sidebar-none pagination-numeric no-off-canvas">
+
+<div class="site">
+    
+<header class="site-header">
+      <div class="navbar">
+      <div class="logo-wrapper">
+              <a href="https://blog.lixypro.com/">
+          <img data-dark="" alt="Lixypro博客" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" class="logo regular tap-logo lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img class="logo regular tap-logo" src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" data-dark="" alt="Lixypro博客"></noscript>
+        </a>
+            </div>
+      <div class="sep"></div>
+      
+      <nav class="main-menu hidden-xs hidden-sm hidden-md">
+        <ul id="menu-menu-1" class="nav-list u-plain-list">
+<li id="menu-item-12" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-12"><a href="https://blog.lixypro.com/">本站首页</a></li>
+<li id="menu-item-15" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-15"><a href="https://blog.lixypro.com/tags">标签集合</a></li>
+<li id="menu-item-18" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-18"><a href="https://blog.lixypro.com/qianduansixiang">前端思想</a></li>
+<li id="menu-item-19" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-19"><a href="https://blog.lixypro.com/houduanyunwei">后端运维</a></li>
+<li id="menu-item-20" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-20"><a href="https://blog.lixypro.com/zaixianfuwu">在线服务</a></li>
+<li id="menu-item-21" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-21"><a href="https://blog.lixypro.com/diannaojichu">电脑基础</a></li>
+<li id="menu-item-22" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-22"><a href="https://blog.lixypro.com/kejizixun">科技资讯</a></li>
+<li id="menu-item-23" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-23"><a href="https://blog.lixypro.com/wangluoanquan">网络安全</a></li>
+</ul>      </nav>
+      
+      <div class="main-search">
+        <form method="get" class="search-form inline" action="https://blog.lixypro.com/">
+  <input type="search" class="search-field inline-field" placeholder="输入关键词，回车..." autocomplete="off" value="" name="s" required="required">
+  <button type="submit" class="search-submit"><i class="mdi mdi-magnify"></i></button>
+</form>        <div class="search-close navbar-button"><i class="mdi mdi-close"></i></div>
+      </div>
+
+      <div class="actions">
+                <!-- user end -->
+        <div class="search-open navbar-button"><i class="mdi mdi-magnify"></i></div>
+                <div class="burger"></div>
+      </div>
+    </div>
+  </header>
+
+<div class="header-gap"></div>    
+    <div class="site-content">
+    
+
+<div class="container">
+	<div class="breadcrumbs">
+	当前位置：<a href="https://blog.lixypro.com/">Lixypro博客</a> <small>></small> <a href="https://blog.lixypro.com/houduanyunwei">后端运维</a> <small>></small> 解释:DNS缓存中毒也称为DNS欺骗	</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="content-area">
+				<main class="site-main">
+					<article id="post-38" class="article-content">
+    <div class="container">
+  
+<div class="cao_entry_header">
+
+  <header class="entry-header">    
+    <h1 class="entry-title">解释:DNS缓存中毒也称为DNS欺骗</h1>  </header>
+</div>
+</div>  <div class="container">
+    <div class="entry-wrapper">
+            <div class="entry-content u-text-format u-clearfix">
+        <h1>DNS缓存中毒也称为DNS欺骗</h1>
+<p>我们都知道，dns服务器的作用在于解析域名，将人容易记忆的域名与机器理解的ip地址联系起来。我们用域名访问一个网站的时候，主机首先会访问dns服务器，得到所要访问网站的ip地址，然后主机再根据这个IP地址来访问网站。</p>
+<p>最近，网络上出现了Internet漏洞—— DNS缓存漏洞。此漏洞直接表明我们的应用程序中Internet的脆弱性，而安全性差的根本原因是设计缺陷。使用此漏洞可能使用户无法打开网页，另一个是网络钓鱼和金融欺诈，给受害者造成巨大损失。</p>
+<p><strong>DNS缓存中毒也称为DNS欺骗</strong>，是一种攻击，旨在查找并利用DNS或域名系统中存在的漏洞，以便将有机流量从合法服务器吸引到虚假服务器上。这种攻击往往被归类为域欺骗攻击(pharming attack)，由此它会导致出现很多严重问题。首先，用户往往会以为登陆的是自己熟悉的网站，而它们却并不是。与钓鱼攻击采用非法URL不同的是，这种攻击使用的是合法的URL地址。</p>
+<h2>DNS缓存中毒如何工作?</h2>
+<p>当一个DNS缓存服务器从用户处获得域名请求时，服务器会在缓存中寻找是否有这个地址。如果没有，它就会上级DNS服务器发出请求。在出现这种漏洞之前，攻击者很难攻击DNS服务器：他们必须通过发送伪造查询响应、获得正确的查询参数以进入缓存服务器，进而控制合法DNS服务器。这个过程通常持续不到一秒钟，因此黑客攻击很难获得成功。<br>
+但是，现在有安全人员找到该漏洞，使得这一过程朝向有利于攻击者转变。这是因为攻击者获悉，对缓存服务器进行持续不断的查询请求，服务器不能给与回应。比如，一个黑客可能会发出类似请求：<code>http://1q2w3e.google.com</code>，而且他也知道缓存服务器中不可能有这个域名。这就会引起缓存服务器发出更多查询请求，并且会出现很多欺骗应答的机会。<br>
+当然，这并不是说攻击者拥有很多机会来猜测查询参数的正确值。事实上，是这种开放源DNS服务器漏洞的公布，会让它在10秒钟内受到危险攻击。要知道，即使<code>http://1q2w3e.google.com</code>受到缓存DNS中毒攻击危害也不大，因为没有人会发出这样的域名请求，但是，这正是攻击者发挥威力的地方所在。通过欺骗应答，黑客也可以给缓存服务器指向一个非法的服务器域名地址，该地址一般为黑客所控制。而且通常来说，这两方面的信息缓存服务器都会存储。<br>
+由于攻击者现在可以控制域名服务器，每个查询请求都会被重定向到黑客指定的服务器上。这也就意味着，黑客可以控制所有域名下的子域网址：<code>http://www.bigbank.com</code>，<code>http://mail.bigbank.com</code>，<code>http://ftp.bigbank.com</code>等等。这非常强大，任何涉及到子域网址的查询，都可以引导至由黑客指定的任何服务器上。</p>
+<h2>DNS缓存中毒有何风险?</h2>
+<p>DNS缓存中毒的主要风险是窃取数据。DNS缓存中毒攻击的最喜欢的目标是医院，金融机构网站和在线零售商。这些目标容易被欺骗，这意味着任何密码，信用卡或其他个人信息都可能受到损害。此外，在用户设备上安装密钥记录器的风险，可能会导致用户访问其他站点时暴露其用户名和密码。<br>
+另一个重大风险是，如果互联网安全提供商的网站被欺骗，那么用户的计算机可能会受到其他威胁(如：病毒或特洛伊木马)的影响，因为一旦被攻击用户则不会执行合法的安全更新。<br>
+据称，DNS攻击的年平均成本为223.6万美元，其中23%的攻击来自DNS缓存中毒。</p>
+<h2>如何防止DNS缓存中毒</h2>
+<p>那么，企业究竟该如何防止DNS缓存中毒攻击?要从以下几点出发：</p>
+<p><strong>第一，DNS服务器应该配置为尽可能少地依赖与其他DNS服务器的信任关系。以这种方式配置将使攻击者更难以使用他们自己的DNS服务器来破坏目标服务器。</strong></p>
+<p><strong>第二，企业应该设置DNS服务器，只允许所需的服务运行。因为在DNS服务器上运行不需要的其他服务，只会增加攻击向量大小。</strong></p>
+<p><strong>第三，安全人员还应确保使用最新版本的DNS。较新版本的BIND具有加密安全事务ID和端口随机化等功能，可以帮助防止缓存中毒攻击。</strong></p>
+<p><strong>第四，用户的安全教育对于防止这些攻击也非常重要。用户应接受有关识别可疑网站的培训，用户要学会只访问HTTPS网站，这有助于防止人们成为中毒攻击的受害者，因为他们会确保不将他们的个人信息输入黑客的网站。如果他们在连接到网站之前收到SSL警告，则不会单击“忽略”按钮。 这样就不会受到DNS缓存中毒攻击。</strong></p>
+<h2>总结</h2>
+<p>HTTPS是现行架构下最安全的解决方案，SSL证书可以很直观的辨别出钓鱼网站，避免网站受到DNS缓存中毒攻击，保护信息安全。部署SSL证书一定要选择一个具有公信力的CA机构，选择CA机构最好是通过国际Webtrust标准的认证，具备了国际电子认证服务能力的CA机构，通过国际Webtrust标准的认证意味着CA机构的运营管理和服务水平符合国际标准，并且有能力、有资质提供全球化认证服务，是可靠电子认证服务的有效证明。</p>
+      </div>
+      <div id="pay-single-box"></div>
+          <div class="entry-tags">
+          <a href="https://blog.lixypro.com/tag/centos" rel="tag">
+        Centos      </a>
+          <a href="https://blog.lixypro.com/tag/dns" rel="tag">
+        dns      </a>
+          <a href="https://blog.lixypro.com/tag/dns-over-tls" rel="tag">
+        DNS-over-TLS      </a>
+          <a href="https://blog.lixypro.com/tag/%e5%ae%89%e5%85%a8" rel="tag">
+        安全      </a>
+      </div>
+<div class="article-copyright">RIPRO主题是一个优秀的主题，极致后台体验，无插件，集成会员系统<br><a href="https://blog.lixypro.com/">Lixypro博客</a> &raquo; <a href="https://blog.lixypro.com/houduanyunwei/explanation-dns-cache-poisoning-is-also-called-dns-spoofing.html">解释:DNS缓存中毒也称为DNS欺骗</a>
+</div>
+
+<div class="article-footer">
+    <div class="author-box">
+    <div class="author-image">
+      <img alt="administrator" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/avatar/1.png" class="lazyload avatar avatar-140 photo " height="140" width="140">    </div>
+    <div class="author-info">
+      <h4 class="author-name">
+        <a target="_blank" href="javascript:;">administrator</a>
+        <span class="label label-default"><i class="fa fa-diamond"></i> 普通</span>      </h4>
+    </div>
+  </div>
+      <div class="xshare">
+      <span class="xshare-title">分享到：</span>
+            <a etap="share" data-share="qq" class="share-qq"><i class="fa fa-qq"></i></a>
+      <a etap="share" data-share="weibo" class="share-weibo"><i class="fa fa-weibo"></i></a>
+              <a href="javascript:;" class="btn-bigger-cover share-weixin" data-nonce="0ff0e41106" data-id="38" data-action="create-bigger-image" id="bigger-cover"><i class="fa fa-paper-plane"></i></a>
+        </div>
+   
+</div>    </div>
+  </div>
+</article>
+
+
+  <div class="entry-navigation">
+    <nav class="article-nav">
+        <span class="article-nav-prev">上一篇<br><a href="https://blog.lixypro.com/houduanyunwei/dns-server-construction-and-configuration.html" rel="prev">DNS服务器搭建与配置</a></span>
+        <span class="article-nav-next">下一篇<br><a href="https://blog.lixypro.com/houduanyunwei/the-difference-and-introduction-between-http-and-https-and-ssl-and-tls.html" rel="next">HTTP与HTTPS与SSL与TLS的区别以及介绍</a></span>
+    </nav>
+    
+  </div>
+
+      <!-- # 标准网格模式... -->
+      <div class="related-posts-grid">
+        <h4 class="u-border-title">相关推荐</h4>
+        <div class="row">
+                     <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
+              <article class="post">
+                  <div class="entry-media">
+    <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/centos7_install_fail2ban-0-9-4_and_linkage_iptables.html">
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/themes/ripro/assets/images/thumb/1.jpg&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="CentOS7下fail2ban和iptables联动阻止恶意扫描和密码猜测等恶意攻击行为">  
+      </a>
+            <div class="cao-cover">
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" width="50" height="50px"></noscript>
+</noscript>
+</noscript>
+</noscript>
+</div>
+          </div>
+      </div>
+                  <div class="entry-wrapper">
+                  
+  <header class="entry-header">    
+    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/centos7_install_fail2ban-0-9-4_and_linkage_iptables.html" title="CentOS7下fail2ban和iptables联动阻止恶意扫描和密码猜测等恶意攻击行为" rel="bookmark">CentOS7下fail2ban和iptables联动阻止恶意扫描和密码猜测等恶意攻击行为</a></h4>  </header>                </div>
+              </article>
+            </div>
+                      <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
+              <article class="post">
+                  <div class="entry-media">
+    <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/linux-centos-install-nginx1-8-1-through-source-package.html">
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/uploads/2021/04/1618139383-73898d7f1ddbfbf.jpg&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Linux(centos)通过源码包方式安装nginx1.8.1">  
+      </a>
+            <div class="cao-cover">
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" width="50" height="50px"></noscript>
+</noscript>
+</noscript>
+</noscript>
+</div>
+          </div>
+      </div>
+                  <div class="entry-wrapper">
+                  
+  <header class="entry-header">    
+    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/linux-centos-install-nginx1-8-1-through-source-package.html" title="Linux(centos)通过源码包方式安装nginx1.8.1" rel="bookmark">Linux(centos)通过源码包方式安装nginx1.8.1</a></h4>  </header>                </div>
+              </article>
+            </div>
+                      <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
+              <article class="post">
+                  <div class="entry-media">
+    <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/detailed_explanation_of_the_process_of_compiling_and_installing_apache_on_centos_server_source_package.html">
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/themes/ripro/assets/images/thumb/1.jpg&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Centos服务器源码包编译安装Apache过程详解">  
+      </a>
+            <div class="cao-cover">
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" width="50" height="50px"></noscript>
+</noscript>
+</noscript>
+</noscript>
+</div>
+          </div>
+      </div>
+                  <div class="entry-wrapper">
+                  
+  <header class="entry-header">    
+    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/detailed_explanation_of_the_process_of_compiling_and_installing_apache_on_centos_server_source_package.html" title="Centos服务器源码包编译安装Apache过程详解" rel="bookmark">Centos服务器源码包编译安装Apache过程详解</a></h4>  </header>                </div>
+              </article>
+            </div>
+                      <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
+              <article class="post">
+                  <div class="entry-media">
+    <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/the_role_of_configure_make_make_install.html">
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/themes/ripro/assets/images/thumb/1.jpg&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="configure,make,make install的作用">  
+      </a>
+            <div class="cao-cover">
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" width="50" height="50px"></noscript>
+</noscript>
+</noscript>
+</noscript>
+</div>
+          </div>
+      </div>
+                  <div class="entry-wrapper">
+                  
+  <header class="entry-header">    
+    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/the_role_of_configure_make_make_install.html" title="configure,make,make install的作用" rel="bookmark">configure,make,make install的作用</a></h4>  </header>                </div>
+              </article>
+            </div>
+                  </div>
+      </div>
+    
+  
+
+<div class="bottom-area">
+    <div id="comments" class="comments-area">
+        
+        
+        
+        	<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">发表评论 <small><a rel="nofollow" id="cancel-comment-reply-link" href="https://blog.lixypro.com/houduanyunwei/explanation-dns-cache-poisoning-is-also-called-dns-spoofing.html#respond" style="display:none;">取消回复</a></small>
+</h3>
+<form action="https://blog.lixypro.com/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate>
+<p class="comment-form-comment"><textarea id="comment" name="comment" rows="8" aria-required="true"></textarea></p>
+<div class="row comment-author-inputs">
+<div class="col-md-4 input"><p class="comment-form-author"><label for="author">昵称*</label><input id="author" name="author" type="text" value="" size="30" aria-required="true"></p></div>
+<div class="col-md-4 input"><p class="comment-form-email"><label for="email">E-mail*</label><input id="email" name="email" type="text" value="" size="30" aria-required="true"></p></div>
+<div class="col-md-4 input"><p class="comment-form-url"><label for="url">网站</label><input id="url" name="url" type="text" value="" size="30"></p></div>
+</div>
+<p class="comment-form-cookies-consent"><input id="wp-comment-cookies-consent" name="wp-comment-cookies-consent" type="checkbox" value="yes"> <label for="wp-comment-cookies-consent">下次发表评论时，请在此浏览器中保存我的姓名、电子邮件和网站</label></p>
+<p class="form-submit"><input name="submit" type="submit" id="submit" class="button" value="发表评论"> <input type="hidden" name="comment_post_ID" value="38" id="comment_post_ID">
+<input type="hidden" name="comment_parent" id="comment_parent" value="0">
+</p>
+</form>	</div>
+<!-- #respond -->
+	    </div>
+</div>				</main>
+			</div>
+		</div>
+			</div>
+</div>
+
+
+</div>
+<!-- end sitecoent --> 
+
+	
+	<div class="module parallax">
+		<img class="jarallax-img lazyload" data-srcset="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/background/bg-1.jpg" data-sizes="auto" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="">
+		<div class="container">
+			<h4 class="entry-title">
+				提供最优质的资源集合			</h4>
+							<a target="_blank" class="button" href="https://blog.lixypro.com/">立即查看</a>
+										<a target="_blank" class="button transparent" href="https://blog.lixypro.com/">了解详情</a>
+					</div>
+	</div>
+	
+	<footer class="site-footer">
+		<div class="container">
+			
+			<div class="footer-widget">
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-3 widget--about">
+            <div class="widget--content">
+                <div class="footer--logo mb-20">
+                    <img data-dark="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" alt="Lixypro博客" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" class="tap-logo lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img class="tap-logo" src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" data-dark="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" alt="Lixypro博客"></noscript>
+                </div>
+                <p class="mb-10">Lixypro博客网站,专注于各种技术类.</p>
+            </div>
+        </div>
+        <!-- .col-md-2 end -->
+        <div class="col-xs-12 col-sm-3 col-md-2 col-md-offset-1 widget--links">
+            <div class="widget--title">
+                <h5>本站导航</h5>
+            </div>
+            <div class="widget--content">
+                <ul class="list-unstyled mb-0">
+                                    </ul>
+            </div>
+        </div>
+        <!-- .col-md-2 end -->
+        <div class="col-xs-12 col-sm-3 col-md-2 widget--links">
+            <div class="widget--title">
+                <h5>友情链接</h5>
+            </div>
+            <div class="widget--content">
+                <ul class="list-unstyled mb-0">
+                    <li><a target="_blank" href="https://www.baidu.com/">百度一下</a></li>
+<li><a target="_blank" href="https://www.zhihu.com/">知乎官网</a></li>                </ul>
+            </div>
+        </div>
+        <!-- .col-md-2 end -->
+        <div class="col-xs-12 col-sm-12 col-md-4 widget--newsletter">
+            <div class="widget--title">
+                <h5>快速搜索</h5>
+            </div>
+            <div class="widget--content">
+                <form class="newsletter--form mb-30" action="https://blog.lixypro.com/" method="get">
+                    <input type="text" class="form-control" name="s" placeholder="关键词">
+                    <button type="submit"><i class="fa fa-arrow-right"></i></button>
+                </form>
+                <h6>本站由WordPress程序强力驱动</h6>
+            </div>
+        </div>
+
+    </div>
+</div>						  <div class="site-info">
+			    © 2021 Lixypro博客 & WordPress Theme. All rights reserved			    			  </div>
+					</div>
+	</footer>
+	
+<div class="rollbar">
+	
+	<div class="rollbar-item" etap="to_full" title="全屏页面"><i class="fa fa-arrows-alt"></i></div>
+
+	
+		<div class="rollbar-item" etap="to_top" title="返回顶部"><i class="fa fa-angle-up"></i></div>
+</div>
+
+<div class="dimmer"></div>
+
+
+
+<div class="off-canvas">
+  <div class="canvas-close"><i class="mdi mdi-close"></i></div>
+  <div class="logo-wrapper">
+      <a href="https://blog.lixypro.com/">
+      <img alt="Lixypro博客" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" class="logo regular lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img class="logo regular" src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" alt="Lixypro博客"></noscript>
+    </a>
+    </div>
+  <div class="mobile-menu hidden-lg hidden-xl"></div>
+  <aside class="widget-area">
+      </aside>
+</div>
+<script>
+    console.log("\n %c RiPro V7.1.0 %c https://blog.lixypro.com \n\n", "color: #fadfa3; background: #030307; padding:5px 0;", "background: #fadfa3; padding:5px 0;");
+    console.log("SQL 请求数：64");
+    console.log("页面生成耗时： 0.31944");
+</script>
+
+
+
+<script type="text/javascript" id="toc-front-js-extra">
+/* <![CDATA[ */
+var tocplus = {"visibility_show":"show","visibility_hide":"hide","width":"Auto"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/plugins/table-of-contents-plus/front.min.js?ver=2002" id="toc-front-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/jQuery/jquery.min.js?ver=10.2.1" id="jQuery-CDN-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/KaTeX/katex.min.js?ver=10.2.1" id="Katex-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/ClipBoard/clipboard.min.js?ver=2.0.1" id="copy-clipboard-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/components/prism-core.min.js?ver=1.15.0" id="prism-core-js-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/autoloader/prism-autoloader.min.js?ver=1.15.0" id="prism-plugin-autoloader-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/toolbar/prism-toolbar.min.js?ver=1.15.0" id="prism-plugin-toolbar-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/line-numbers/prism-line-numbers.min.js?ver=1.15.0" id="prism-plugin-line-numbers-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/show-language/prism-show-language.min.js?ver=1.15.0" id="prism-plugin-show-language-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js?ver=1.15.0" id="prism-plugin-copy-to-clipboard-js"></script>
+<script type="text/javascript" id="Front_Style-js-extra">
+/* <![CDATA[ */
+var FrontStyle = {"openLinkInNewTab":"on"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/FrontStyle/frontstyle.min.js?ver=10.2.1" id="Front_Style-js"></script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/plugins/wp-smushit/app/assets/js/smush-lazy-load.min.js?ver=3.8.4" id="smush-lazy-load-js"></script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/plugins.js?ver=7.1.0" id="plugins-js"></script>
+<script type="text/javascript" id="app-js-extra">
+/* <![CDATA[ */
+var caozhuti = {"site_name":"Lixypro博客","home_url":"https:\/\/blog.lixypro.com","ajaxurl":"https:\/\/blog.lixypro.com\/wp-admin\/admin-ajax.php","is_singular":"1","tencent_captcha":{"is":"","appid":""},"infinite_load":"加载更多","infinite_loading":"<i class=\"fa fa-spinner fa-spin\"><\/i> 加载中...","site_notice":{"is":"0","color":"rgb(33, 150, 243)","html":"<div class=\"notify-content\"><h3>Lixypro欢迎你!<\/h3><div>这是一条网站公告，可在后台开启或关闭，可自定义背景颜色，标题，内容，用户首次打开关闭后不再重复弹出，此处可使用html标签...<\/div><\/div>"},"pay_type_html":{"html":"<div class=\"pay-button-box\"><\/div><p style=\"font-size: 13px; padding: 0; margin: 0;\">免费或钻石免费资源仅限余额支付<\/p>","alipay":0,"weixinpay":0}};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/app.js?ver=7.1.0" id="app-js"></script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/plugins/jquery.fancybox.min.js?ver=7.1.0" id="fancybox-js"></script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-includes/js/comment-reply.min.js?ver=5.7" id="comment-reply-js"></script>
+        <script type="text/javascript">
+            (function ($) {
+                $(document).ready(function () {
+                    $(".katex.math.inline").each(function () {
+                        var parent = $(this).parent()[0];
+                        if (parent.localName !== "code") {
+                            var texTxt = $(this).text();
+                            var el = $(this).get(0);
+                            try {
+                                katex.render(texTxt, el);
+                            } catch (err) {
+                                $(this).html("<span class=\"err\">" + err);
+                            }
+                        } else {
+                            $(this).parent().text($(this).parent().text());
+                        }
+                    });
+                    $(".katex.math.multi-line").each(function () {
+                        var texTxt = $(this).text();
+                        var el = $(this).get(0);
+                        try {
+                            katex.render(texTxt, el, {displayMode: true})
+                        } catch (err) {
+                            $(this).html("<span class=\"err\">" + err)
+                        }
+                    });
+                })
+            })(jQuery);
+        </script>
+                <script type="text/javascript">
+            Prism.plugins.autoloader.languages_path = "https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/components/";
+        </script>
+        
+</div>
+</body>
+</html>

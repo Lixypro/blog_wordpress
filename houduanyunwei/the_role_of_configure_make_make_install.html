@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="profile" href="https://gmpg.org/xfn/11">
+	<link href="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/favicon/favicon.png" rel="icon">
+  <title>configure,make,make install的作用 - Lixypro博客</title>
+
+	<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+
+	<!-- This site is optimized with the Yoast SEO plugin v16.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+	<title>configure,make,make install的作用 - Lixypro博客</title>
+	<link rel="canonical" href="https://blog.lixypro.com/houduanyunwei/the_role_of_configure_make_make_install.html">
+	<meta property="og:locale" content="zh_CN">
+	<meta property="og:type" content="article">
+	<meta property="og:title" content="configure,make,make install的作用 - Lixypro博客">
+	<meta property="og:description" content="这些都是典型的使用GNU的AUTOCONF和AUTOMAKE产生的程序的安装步骤 1 [&hellip;]">
+	<meta property="og:url" content="https://blog.lixypro.com/houduanyunwei/the_role_of_configure_make_make_install.html">
+	<meta property="og:site_name" content="Lixypro博客">
+	<meta property="article:published_time" content="2021-04-09T17:11:49+00:00">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:label1" content="作者">
+	<meta name="twitter:data1" content="administrator">
+	<meta name="twitter:label2" content="预计阅读时间">
+	<meta name="twitter:data2" content="1分">
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://blog.lixypro.com/#website","url":"https://blog.lixypro.com/","name":"Lixypro博客","description":"技术分享|网页前端|后端运维|网络安全|日常记事","potentialAction":[{"@type":"SearchAction","target":"https://blog.lixypro.com/?s={search_term_string}","query-input":"required name=search_term_string"}],"inLanguage":"zh-CN"},{"@type":"WebPage","@id":"https://blog.lixypro.com/houduanyunwei/the_role_of_configure_make_make_install.html#webpage","url":"https://blog.lixypro.com/houduanyunwei/the_role_of_configure_make_make_install.html","name":"configure,make,make install的作用 - Lixypro博客","isPartOf":{"@id":"https://blog.lixypro.com/#website"},"datePublished":"2021-04-09T17:11:49+00:00","dateModified":"2021-04-09T17:11:49+00:00","author":{"@id":"https://blog.lixypro.com/#/schema/person/504c3e2a3d8a31f292936e7a2241373b"},"breadcrumb":{"@id":"https://blog.lixypro.com/houduanyunwei/the_role_of_configure_make_make_install.html#breadcrumb"},"inLanguage":"zh-CN","potentialAction":[{"@type":"ReadAction","target":["https://blog.lixypro.com/houduanyunwei/the_role_of_configure_make_make_install.html"]}]},{"@type":"BreadcrumbList","@id":"https://blog.lixypro.com/houduanyunwei/the_role_of_configure_make_make_install.html#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"item":{"@type":"WebPage","@id":"https://blog.lixypro.com/","url":"https://blog.lixypro.com/","name":"首页"}},{"@type":"ListItem","position":2,"item":{"@type":"WebPage","@id":"https://blog.lixypro.com/houduanyunwei/the_role_of_configure_make_make_install.html","url":"https://blog.lixypro.com/houduanyunwei/the_role_of_configure_make_make_install.html","name":"configure,make,make install的作用"}}]},{"@type":"Person","@id":"https://blog.lixypro.com/#/schema/person/504c3e2a3d8a31f292936e7a2241373b","name":"administrator","image":{"@type":"ImageObject","@id":"https://blog.lixypro.com/#personlogo","inLanguage":"zh-CN","url":"https://secure.gravatar.com/avatar/957d4bcaf62a121072d884ad505a9b2a?s=96&d=mm&r=g","contentUrl":"https://secure.gravatar.com/avatar/957d4bcaf62a121072d884ad505a9b2a?s=96&d=mm&r=g","caption":"administrator"},"sameAs":["https://blog.lixypro.com"]}]}</script>
+	<!-- / Yoast SEO plugin. -->
+
+
+<link rel="stylesheet" id="toc-screen-css" href="https://blog.lixypro.com/wp-content/plugins/table-of-contents-plus/screen.min.css?ver=2002" type="text/css" media="all">
+<link rel="stylesheet" id="Katex-css" href="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/KaTeX/katex.min.css?ver=10.2.1" type="text/css" media="all">
+<link rel="stylesheet" id="prism-theme-style-css" href="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/themes/prism-okaidia.css?ver=1.15.0" type="text/css" media="all">
+<link rel="stylesheet" id="prism-plugin-toolbar-css" href="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/toolbar/prism-toolbar.css?ver=1.15.0" type="text/css" media="all">
+<link rel="stylesheet" id="prism-plugin-line-numbers-css" href="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/line-numbers/prism-line-numbers.css?ver=1.15.0" type="text/css" media="all">
+<link rel="stylesheet" id="external-css" href="https://blog.lixypro.com/wp-content/themes/ripro/assets/css/external.css?ver=7.1.0" type="text/css" media="all">
+<link rel="stylesheet" id="sweetalert2-css" href="https://blog.lixypro.com/wp-content/themes/ripro/assets/css/sweetalert2.min.css?ver=7.1.0" type="text/css" media="all">
+<link rel="stylesheet" id="app-css" href="https://blog.lixypro.com/wp-content/themes/ripro/assets/css/app.css?ver=7.1.0" type="text/css" media="all">
+<link rel="stylesheet" id="diy-css" href="https://blog.lixypro.com/wp-content/themes/ripro/assets/css/diy.css?ver=7.1.0" type="text/css" media="all">
+<link rel="stylesheet" id="fancybox-css" href="https://blog.lixypro.com/wp-content/themes/ripro/assets/css/jquery.fancybox.min.css?ver=7.1.0" type="text/css" media="all">
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/jquery-2.2.4.min.js?ver=2.2.4" id="jquery-js"></script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/plugins/sweetalert2.min.js?ver=7.1.0" id="sweetalert2-js"></script>
+		<script>
+			document.documentElement.className = document.documentElement.className.replace( 'no-js', 'js' );
+		</script>
+				<style>.no-js img.lazyload { display: none; }
+			figure.wp-block-image img.lazyloading { min-width: 150px; }
+							.lazyload, .lazyloading { opacity: 0; }
+				.lazyloaded {
+					opacity: 1;
+					transition: opacity 400ms;
+					transition-delay: 0ms;
+				}</style>
+			<!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+      <script src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/html5shiv.js"></script>
+      <script src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/respond.min.js"></script>
+    <![endif]-->
+          <script> $(document).ready(function() { NProgress.start(); $(window).load(function() { NProgress.done(); }); });</script>
+    </head>
+
+<body class="post-template-default single single-post postid-28 single-format-standard  max_width navbar-sticky navbar-full navbar-slide no-search sidebar-none pagination-numeric no-off-canvas">
+
+<div class="site">
+    
+<header class="site-header">
+      <div class="navbar">
+      <div class="logo-wrapper">
+              <a href="https://blog.lixypro.com/">
+          <img data-dark="" alt="Lixypro博客" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" class="logo regular tap-logo lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img class="logo regular tap-logo" src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" data-dark="" alt="Lixypro博客"></noscript>
+        </a>
+            </div>
+      <div class="sep"></div>
+      
+      <nav class="main-menu hidden-xs hidden-sm hidden-md">
+        <ul id="menu-menu-1" class="nav-list u-plain-list">
+<li id="menu-item-12" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-12"><a href="https://blog.lixypro.com/">本站首页</a></li>
+<li id="menu-item-15" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-15"><a href="https://blog.lixypro.com/tags">标签集合</a></li>
+<li id="menu-item-18" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-18"><a href="https://blog.lixypro.com/qianduansixiang">前端思想</a></li>
+<li id="menu-item-19" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-19"><a href="https://blog.lixypro.com/houduanyunwei">后端运维</a></li>
+<li id="menu-item-20" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-20"><a href="https://blog.lixypro.com/zaixianfuwu">在线服务</a></li>
+<li id="menu-item-21" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-21"><a href="https://blog.lixypro.com/diannaojichu">电脑基础</a></li>
+<li id="menu-item-22" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-22"><a href="https://blog.lixypro.com/kejizixun">科技资讯</a></li>
+<li id="menu-item-23" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-23"><a href="https://blog.lixypro.com/wangluoanquan">网络安全</a></li>
+</ul>      </nav>
+      
+      <div class="main-search">
+        <form method="get" class="search-form inline" action="https://blog.lixypro.com/">
+  <input type="search" class="search-field inline-field" placeholder="输入关键词，回车..." autocomplete="off" value="" name="s" required="required">
+  <button type="submit" class="search-submit"><i class="mdi mdi-magnify"></i></button>
+</form>        <div class="search-close navbar-button"><i class="mdi mdi-close"></i></div>
+      </div>
+
+      <div class="actions">
+                <!-- user end -->
+        <div class="search-open navbar-button"><i class="mdi mdi-magnify"></i></div>
+                <div class="burger"></div>
+      </div>
+    </div>
+  </header>
+
+<div class="header-gap"></div>    
+    <div class="site-content">
+    
+
+<div class="container">
+	<div class="breadcrumbs">
+	当前位置：<a href="https://blog.lixypro.com/">Lixypro博客</a> <small>></small> <a href="https://blog.lixypro.com/houduanyunwei">后端运维</a> <small>></small> configure,make,make install的作用	</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="content-area">
+				<main class="site-main">
+					<article id="post-28" class="article-content">
+    <div class="container">
+  
+<div class="cao_entry_header">
+
+  <header class="entry-header">    
+    <h1 class="entry-title">configure,make,make install的作用</h1>  </header>
+</div>
+</div>  <div class="container">
+    <div class="entry-wrapper">
+            <div class="entry-content u-text-format u-clearfix">
+        <p>这些都是典型的使用GNU的AUTOCONF和AUTOMAKE产生的程序的安装步骤</p>
+<h2>1. 一、基本信息</h2>
+<p>1、./configure 是用来检测你的安装平台的目标特征的。比如它会检测你是不是有CC或GCC，并不是需要CC或GCC，它是个shell脚本。<br>
+2、make 是用来编译的，它从Makefile中读取指令，然后编译。<br>
+3、make install是用来安装的，它也从Makefile中读取指令，安装到指定的位置。</p>
+<p><strong>注意：AUTOMAKE和AUTOCONF是非常有用的用来发布C程序的东西。</strong></p>
+<h2>2. 二、详细解释</h2>
+<h3>2.1. 1、configure命令</h3>
+<p>　　这一步一般用来生成 Makefile，为下一步的编译做准备，你可以通过在 configure 后加上参数来对安装进行控制，比如代码:./configure –prefix=/usr 意思是将该软件安装在 /usr 下面，执行文件就会安装在 /usr/bin （而不是默认的 /usr/local/bin),资源文件就会安装在 /usr/share（而不是默认的/usr/local/share）。同时一些软件的配置文件你可以通过指定 –sys-config= 参数进行设定。有一些软件还可以加上 –with、–enable、–without、–disable 等等参数对编译加以控制，你可以通过允许 ./configure –help 察看详细的说明帮助。</p>
+<h3>2.2. 2、make</h3>
+<p>　　这一步就是编译，大多数的源代码包都经过这一步进行编译（当然有些perl或python编写的软件需要调用perl或python来进行编译）。如果 在 make 过程中出现 error ，你就要记下错误代码（注意不仅仅是最后一行），然后你可以向开发者提交 bugreport（一般在 INSTALL 里有提交地址），或者你的系统少了一些依赖库等，这些需要自己仔细研究错误代码。</p>
+<p>　　可能遇到的错误：make *** 没有指明目标并且找不到 makefile。 停止。问题很明了，没有Makefile，怎么办，原来是要先./configure 一下，再make。</p>
+<h3>2.3. 3、make insatll</h3>
+<p>　　这条命令来进行安装（当然有些软件需要先运行 make check 或 make test 来进行一些测试），这一步一般需要你有 root 权限（因为要向系统写入文件）。</p>
+<h3>2.4. make例子</h3>
+<p>在Linux下安装一个应用程序时，一般先运行脚本<code>configure</code>，然后用make来编译源程序，在运行<code>make install</code>，最后运行<code>make clean</code>（删除源代码（C\C++ code）生成的执行文件和所有的中间目标文件）删除一些临时文件。这些都是典型的使用GNU的AUTOCONF和AUTOMAKE产生的程序的安装步骤。</p>
+<p>绝大数开源软件都是公布源代码的，源代码一般被打包为tar.gz归档压缩文件，然后手工编译为二进制可执行文件</p>
+<pre><code class="language-shell line-numbers">./configure　　检查编译环境／相关库文件／配置参数，生成makefile
+
+make　　　　  对源代码进行编译，生成可执行文件
+
+make install    将生成的可执行文件安装到当前计算机中
+</code></pre>
+<p>特点：兼容性好／可控制性好／开源软件会大量使用其他开源软件的功能，要解决大量的依赖关系</p>
+<h2>3. 三、扩展说明</h2>
+<p>　　Linux的用户可能知道，在Linux下安装一个应用程序时，一般先运行脚本configure，然后用make来编译源程序，在运行make install，最后运行make clean删除一些临时文件。使用上述三个自动工具，就可以生成configure脚本。运行configure脚本，就可以生成Makefile文件，然后就可以运行make、make install和make clean。<br>
+　　configure是一个shell脚本，它可以自动设定源程序以符合各种不同平台上Unix系统的特性，并且根据系统叁数及环境产生合适的Makefile文件或是C的头文件(header file)，让源程序可以很方便地在这些不同的平台上被编译连接。<br>
+　　这时，就可运行<code>configure</code>脚本了，运行configure脚本，就可产生出符合GNU规范的Makefile文件了：<code>$ ./configure</code><br>
+到此时，就可以运行make进行编译，在运行<code>make install</code>进行安装了，最后运行make clean删除临时文件。</p>
+<pre><code class="language-shell line-numbers">$ make
+$ make install           (注：运行这个要有足够的权限)
+$ make clean
+
+</code></pre>
+<p>利用<code>configure</code>所产生的<code>Makefile</code>文件有几个预设的目标可供使用，其中几个重要的简述如下：</p>
+<p>　　<code>make all</code>：产生我们设定的目标，即此范例中的可执行文件。只打make也可以，此时会开始编译原始码，然后连结，并且产生可执行文件。<br>
+　　<code>make clean</code>：清除编译产生的可执行文件及目标文件(object file，*.o)。<br>
+　　<code>make distclean</code>：除了清除可执行文件和目标文件外，把configure所产生的Makefile也清除掉。<br>
+　　<code>make install</code>：将程序安装至系统中。如果原始码编译无误，且执行结果正确，便可以把程序安装至系统预设的可执行文件存放路径。如果用bin_PROGRAMS宏的话，程序会被安装至/usr/local/bin这个目录。<br>
+　　<code>make dist</code>：将程序和相关的档案包装成一个压缩文件以供发布。执行完在目录下会产生一个以PACKAGE-VERSION.tar.gz为名称的文件。 PACKAGE和VERSION这两个变数是根据<code>configure.in</code>文件中AM&#95;INIT&#95;AUTOMAKE(PACKAGE，VERSION)的定义。在此范例中会产生<code>test-1.0.tar.gz</code>的档案。<br>
+　　<code>make distcheck</code>：和<code>make dist</code>类似，但是加入检查包装后的压缩文件是否正常。这个目标除了把程序和相关文件包装成tar.gz文件外，还会自动把这个压缩文件解开，执行 configure，并且进行make all 的动作，确认编译无误后，会显示这个tar.gz文件可供发布了。这个检查非常有用，检查过关的包，基本上可以给任何一个具备GNU开发环境-的人去重新编译。</p>
+<h3>3.1. make -j4是什么意思？</h3>
+<p><strong>make(1)只衍生一个作业？作业是什么意思？make(1) 是不是就是make的意思?<br>
+在双处理器上make -j4，难道是让每个处理器跑两个作业？那和make -j2效率相比 难道不是一样的？</strong></p>
+<p>简单解答如下：<br>
+1/make(1)表示在unix手册(man)的第一章，可以用 man 1 make 来查看。<br>
+2/两个处理器的话，一般 -j2 能达到最高效率。<br>
+3/不过也有些进程会花时间在IO上，并不能利用完单个cpu的时间。这样 -j4 可以更快。<br>
+4/jobs=4,同时最多跑4个作业,make自己会协调，如果CPU等资源不够可能小于4个。不过一般瓶颈都在硬盘，所以一般能看到4个进程一起跑。</p>
+<p>make(gmake,gnumake)的-j参数，优化多核、多线程的编译过程，一直以为，现在主流的程序，比如apache2.2，编译过程自动会对多核优化 结果发现不是这样的。</p>
+<p>测试环境：默认./configure无参数后的apache2.2.14源码根目录<br>
+测试方法：使用以下命令，粗略记录编译过程时间。 $ date >> /qshen/time &amp;&amp; make &amp;&amp; date >> /qshen/time<br>
+对比与加了-j参数的make的编译时间，查阅资料，网上很多人用<code>双路INTEL XEON E5404</code>测试时使用参数<code>-j16</code>，使用<code>单路E5405</code>测试使用参数<code>-j8</code>。这个不太理解。<br>
+因为E5405是四核心，每核心1线程，不知为何要使用二倍的jobs。<br>
+在此也实际测试，我的测试环境CPU是<code>INTEL XEON E5405</code>，单路。8G内存。<br>
+首先，不带-j的命令执行2次，然后，使用-j4执行二次，再然后，使用-j8执行二次，最后使用-j16执行一次，作为参考数据<br>
+结果：共计执行</p>
+<pre><code class="language-shell line-numbers">$ cat /qshen/time Mon Feb 1 12:51:17 CST 2010 Mon Feb 1 12:52:55 CST 2010
+Mon Feb 1 12:53:29 CST 2010 Mon Feb 1 12:55:07 CST 2010
+Mon Feb 1 12:55:34 CST 2010 Mon Feb 1 12:56:14 CST 2010
+Mon Feb 1 12:56:37 CST 2010 Mon Feb 1 12:57:16 CST 2010
+Mon Feb 1 12:57:38 CST 2010 Mon Feb 1 12:58:16 CST 2010
+Mon Feb 1 12:58:36 CST 2010 Mon Feb 1 12:59:13 CST 2010
+Mon Feb 1 12:59:48 CST 2010 Mon Feb 1 13:00:26 CST 2010
+</code></pre>
+<p>结果发现，确实默认的make不加-j参数效率比较低。加上-j参数，-j4和-j8性能差距不大，-j16性能就比较差了。<br>
+准备进一步翻阅资料看看到底应该取值多少。</p>
+      </div>
+      <div id="pay-single-box"></div>
+          <div class="entry-tags">
+          <a href="https://blog.lixypro.com/tag/centos" rel="tag">
+        Centos      </a>
+          <a href="https://blog.lixypro.com/tag/configure" rel="tag">
+        configure      </a>
+          <a href="https://blog.lixypro.com/tag/make" rel="tag">
+        make      </a>
+          <a href="https://blog.lixypro.com/tag/make-install" rel="tag">
+        make install      </a>
+      </div>
+<div class="article-copyright">RIPRO主题是一个优秀的主题，极致后台体验，无插件，集成会员系统<br><a href="https://blog.lixypro.com/">Lixypro博客</a> &raquo; <a href="https://blog.lixypro.com/houduanyunwei/the_role_of_configure_make_make_install.html">configure,make,make install的作用</a>
+</div>
+
+<div class="article-footer">
+    <div class="author-box">
+    <div class="author-image">
+      <img alt="administrator" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/avatar/1.png" class="lazyload avatar avatar-140 photo " height="140" width="140">    </div>
+    <div class="author-info">
+      <h4 class="author-name">
+        <a target="_blank" href="javascript:;">administrator</a>
+        <span class="label label-default"><i class="fa fa-diamond"></i> 普通</span>      </h4>
+    </div>
+  </div>
+      <div class="xshare">
+      <span class="xshare-title">分享到：</span>
+            <a etap="share" data-share="qq" class="share-qq"><i class="fa fa-qq"></i></a>
+      <a etap="share" data-share="weibo" class="share-weibo"><i class="fa fa-weibo"></i></a>
+              <a href="javascript:;" class="btn-bigger-cover share-weixin" data-nonce="83d19b2038" data-id="28" data-action="create-bigger-image" id="bigger-cover"><i class="fa fa-paper-plane"></i></a>
+        </div>
+   
+</div>    </div>
+  </div>
+</article>
+
+
+  <div class="entry-navigation">
+    <nav class="article-nav">
+        <span class="article-nav-prev">上一篇<br><a href="https://blog.lixypro.com/houduanyunwei/detailed_explanation_of_the_process_of_compiling_and_installing_apache_on_centos_server_source_package.html" rel="prev">Centos服务器源码包编译安装Apache过程详解</a></span>
+        <span class="article-nav-next">下一篇<br><a href="https://blog.lixypro.com/diannaojichu/dns-over-tls-collection-how-to-set-up-a-more-secure-dns.html" rel="next">DNS-over-TLS 收集，如何设置一个更安全的 DNS？</a></span>
+    </nav>
+    
+  </div>
+
+      <!-- # 标准网格模式... -->
+      <div class="related-posts-grid">
+        <h4 class="u-border-title">相关推荐</h4>
+        <div class="row">
+                     <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
+              <article class="post">
+                  <div class="entry-media">
+    <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/centos7_install_fail2ban-0-9-4_and_linkage_iptables.html">
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/themes/ripro/assets/images/thumb/1.jpg&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="CentOS7下fail2ban和iptables联动阻止恶意扫描和密码猜测等恶意攻击行为">  
+      </a>
+            <div class="cao-cover">
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" width="50" height="50px"></noscript>
+</noscript>
+</noscript>
+</noscript>
+</div>
+          </div>
+      </div>
+                  <div class="entry-wrapper">
+                  
+  <header class="entry-header">    
+    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/centos7_install_fail2ban-0-9-4_and_linkage_iptables.html" title="CentOS7下fail2ban和iptables联动阻止恶意扫描和密码猜测等恶意攻击行为" rel="bookmark">CentOS7下fail2ban和iptables联动阻止恶意扫描和密码猜测等恶意攻击行为</a></h4>  </header>                </div>
+              </article>
+            </div>
+                      <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
+              <article class="post">
+                  <div class="entry-media">
+    <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/use-firewalld-to-build-a-dynamic-firewall.html">
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/uploads/2021/04/1618139043-b6db0c73a979ae8.png&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Linux的FirewallD详细基础说明">  
+      </a>
+            <div class="cao-cover">
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" width="50" height="50px"></noscript>
+</noscript>
+</noscript>
+</noscript>
+</div>
+          </div>
+      </div>
+                  <div class="entry-wrapper">
+                  
+  <header class="entry-header">    
+    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/use-firewalld-to-build-a-dynamic-firewall.html" title="Linux的FirewallD详细基础说明" rel="bookmark">Linux的FirewallD详细基础说明</a></h4>  </header>                </div>
+              </article>
+            </div>
+                      <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
+              <article class="post">
+                  <div class="entry-media">
+    <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/dns-server-construction-and-configuration.html">
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/uploads/2021/04/1618139491-b3bf60b851ebaeb.png&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="DNS服务器搭建与配置">  
+      </a>
+            <div class="cao-cover">
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" width="50" height="50px"></noscript>
+</noscript>
+</noscript>
+</noscript>
+</div>
+          </div>
+      </div>
+                  <div class="entry-wrapper">
+                  
+  <header class="entry-header">    
+    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/dns-server-construction-and-configuration.html" title="DNS服务器搭建与配置" rel="bookmark">DNS服务器搭建与配置</a></h4>  </header>                </div>
+              </article>
+            </div>
+                      <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
+              <article class="post">
+                  <div class="entry-media">
+    <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/detailed_explanation_of_the_process_of_compiling_and_installing_apache_on_centos_server_source_package.html">
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/themes/ripro/assets/images/thumb/1.jpg&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Centos服务器源码包编译安装Apache过程详解">  
+      </a>
+            <div class="cao-cover">
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" width="50" height="50px"></noscript>
+</noscript>
+</noscript>
+</noscript>
+</div>
+          </div>
+      </div>
+                  <div class="entry-wrapper">
+                  
+  <header class="entry-header">    
+    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/detailed_explanation_of_the_process_of_compiling_and_installing_apache_on_centos_server_source_package.html" title="Centos服务器源码包编译安装Apache过程详解" rel="bookmark">Centos服务器源码包编译安装Apache过程详解</a></h4>  </header>                </div>
+              </article>
+            </div>
+                  </div>
+      </div>
+    
+  
+
+<div class="bottom-area">
+    <div id="comments" class="comments-area">
+        
+        
+        
+        	<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">发表评论 <small><a rel="nofollow" id="cancel-comment-reply-link" href="https://blog.lixypro.com/houduanyunwei/the_role_of_configure_make_make_install.html#respond" style="display:none;">取消回复</a></small>
+</h3>
+<form action="https://blog.lixypro.com/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate>
+<p class="comment-form-comment"><textarea id="comment" name="comment" rows="8" aria-required="true"></textarea></p>
+<div class="row comment-author-inputs">
+<div class="col-md-4 input"><p class="comment-form-author"><label for="author">昵称*</label><input id="author" name="author" type="text" value="" size="30" aria-required="true"></p></div>
+<div class="col-md-4 input"><p class="comment-form-email"><label for="email">E-mail*</label><input id="email" name="email" type="text" value="" size="30" aria-required="true"></p></div>
+<div class="col-md-4 input"><p class="comment-form-url"><label for="url">网站</label><input id="url" name="url" type="text" value="" size="30"></p></div>
+</div>
+<p class="comment-form-cookies-consent"><input id="wp-comment-cookies-consent" name="wp-comment-cookies-consent" type="checkbox" value="yes"> <label for="wp-comment-cookies-consent">下次发表评论时，请在此浏览器中保存我的姓名、电子邮件和网站</label></p>
+<p class="form-submit"><input name="submit" type="submit" id="submit" class="button" value="发表评论"> <input type="hidden" name="comment_post_ID" value="28" id="comment_post_ID">
+<input type="hidden" name="comment_parent" id="comment_parent" value="0">
+</p>
+</form>	</div>
+<!-- #respond -->
+	    </div>
+</div>				</main>
+			</div>
+		</div>
+			</div>
+</div>
+
+
+</div>
+<!-- end sitecoent --> 
+
+	
+	<div class="module parallax">
+		<img class="jarallax-img lazyload" data-srcset="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/background/bg-1.jpg" data-sizes="auto" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="">
+		<div class="container">
+			<h4 class="entry-title">
+				提供最优质的资源集合			</h4>
+							<a target="_blank" class="button" href="https://blog.lixypro.com/">立即查看</a>
+										<a target="_blank" class="button transparent" href="https://blog.lixypro.com/">了解详情</a>
+					</div>
+	</div>
+	
+	<footer class="site-footer">
+		<div class="container">
+			
+			<div class="footer-widget">
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-3 widget--about">
+            <div class="widget--content">
+                <div class="footer--logo mb-20">
+                    <img data-dark="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" alt="Lixypro博客" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" class="tap-logo lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img class="tap-logo" src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" data-dark="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" alt="Lixypro博客"></noscript>
+                </div>
+                <p class="mb-10">Lixypro博客网站,专注于各种技术类.</p>
+            </div>
+        </div>
+        <!-- .col-md-2 end -->
+        <div class="col-xs-12 col-sm-3 col-md-2 col-md-offset-1 widget--links">
+            <div class="widget--title">
+                <h5>本站导航</h5>
+            </div>
+            <div class="widget--content">
+                <ul class="list-unstyled mb-0">
+                                    </ul>
+            </div>
+        </div>
+        <!-- .col-md-2 end -->
+        <div class="col-xs-12 col-sm-3 col-md-2 widget--links">
+            <div class="widget--title">
+                <h5>友情链接</h5>
+            </div>
+            <div class="widget--content">
+                <ul class="list-unstyled mb-0">
+                    <li><a target="_blank" href="https://www.baidu.com/">百度一下</a></li>
+<li><a target="_blank" href="https://www.zhihu.com/">知乎官网</a></li>                </ul>
+            </div>
+        </div>
+        <!-- .col-md-2 end -->
+        <div class="col-xs-12 col-sm-12 col-md-4 widget--newsletter">
+            <div class="widget--title">
+                <h5>快速搜索</h5>
+            </div>
+            <div class="widget--content">
+                <form class="newsletter--form mb-30" action="https://blog.lixypro.com/" method="get">
+                    <input type="text" class="form-control" name="s" placeholder="关键词">
+                    <button type="submit"><i class="fa fa-arrow-right"></i></button>
+                </form>
+                <h6>本站由WordPress程序强力驱动</h6>
+            </div>
+        </div>
+
+    </div>
+</div>						  <div class="site-info">
+			    © 2021 Lixypro博客 & WordPress Theme. All rights reserved			    			  </div>
+					</div>
+	</footer>
+	
+<div class="rollbar">
+	
+	<div class="rollbar-item" etap="to_full" title="全屏页面"><i class="fa fa-arrows-alt"></i></div>
+
+	
+		<div class="rollbar-item" etap="to_top" title="返回顶部"><i class="fa fa-angle-up"></i></div>
+</div>
+
+<div class="dimmer"></div>
+
+
+
+<div class="off-canvas">
+  <div class="canvas-close"><i class="mdi mdi-close"></i></div>
+  <div class="logo-wrapper">
+      <a href="https://blog.lixypro.com/">
+      <img alt="Lixypro博客" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" class="logo regular lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img class="logo regular" src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" alt="Lixypro博客"></noscript>
+    </a>
+    </div>
+  <div class="mobile-menu hidden-lg hidden-xl"></div>
+  <aside class="widget-area">
+      </aside>
+</div>
+<script>
+    console.log("\n %c RiPro V7.1.0 %c https://blog.lixypro.com \n\n", "color: #fadfa3; background: #030307; padding:5px 0;", "background: #fadfa3; padding:5px 0;");
+    console.log("SQL 请求数：67");
+    console.log("页面生成耗时： 0.32645");
+</script>
+
+
+
+<script type="text/javascript" id="toc-front-js-extra">
+/* <![CDATA[ */
+var tocplus = {"visibility_show":"show","visibility_hide":"hide","width":"Auto"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/plugins/table-of-contents-plus/front.min.js?ver=2002" id="toc-front-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/jQuery/jquery.min.js?ver=10.2.1" id="jQuery-CDN-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/KaTeX/katex.min.js?ver=10.2.1" id="Katex-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/ClipBoard/clipboard.min.js?ver=2.0.1" id="copy-clipboard-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/components/prism-core.min.js?ver=1.15.0" id="prism-core-js-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/autoloader/prism-autoloader.min.js?ver=1.15.0" id="prism-plugin-autoloader-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/toolbar/prism-toolbar.min.js?ver=1.15.0" id="prism-plugin-toolbar-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/line-numbers/prism-line-numbers.min.js?ver=1.15.0" id="prism-plugin-line-numbers-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/show-language/prism-show-language.min.js?ver=1.15.0" id="prism-plugin-show-language-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js?ver=1.15.0" id="prism-plugin-copy-to-clipboard-js"></script>
+<script type="text/javascript" id="Front_Style-js-extra">
+/* <![CDATA[ */
+var FrontStyle = {"openLinkInNewTab":"on"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/FrontStyle/frontstyle.min.js?ver=10.2.1" id="Front_Style-js"></script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/plugins/wp-smushit/app/assets/js/smush-lazy-load.min.js?ver=3.8.4" id="smush-lazy-load-js"></script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/plugins.js?ver=7.1.0" id="plugins-js"></script>
+<script type="text/javascript" id="app-js-extra">
+/* <![CDATA[ */
+var caozhuti = {"site_name":"Lixypro博客","home_url":"https:\/\/blog.lixypro.com","ajaxurl":"https:\/\/blog.lixypro.com\/wp-admin\/admin-ajax.php","is_singular":"1","tencent_captcha":{"is":"","appid":""},"infinite_load":"加载更多","infinite_loading":"<i class=\"fa fa-spinner fa-spin\"><\/i> 加载中...","site_notice":{"is":"0","color":"rgb(33, 150, 243)","html":"<div class=\"notify-content\"><h3>Lixypro欢迎你!<\/h3><div>这是一条网站公告，可在后台开启或关闭，可自定义背景颜色，标题，内容，用户首次打开关闭后不再重复弹出，此处可使用html标签...<\/div><\/div>"},"pay_type_html":{"html":"<div class=\"pay-button-box\"><\/div><p style=\"font-size: 13px; padding: 0; margin: 0;\">免费或钻石免费资源仅限余额支付<\/p>","alipay":0,"weixinpay":0}};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/app.js?ver=7.1.0" id="app-js"></script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/plugins/jquery.fancybox.min.js?ver=7.1.0" id="fancybox-js"></script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-includes/js/comment-reply.min.js?ver=5.7" id="comment-reply-js"></script>
+        <script type="text/javascript">
+            (function ($) {
+                $(document).ready(function () {
+                    $(".katex.math.inline").each(function () {
+                        var parent = $(this).parent()[0];
+                        if (parent.localName !== "code") {
+                            var texTxt = $(this).text();
+                            var el = $(this).get(0);
+                            try {
+                                katex.render(texTxt, el);
+                            } catch (err) {
+                                $(this).html("<span class=\"err\">" + err);
+                            }
+                        } else {
+                            $(this).parent().text($(this).parent().text());
+                        }
+                    });
+                    $(".katex.math.multi-line").each(function () {
+                        var texTxt = $(this).text();
+                        var el = $(this).get(0);
+                        try {
+                            katex.render(texTxt, el, {displayMode: true})
+                        } catch (err) {
+                            $(this).html("<span class=\"err\">" + err)
+                        }
+                    });
+                })
+            })(jQuery);
+        </script>
+                <script type="text/javascript">
+            Prism.plugins.autoloader.languages_path = "https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/components/";
+        </script>
+        
+</div>
+</body>
+</html>

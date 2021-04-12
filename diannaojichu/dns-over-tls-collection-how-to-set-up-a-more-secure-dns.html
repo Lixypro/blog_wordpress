@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="profile" href="https://gmpg.org/xfn/11">
+	<link href="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/favicon/favicon.png" rel="icon">
+  <title>DNS-over-TLS 收集，如何设置一个更安全的 DNS？ - Lixypro博客</title>
+
+	<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+
+	<!-- This site is optimized with the Yoast SEO plugin v16.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+	<title>DNS-over-TLS 收集，如何设置一个更安全的 DNS？ - Lixypro博客</title>
+	<meta name="description" content="Lixypro博客 - DNS-over-TLS 收集，如何设置一个更安全的 DNS？">
+	<link rel="canonical" href="https://blog.lixypro.com/diannaojichu/dns-over-tls-collection-how-to-set-up-a-more-secure-dns.html">
+	<meta property="og:locale" content="zh_CN">
+	<meta property="og:type" content="article">
+	<meta property="og:title" content="DNS-over-TLS 收集，如何设置一个更安全的 DNS？ - Lixypro博客">
+	<meta property="og:description" content="Lixypro博客 - DNS-over-TLS 收集，如何设置一个更安全的 DNS？">
+	<meta property="og:url" content="https://blog.lixypro.com/diannaojichu/dns-over-tls-collection-how-to-set-up-a-more-secure-dns.html">
+	<meta property="og:site_name" content="Lixypro博客">
+	<meta property="article:published_time" content="2021-04-10T08:26:53+00:00">
+	<meta property="article:modified_time" content="2021-04-10T09:55:16+00:00">
+	<meta property="og:image" content="https://blog.lixypro.com/wp-content/uploads/2021/04/1618048229-9b8d05929b6de56.jpg">
+	<meta property="og:image:width" content="1120">
+	<meta property="og:image:height" content="446">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:label1" content="作者">
+	<meta name="twitter:data1" content="administrator">
+	<meta name="twitter:label2" content="预计阅读时间">
+	<meta name="twitter:data2" content="3分">
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://blog.lixypro.com/#website","url":"https://blog.lixypro.com/","name":"Lixypro博客","description":"技术分享|网页前端|后端运维|网络安全|日常记事","potentialAction":[{"@type":"SearchAction","target":"https://blog.lixypro.com/?s={search_term_string}","query-input":"required name=search_term_string"}],"inLanguage":"zh-CN"},{"@type":"ImageObject","@id":"https://blog.lixypro.com/diannaojichu/dns-over-tls-collection-how-to-set-up-a-more-secure-dns.html#primaryimage","inLanguage":"zh-CN","url":"https://blog.lixypro.com/wp-content/uploads/2021/04/1618048229-9b8d05929b6de56.jpg","contentUrl":"https://blog.lixypro.com/wp-content/uploads/2021/04/1618048229-9b8d05929b6de56.jpg","width":1120,"height":446},{"@type":"WebPage","@id":"https://blog.lixypro.com/diannaojichu/dns-over-tls-collection-how-to-set-up-a-more-secure-dns.html#webpage","url":"https://blog.lixypro.com/diannaojichu/dns-over-tls-collection-how-to-set-up-a-more-secure-dns.html","name":"DNS-over-TLS 收集，如何设置一个更安全的 DNS？ - Lixypro博客","isPartOf":{"@id":"https://blog.lixypro.com/#website"},"primaryImageOfPage":{"@id":"https://blog.lixypro.com/diannaojichu/dns-over-tls-collection-how-to-set-up-a-more-secure-dns.html#primaryimage"},"datePublished":"2021-04-10T08:26:53+00:00","dateModified":"2021-04-10T09:55:16+00:00","author":{"@id":"https://blog.lixypro.com/#/schema/person/504c3e2a3d8a31f292936e7a2241373b"},"description":"Lixypro博客 - DNS-over-TLS 收集，如何设置一个更安全的 DNS？","breadcrumb":{"@id":"https://blog.lixypro.com/diannaojichu/dns-over-tls-collection-how-to-set-up-a-more-secure-dns.html#breadcrumb"},"inLanguage":"zh-CN","potentialAction":[{"@type":"ReadAction","target":["https://blog.lixypro.com/diannaojichu/dns-over-tls-collection-how-to-set-up-a-more-secure-dns.html"]}]},{"@type":"BreadcrumbList","@id":"https://blog.lixypro.com/diannaojichu/dns-over-tls-collection-how-to-set-up-a-more-secure-dns.html#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"item":{"@type":"WebPage","@id":"https://blog.lixypro.com/","url":"https://blog.lixypro.com/","name":"首页"}},{"@type":"ListItem","position":2,"item":{"@type":"WebPage","@id":"https://blog.lixypro.com/diannaojichu/dns-over-tls-collection-how-to-set-up-a-more-secure-dns.html","url":"https://blog.lixypro.com/diannaojichu/dns-over-tls-collection-how-to-set-up-a-more-secure-dns.html","name":"DNS-over-TLS 收集，如何设置一个更安全的 DNS？"}}]},{"@type":"Person","@id":"https://blog.lixypro.com/#/schema/person/504c3e2a3d8a31f292936e7a2241373b","name":"administrator","image":{"@type":"ImageObject","@id":"https://blog.lixypro.com/#personlogo","inLanguage":"zh-CN","url":"https://secure.gravatar.com/avatar/957d4bcaf62a121072d884ad505a9b2a?s=96&d=mm&r=g","contentUrl":"https://secure.gravatar.com/avatar/957d4bcaf62a121072d884ad505a9b2a?s=96&d=mm&r=g","caption":"administrator"},"sameAs":["https://blog.lixypro.com"]}]}</script>
+	<!-- / Yoast SEO plugin. -->
+
+
+<link rel="stylesheet" id="toc-screen-css" href="https://blog.lixypro.com/wp-content/plugins/table-of-contents-plus/screen.min.css?ver=2002" type="text/css" media="all">
+<link rel="stylesheet" id="Katex-css" href="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/KaTeX/katex.min.css?ver=10.2.1" type="text/css" media="all">
+<link rel="stylesheet" id="prism-theme-style-css" href="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/themes/prism-okaidia.css?ver=1.15.0" type="text/css" media="all">
+<link rel="stylesheet" id="prism-plugin-toolbar-css" href="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/toolbar/prism-toolbar.css?ver=1.15.0" type="text/css" media="all">
+<link rel="stylesheet" id="prism-plugin-line-numbers-css" href="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/line-numbers/prism-line-numbers.css?ver=1.15.0" type="text/css" media="all">
+<link rel="stylesheet" id="external-css" href="https://blog.lixypro.com/wp-content/themes/ripro/assets/css/external.css?ver=7.1.0" type="text/css" media="all">
+<link rel="stylesheet" id="sweetalert2-css" href="https://blog.lixypro.com/wp-content/themes/ripro/assets/css/sweetalert2.min.css?ver=7.1.0" type="text/css" media="all">
+<link rel="stylesheet" id="app-css" href="https://blog.lixypro.com/wp-content/themes/ripro/assets/css/app.css?ver=7.1.0" type="text/css" media="all">
+<link rel="stylesheet" id="diy-css" href="https://blog.lixypro.com/wp-content/themes/ripro/assets/css/diy.css?ver=7.1.0" type="text/css" media="all">
+<link rel="stylesheet" id="fancybox-css" href="https://blog.lixypro.com/wp-content/themes/ripro/assets/css/jquery.fancybox.min.css?ver=7.1.0" type="text/css" media="all">
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/jquery-2.2.4.min.js?ver=2.2.4" id="jquery-js"></script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/plugins/sweetalert2.min.js?ver=7.1.0" id="sweetalert2-js"></script>
+		<script>
+			document.documentElement.className = document.documentElement.className.replace( 'no-js', 'js' );
+		</script>
+				<style>.no-js img.lazyload { display: none; }
+			figure.wp-block-image img.lazyloading { min-width: 150px; }
+							.lazyload, .lazyloading { opacity: 0; }
+				.lazyloaded {
+					opacity: 1;
+					transition: opacity 400ms;
+					transition-delay: 0ms;
+				}</style>
+			<!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+      <script src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/html5shiv.js"></script>
+      <script src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/respond.min.js"></script>
+    <![endif]-->
+          <script> $(document).ready(function() { NProgress.start(); $(window).load(function() { NProgress.done(); }); });</script>
+    </head>
+
+<body class="post-template-default single single-post postid-30 single-format-standard  max_width navbar-sticky navbar-full navbar-slide no-search sidebar-none pagination-numeric no-off-canvas">
+
+<div class="site">
+    
+<header class="site-header">
+      <div class="navbar">
+      <div class="logo-wrapper">
+              <a href="https://blog.lixypro.com/">
+          <img data-dark="" alt="Lixypro博客" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" class="logo regular tap-logo lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img class="logo regular tap-logo" src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" data-dark="" alt="Lixypro博客"></noscript>
+        </a>
+            </div>
+      <div class="sep"></div>
+      
+      <nav class="main-menu hidden-xs hidden-sm hidden-md">
+        <ul id="menu-menu-1" class="nav-list u-plain-list">
+<li id="menu-item-12" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-12"><a href="https://blog.lixypro.com/">本站首页</a></li>
+<li id="menu-item-15" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-15"><a href="https://blog.lixypro.com/tags">标签集合</a></li>
+<li id="menu-item-18" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-18"><a href="https://blog.lixypro.com/qianduansixiang">前端思想</a></li>
+<li id="menu-item-19" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-19"><a href="https://blog.lixypro.com/houduanyunwei">后端运维</a></li>
+<li id="menu-item-20" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-20"><a href="https://blog.lixypro.com/zaixianfuwu">在线服务</a></li>
+<li id="menu-item-21" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-21"><a href="https://blog.lixypro.com/diannaojichu">电脑基础</a></li>
+<li id="menu-item-22" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-22"><a href="https://blog.lixypro.com/kejizixun">科技资讯</a></li>
+<li id="menu-item-23" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-23"><a href="https://blog.lixypro.com/wangluoanquan">网络安全</a></li>
+</ul>      </nav>
+      
+      <div class="main-search">
+        <form method="get" class="search-form inline" action="https://blog.lixypro.com/">
+  <input type="search" class="search-field inline-field" placeholder="输入关键词，回车..." autocomplete="off" value="" name="s" required="required">
+  <button type="submit" class="search-submit"><i class="mdi mdi-magnify"></i></button>
+</form>        <div class="search-close navbar-button"><i class="mdi mdi-close"></i></div>
+      </div>
+
+      <div class="actions">
+                <!-- user end -->
+        <div class="search-open navbar-button"><i class="mdi mdi-magnify"></i></div>
+                <div class="burger"></div>
+      </div>
+    </div>
+  </header>
+
+<div class="header-gap"></div>    
+    <div class="site-content">
+    
+
+<div class="container">
+	<div class="breadcrumbs">
+	当前位置：<a href="https://blog.lixypro.com/">Lixypro博客</a> <small>></small> <a href="https://blog.lixypro.com/houduanyunwei">后端运维</a> <small>></small> DNS-over-TLS 收集，如何设置一个更安全的 DNS？	</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="content-area">
+				<main class="site-main">
+					<article id="post-30" class="article-content">
+    <div class="container">
+  
+<div class="cao_entry_header">
+
+  <header class="entry-header">    
+    <h1 class="entry-title">DNS-over-TLS 收集，如何设置一个更安全的 DNS？</h1>  </header>
+</div>
+</div>  <div class="container">
+    <div class="entry-wrapper">
+            <div class="entry-content u-text-format u-clearfix">
+        <p>我们都知道，dns服务器的作用在于解析域名，将人容易记忆的域名与机器理解的ip地址联系起来。我们用域名访问一个网站的时候，主机首先会访问dns服务器，得到所要访问网站的ip地址，然后主机再根据这个IP地址来访问网站。<br>
+在鼠标点击的一刹那，流量在用户系统中流过层层节点，在路由的指引下奔向远方的服务器。这段路程中，短兵相接的战斗往往是最激烈的，在所有流量可能路过的节点，往往都潜伏着劫持者，他们劫持流量的手段也层出不穷，从主页配置篡改、hosts劫持、进程Hook、启动劫持、LSP注入、浏览器插件劫持、HTTP代理过滤、内核数据包劫持、bootkit等等不断花样翻新。或许从你按下开机按钮的一瞬间，流量劫持的故事就已经开始了。<br>
+我们很难记住所有人的电话号码，大部分时候我们都需要通讯录帮助我们把一个人的姓名和号码联系起来。而 DNS 服务器干的事情和通讯录差不多，帮助我们把网址转换成 IP，让程序知道他们需要链接的服务器具体在哪里（或是服务器不存在）。</p>
+<p><strong>随着互联网技术的日新月异，大家上网的时候遇到下面的情况的概率却一点都没变少</strong>：</p>
+<ul>
+<li>从官网下载内容的时候，下载的地址是一串 IP 而不是官网地址，而且下载下来的内容有的时候不是最新的。</li>
+<li>打开一个网站以后，网站内有部分广告质量明显不如其他的广告，或者明显遮挡了网页中的内容</li>
+<li>输错网站打开一个全是广告的页面</li>
+<li>网站内的广告画风和整个网站完全不搭</li>
+<li>经常性地遇到有些页面打不开（无法解析这个网址），但是过了一会儿又好了。</li>
+</ul>
+<p>这些问题很多时候都是和你家的 DNS 设置有关系。</p>
+<h2>1. 为什么会发生这些问题</h2>
+<p>只要你接入了互联网，互联网服务提供商（也被称为 ISP，以下简称： 运营商）都会下发两个 DNS 给你，这个就是运营商 DNS。</p>
+<p>和电话对应起来，<strong>DNS 服务器则将网址和 IP 对应起来</strong>。随着互联网技术的日新月异，DNS 服务器也经过了一段漫长的发展，衍生出了更多更棒的功能，让用户能自由地在网上冲浪。</p>
+<p>每个运营商在几乎在每个城市都会部署自己的独立的 DNS 服务器，这也是为什么同一个运营商在不同城市分发下来的 DNS 服务器的地址也都不一样。加上运营商是最了解 <a class="wp-editor-md-post-content-link" href="https://www.zhihu.com/question/36514327?rf=37353035">内容分发网络</a>（也就是我们经常说的 CDN，CDN 主要起到两大作用，第一个是能让用户用最快的速度访问到用户想要访问的内容，第二点是能减少主服务器的所需要的带宽和维护成本）的位置和自家网络的情况，所以运营商 DNS 返回的结果应该是：<strong>最准确的、最合适的，响应时间短的以及 CDN 解析结果最准确的</strong>，简单来说就是：你能快速访问到<strong>位于你附近</strong>的有你想要访问到内容的服务器。</p>
+<p>中国电信的路由表-图源 <a class="wp-editor-md-post-content-link" href="http://bgp.he.net/">http://bgp.he.net</a></p>
+<p>在每个城市都要维护一个 DNS 服务器开销自然不会小到那里去，所以运营商经常在 DNS 结果上进行改动，发生文章开头所说的问题。运营商那么做主要是为了减少成本。当然还有种情况是附近的 DNS 服务器没有及时扩容或者维护不善，导致了上述的情况。</p>
+<h2>2. 利用公共 DNS 服务来解决这个问题</h2>
+<p><a class="wp-editor-md-post-content-link" href="https://blog.lixypro.com/wp-content/uploads/2021/04/1618047771-cda495b91253a6b.jpg"><img class="lazyload " src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="https://blog.lixypro.com/wp-content/uploads/2021/04/1618047771-cda495b91253a6b.jpg" alt="公共 DNS 服务"><noscript>
+<img alt="公共 DNS 服务" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618047771-cda495b91253a6b.jpg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618047771-cda495b91253a6b.jpg" alt="公共 DNS 服务"></noscript>
+</noscript></a></p>
+<p>解决上述这个问题的最快的办法就是使用<strong>公共 DNS 服务</strong>。</p>
+<p>公共 DNS 服务器一般是由大公司搭建的，或者非盈利组织搭建的。公共 DNS 的本质上就是把你的查询请求转发给上游更权威的 DNS，所以一般这些公司或者组织提供的公共 DNS 服务器提供都是更安全、更准确的结果。当然由于资金限制，公共 DNS 服务器不会每个城市都有一个。自然就会遇到使用公共 DNS 服务解析到的 IP 不是最快的情况。</p>
+<h3>2.1. 小知识：怎么快速知道我到某个服务器之间的延迟？🤔</h3>
+<h4>2.1.1. 使用 ping 指令</h4>
+<p><code>ping</code> 是一种计算机网络工具，用来测试数据包能否透过IP协议到达特定主机。按时间和成功响应的次数估算丢失数据包率（丢包率）和数据包往返时间（网络时延，Round-trip delay time）</p>
+<p><strong>ping 会直接附带在任何的操作系统的内置终端（或者命令提示符）中</strong>，使用时，用户只需要使用 <code>ping +网址/IP 地址</code>(如 <code>ping 17.253.84.251</code>）并敲击回车即可得到结果。</p>
+<p>因此，我们在挑选公共 DNS 的时候，要注意以下方面：</p>
+<ul>
+<li>在线率：也被叫做 SLA 或者可靠性，DNS 服务器作为将网址和 IP 联系起来的唯一手段，如果在线率不够高，那么时不时就会遇到的无法解析网址的情况，大大降低网上冲浪的乐趣和连贯性。</li>
+<li>响应速度：在访问一个新的网站时，DNS 对这个网站的响应速度会直接影响到当前网站的直观加载速度。</li>
+<li>准确性： 即使不考虑 DNS 污染和投毒，DNS 对网站访问的结果是否准确是非常重要的。</li>
+<li>CDN 友好性：也被叫做 ECS 或是 EDNS，ECS 有助于帮助你获取最准确的 CDN 解析结果，这个也是我在挑选公共 DNS 最为看重的一点。</li>
+<li>DNS 出口位置： 在没有 ECS 的情况下，CDN 的权威 DNS 会根据公共 DNS 使用的请求 IP（也就是 DNS 出口）来判定你的运营商、你所在的位置，从而返回距离你最近的节点 IP。在有 ECS 的情况下，返回结果的所需要的时间会更低，CDN 判断会更准确。</li>
+</ul>
+<p>受限于篇幅限制，下图只介绍符合 RFC 规范的（排除 IBM Quad9 DNS），拥有多个响应地点的（排除 360 公共 DNS）大型的，准确性也相对较好的（不会刻意投毒的），更重要的是 <strong>CDN 友好型的</strong> 公共 DNS 服务。延迟则由各个地方各个运营商决定，请自行测试。</p>
+<h2>3. 利用安全的公共 DNS 服务解决这个问题</h2>
+<p>不过在一部分 DNS 问题严重的地方，将运营商 DNS 更换为公共 DNS 可能还是不能解决本文开头的问题。</p>
+<p>这是因为<strong>我们的 DNS 流量没有经过加密</strong>，就和曾经的 http 协议一样，运营商或是第三方还是能够清楚的知道：我们发起了一个 DNS 请求，我们想要知道 xxx 网站的地址。如果我们给我们的 DNS 流量加个密，就和 https 流量一样，那么运营商不就不知道我们我们的 DNS 请求了吗。这就是 <strong>DNS over HTTPS</strong> (下文简称 <strong>DoH</strong> )和 <strong>DNS over TLS</strong> (下文简称 <strong>DoT</strong> )技术要做的事。他们分别利用 HTTPS （<a class="wp-editor-md-post-content-link" href="https://baike.baidu.com/item/%25E8%25B6%2585%25E6%2596%2587%25E6%259C%25AC%25E4%25BC%25A0%25E8%25BE%2593%25E5%25AE%2589%25E5%2585%25A8%25E5%258D%258F%25E8%25AE%25AE">超文本传输安全协议</a><a class="wp-editor-md-post-content-link" href="https://baike.baidu.com/item/%25E8%25B6%2585%25E6%2596%2587%25E6%259C%25AC%25E4%25BC%25A0%25E8%25BE%2593%25E5%25AE%2589%25E5%2585%25A8%25E5%258D%258F%25E8%25AE%25AE"></a>）和 TLS（<a class="wp-editor-md-post-content-link" href="https://baike.baidu.com/item/%25E4%25BC%25A0%25E8%25BE%2593%25E5%25B1%2582%25E5%25AE%2589%25E5%2585%25A8%25E5%258D%258F%25E8%25AE%25AE">传输层安全协议</a>）这两种行业通用的安全协议，将我们的 DNS 请求发往 DNS 服务器。运营商或是第三方在整个传输过程中，只能知道发起者和目的地，除此以外别的什么都知道，甚至都不知道你发起了 DNS 请求。同时 HTTPS 和 TLS 都会使用网络数字证书确保对面的身份，这样传输的<strong>过程中</strong>无论是任何第三方都不能修改 DNS 的请求内容和最后的结果。保证你请求的结果就是你最后想要的。DoH 和 DoT 不仅能为经常被运营商和第三方劫持 DNS 的人群提供安全可靠的 DNS 解析结果，还能给极为看重隐私人群补上上网隐私保护流程中的最后一块短板。</p>
+<p><a class="wp-editor-md-post-content-link" href="https://blog.lixypro.com/wp-content/uploads/2021/04/1618048229-9b8d05929b6de56.jpg"><img class="lazyload " src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="https://blog.lixypro.com/wp-content/uploads/2021/04/1618048229-9b8d05929b6de56.jpg" alt="安全的公共 DNS 服务"><noscript>
+<img alt="安全的公共 DNS 服务" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618048229-9b8d05929b6de56.jpg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618048229-9b8d05929b6de56.jpg" alt="安全的公共 DNS 服务"></noscript>
+</noscript></a></p>
+<h3>3.1. 红鱼 DNS展开目录</h3>
+<p>官网:<a class="wp-editor-md-post-content-link" href="http://www.rubyfish.cn/">www.rubyfish.cn</a></p>
+<p>DNS-over-TLS 地址:</p>
+<pre><code class="language-shell line-numbers">dns.rubyfish.cn
+
+</code></pre>
+<p>这是我唯一知道的一个服务器位于国内的公共 DNS 提供 DNS-over-TLS（缩写为 DoT）和 DNS-over-HTTPS（缩写为 DoH）服务</p>
+<h3>3.2. Google DNS展开目录</h3>
+<p>DNS-over-TLS 地址:</p>
+<pre><code class="language-shell line-numbers">dns.google.com
+
+</code></pre>
+<p>这个我相信应该是大家相当收悉的一个 DNS 了不用什么过多的介绍了吧？</p>
+<h3>3.3. 1.1.1.1展开目录</h3>
+<p>官网:<a class="wp-editor-md-post-content-link" href="https://cloudflare-dns.com/">cloudflare-dns.com</a></p>
+<p>DNS-over-TLS 地址:</p>
+<pre><code class="language-shell line-numbers">1dot1dot1dot1.cloudflare-dns.com
+
+</code></pre>
+<p>是 Cloudflare 与 APNIC 的合作项目官方宣称无记录。即使 Cloudflare 运营着全球规模最大、速度最快的网络，但是到了中国就卡的不行了，我家 Ping 他们的 DNS 一直是 100ms 左右~（又不是不能用）~。支持 DNS-over-HTTPS 和 DNS-over-TLS</p>
+<h3>3.4. Quad9展开目录</h3>
+<p>官网:<a class="wp-editor-md-post-content-link" href="http://www.quad9.net/">www.quad9.net</a><br>
+DNS-over-TLS 地址:</p>
+<pre><code class="language-shell line-numbers">dns.quad9.net
+
+</code></pre>
+<p>这是蓝色巨人 IBM 提供的公共 DNS 支持 DNS-over-HTTPS 和 DNS-over-TLS，比 1.1.1.1 的响应时间还要⑨我家这边经常 300ms 上下</p>
+<h3>3.5. CleanBrowsing展开目录</h3>
+<p>官网:<a class="wp-editor-md-post-content-link" href="https://cleanbrowsing.org/">cleanbrowsing.org</a><br>
+DNS-over-TLS 地址:</p>
+<pre><code class="language-shell line-numbers">security-filter-dns.cleanbrowsing.org
+family-filter-dns.cleanbrowsing.org
+adult-filter-dns.cleanbrowsing.org
+
+</code></pre>
+<p>CleanBrowsing 可以阻止访问成人网站、钓鱼网站、垃圾邮件、阻止代理，但是这玩意是付费的还 5 美元起在国内速度也不怎么样</p>
+<h3>3.6. Blah DNS展开目录</h3>
+<p>官网:<a class="wp-editor-md-post-content-link" href="http://blahdns.com/">blahdns.com</a><br>
+DNS-over-TLS 地址:</p>
+<pre><code class="language-shell line-numbers">dot-jp.blahdns.com
+dot-de.blahdns.com
+
+</code></pre>
+<p>Blah DNS 是朋友告诉我的一个公共 DNS 服务听朋友说可以阻止广告，有日本和德国台 DNS 服务器支持 DNS-over-HTTPS 和 DNS-over-TLS 还有 DNSCrypt v2，虽然我并不知道这个 DNS 是怎么样的（上面只测了日本节点）</p>
+<h3>3.7. GeekDNS展开目录</h3>
+<p>官网:<a class="wp-editor-md-post-content-link" href="http://dns.233py.com/">dns.233py.com</a><br>
+DNS-over-TLS 地址:</p>
+<pre><code class="language-shell line-numbers">edns.233py.com
+wdns.233py.com
+sdns.233py.com
+ndns.233py.com
+de-dns.233py.com
+ru-dns.233py.com
+hk-dns.233py.com
+
+</code></pre>
+<p>GeekDNS 也是朋友告诉我的一个公共 DNS 服务有上海、重庆、广州、北京、香港、德国、俄罗斯多个节点支持 DNS-over-HTTPS 和 DNS-over-TLS，这个 DNS 我没有用过听朋友说这个还可以（上面只测了广州节点）</p>
+<p><a class="wp-editor-md-post-content-link" href="https://blog.lixypro.com/wp-content/uploads/2021/04/1618048229-9b8d05929b6de56.jpg"><img class="lazyload " src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="https://blog.lixypro.com/wp-content/uploads/2021/04/1618048229-9b8d05929b6de56.jpg" alt="目前支持 DoH 或者 DoT 的 DNS 服务器列表"><noscript>
+<img alt="目前支持 DoH 或者 DoT 的 DNS 服务器列表" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618048229-9b8d05929b6de56.jpg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618048229-9b8d05929b6de56.jpg" alt="目前支持 DoH 或者 DoT 的 DNS 服务器列表"></noscript>
+</noscript></a></p>
+<h2>4. 我应该怎么使用 DoH 和 DoT 技术</h2>
+<h3>4.1. 通过 Firefox 使用安全的公共 DNS 服务器</h3>
+<p>对于完全不熟悉终端命令的用户来说，现在想在 macOS 或者 Windows 上得到安全可靠的解析，那么 Firefox 浏览器是目前唯一的选择，前往 Firefox 的设置，<code>常规</code>&#8211;<code>网络设置</code>&#8211;<code>设置</code>，选择<code>启用基于 HTTPS 的 DNS</code>，这样就打开了 Firefox 上的 DoH 服务了。</p>
+<h3>4.2. 通过 Chrome使用安全的公共 DNS 服务器</h3>
+<p>当然，用户基数更大的 Chrome 在未来也会在实验性设置里提供对应的选项（本文写作时 Chrome 正式版本为 77，从 78 版本开始将在实验性设置里提供对应的选项，78 正式版本将在 10 月 22 日推送）。<code>打开你的 Chrome，在地址栏中输入 chrome://flags/#dns-over-https，回车，在右侧下拉箭头中选择 Enable。</code>这样就打开了 Chrome 78 上的 DoH 服务了。</p>
+<h2>5. 完结</h2>
+<p>以上就是这篇文章的所有内容了，希望能够让你能够了解到目前的 DNS 的发展情况，并帮助到因为 DNS 被劫持或是默认 DNS 不那么好用，备受苦恼的你。<br>
+本文经过网络上部分文章作为参考对象，如果又侵权等行为，请联系我，我会作出修改或者删除，谢谢</p>
+<p>部分参考链接：<br>
+1.  Chirgwin, Richard. <a class="wp-editor-md-post-content-link" href="https://www.theregister.co.uk/2017/12/14/protecting_dns_privacy/">IETF protects privacy and helps net neutrality with DNS over HTTPS</a>. The Register. 14 Dec 2017 &#91;2018-03-21&#93; <strong>（英语）</strong>.<br>
+2. ^ <a class="wp-editor-md-post-content-link" href="https://zh.wikipedia.org/wiki/DNS_over_HTTPS#cite_ref-Google1_2-0">跳转至：<sup><strong>2.0</strong></sup></a> <a class="wp-editor-md-post-content-link" href="https://zh.wikipedia.org/wiki/DNS_over_HTTPS#cite_ref-Google1_2-1"><sup><strong>2.1</strong></sup></a> <a class="wp-editor-md-post-content-link" href="https://zh.wikipedia.org/wiki/DNS_over_HTTPS#cite_ref-Google1_2-2"><sup><strong>2.2</strong></sup></a> <a class="wp-editor-md-post-content-link" href="https://developers.google.com/speed/public-dns/docs/dns-over-https">DNS-over-HTTPS  |  Public DNS | Google Developers</a>. Google Developers. &#91;2018-03-21&#93; <strong>（英语）</strong>.<br>
+3. <strong>[^](https://zh.wikipedia.org/wiki/DNS_over_HTTPS#cite_ref-3 &#8220;跳转&#8221;)</strong> Cimpanu, Catalin. <a class="wp-editor-md-post-content-link" href="https://zh.wikipedia.org/wiki/DNS_over_HTTPS#cite_ref-5" title="跳转">Mozilla Is Testing &#8220;DNS over HTTPS&#8221; Support in Firefox](https://www.bleepingcomputer.com/news/software/mozilla-is-testing-dns-over-https-support-in-firefox/). BleepingComputer. 2018-03-20 &#91;2018-03-21&#93; <strong>（美国英语）</strong>.<br>
+4. ^ [跳转至：<sup><strong>4.0</strong></sup>](https://zh.wikipedia.org/wiki/DNS_over_HTTPS#cite_ref-:0_4-0) [<sup><strong>4.1</strong></sup>](https://zh.wikipedia.org/wiki/DNS_over_HTTPS#cite_ref-:0_4-1) [Improving DNS Privacy in Firefox – Firefox Nightly News](https://blog.nightly.mozilla.org/2018/06/01/improving-dns-privacy-in-firefox/). Firefox Nightly News. &#91;2018-09-05&#93; <strong>（美国英语）</strong>.<br>
+5. **[^</a>** <a class="wp-editor-md-post-content-link" href="https://zh.wikipedia.org/wiki/DNS_over_HTTPS#cite_ref-6" title="跳转">IETF protects privacy and helps net neutrality with DNS over HTTPS](https://www.theregister.co.uk/2017/12/14/protecting_dns_privacy/). The Register. 2017-12-14 <strong>（英语）</strong>.<br>
+6. **[^</a>** <a class="wp-editor-md-post-content-link" href="https://zh.wikipedia.org/wiki/DNS_over_HTTPS#cite_ref-7" title="跳转">DNS Queries over HTTPS (DoH)](https://datatracker.ietf.org/doc/rfc8484//) <strong>（英语）</strong>.<br>
+7. **[^</a>** <a class="wp-editor-md-post-content-link" href="https://zh.wikipedia.org/wiki/DNS_over_HTTPS#cite_ref-8" title="跳转">DNS Queries over HTTPS (DoH)](https://datatracker.ietf.org/doc/rfc8484/).<br>
+8. **[^</a>** <a class="wp-editor-md-post-content-link" href="https://zh.wikipedia.org/wiki/DNS_over_HTTPS#cite_ref-9" title="跳转">DNS Queries over HTTPS (DoH)](https://datatracker.ietf.org/doc/rfc8484/).<br>
+9. **[^</a>** <a class="wp-editor-md-post-content-link" href="https://zh.wikipedia.org/wiki/DNS_over_HTTPS#cite_ref-10" title="跳转">DNS over HTTPS Implementations](https://github.com/curl/curl/wiki/DNS-over-HTTPS). 2018-04-27 &#91;2018-04-27&#93; <strong>（美国英语）</strong>.<br>
+10. **[^</a>** <a class="wp-editor-md-post-content-link" href="https://zh.wikipedia.org/wiki/DNS_over_HTTPS#cite_ref-11" title="跳转">DNS Security and Privacy](https://medium.com/@nykolas.z/dns-security-and-privacy-choosing-the-right-provider-61fc6d54b986). 2018-04-27 &#91;2018-03-27&#93; <strong>（美国英语）</strong>.<br>
+11. **[^</a>** Inc, Cloudflare. <a class="wp-editor-md-post-content-link" href="https://zh.wikipedia.org/wiki/DNS_over_HTTPS#cite_ref-12" title="跳转">Making Requests &#8211; Cloudflare Resolver](https://developers.cloudflare.com/1.1.1.1/dns-over-https/request-structure/). developers.cloudflare.com. &#91;2019-04-28&#93; <strong>（英语）</strong>.<br>
+12. **[^</a>** <a class="wp-editor-md-post-content-link" href="https://zh.wikipedia.org/wiki/DNS_over_HTTPS#cite_ref-13" title="跳转">Running a DNS over HTTPS &#8211; Cloudflare Resolver](https://developers.cloudflare.com/1.1.1.1/dns-over-https/cloudflared-proxy/)<br>
+13. **[^</a>** <a class="wp-editor-md-post-content-link" href="https://zh.wikipedia.org/wiki/DNS_over_HTTPS#cite_ref-14" title="跳转">Google Public DNS](https://dns.google.com/)<br>
+14. **[^</a>** &#91;<a class="wp-editor-md-post-content-link" href="https://zh.wikipedia.org/wiki/DNS_over_HTTPS#cite_ref-15" title="跳转">https://101.101.101.101/](https://101.101.101.101/) Quad 101<br>
+15. **[^</a>** <a class="wp-editor-md-post-content-link" href="https://zh.wikipedia.org/wiki/DNS_over_HTTPS#cite_ref-16" title="跳转">101.101.101.101 支持 DoH (Queries over HTTPS)](https://blog.twnic.net.tw/2018/12/28/1803/)<br>
+16. **[^</a>** <a class="wp-editor-md-post-content-link" href="https://zh.wikipedia.org/wiki/DNS_over_HTTPS#cite_ref-17" title="跳转">101.101.101.101 支持 DoH (Queries over HTTPS)](https://blog.twnic.net.tw/2018/12/28/1803/)<br>
+17. **[^</a>** <a class="wp-editor-md-post-content-link" href="https://zh.wikipedia.org/wiki/DNS_over_HTTPS#cite_ref-18" title="跳转">The official release of AdGuard DNS — a new unique approach to privacy-oriented DNS](https://adguard.com/en/blog/adguard-dns-announcement.html)<br>
+18. **[^</a>** <a class="wp-editor-md-post-content-link" href="https://zh.wikipedia.org/wiki/DNS_over_HTTPS#cite_ref-19" title="跳转">Argo Tunnel Documentation &#8211; Getting Started](https://developers.cloudflare.com/argo-tunnel/quickstart/).<br>
+19. **[^</a>** <a class="wp-editor-md-post-content-link" href="https://zh.wikipedia.org/wiki/DNS_over_HTTPS#cite_ref-20" title="跳转">Improving DNS Privacy in Firefox](https://blog.nightly.mozilla.org/2018/06/01/improving-dns-privacy-in-firefox/).<br>
+20. **[^</a>** <a class="wp-editor-md-post-content-link" href="https://zh.wikipedia.org/wiki/DNS_over_HTTPS#cite_ref-21" title="跳转">DNSCrypt-proxy v2.0](https://github.com/jedisct1/dnscrypt-proxy).<br>
+21. **[^</a>** <a class="wp-editor-md-post-content-link" href="https://zh.wikipedia.org/wiki/DNS_over_HTTPS#cite_ref-22" title="跳转">DNS over HTTPS PHP Client](https://github.com/dcid/doh-php-client).<br>
+22. **[^</a>** m13253. <a class="wp-editor-md-post-content-link" href="https://zh.wikipedia.org/wiki/DNS_over_HTTPS#cite_ref-23" title="跳转">m13253/dns-over-https](https://github.com/m13253/dns-over-https). GitHub. &#91;2018-10-31&#93; <strong>（英语）</strong>.<br>
+23. **[^</a>** tojens. [Windows will improve user privacy with DNS over HTTPS](https://techcommunity.microsoft.com/t5/Networking-Blog/Windows-will-improve-user-privacy-with-DNS-over-HTTPS/ba-p/1014229). Microsoft Tech Community.</p>
+      </div>
+      <div id="pay-single-box"></div>
+          <div class="entry-tags">
+          <a href="https://blog.lixypro.com/tag/dns" rel="tag">
+        dns      </a>
+          <a href="https://blog.lixypro.com/tag/dns-over-tls" rel="tag">
+        DNS-over-TLS      </a>
+          <a href="https://blog.lixypro.com/tag/tls" rel="tag">
+        tls      </a>
+      </div>
+<div class="article-copyright">RIPRO主题是一个优秀的主题，极致后台体验，无插件，集成会员系统<br><a href="https://blog.lixypro.com/">Lixypro博客</a> &raquo; <a href="https://blog.lixypro.com/diannaojichu/dns-over-tls-collection-how-to-set-up-a-more-secure-dns.html">DNS-over-TLS 收集，如何设置一个更安全的 DNS？</a>
+</div>
+
+<div class="article-footer">
+    <div class="author-box">
+    <div class="author-image">
+      <img alt="administrator" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/avatar/1.png" class="lazyload avatar avatar-140 photo " height="140" width="140">    </div>
+    <div class="author-info">
+      <h4 class="author-name">
+        <a target="_blank" href="javascript:;">administrator</a>
+        <span class="label label-default"><i class="fa fa-diamond"></i> 普通</span>      </h4>
+    </div>
+  </div>
+      <div class="xshare">
+      <span class="xshare-title">分享到：</span>
+            <a etap="share" data-share="qq" class="share-qq"><i class="fa fa-qq"></i></a>
+      <a etap="share" data-share="weibo" class="share-weibo"><i class="fa fa-weibo"></i></a>
+              <a href="javascript:;" class="btn-bigger-cover share-weixin" data-nonce="8126bf1f93" data-id="30" data-action="create-bigger-image" id="bigger-cover"><i class="fa fa-paper-plane"></i></a>
+        </div>
+   
+</div>    </div>
+  </div>
+</article>
+
+
+  <div class="entry-navigation">
+    <nav class="article-nav">
+        <span class="article-nav-prev">上一篇<br><a href="https://blog.lixypro.com/houduanyunwei/the_role_of_configure_make_make_install.html" rel="prev">configure,make,make install的作用</a></span>
+        <span class="article-nav-next">下一篇<br><a href="https://blog.lixypro.com/houduanyunwei/dns-server-construction-and-configuration.html" rel="next">DNS服务器搭建与配置</a></span>
+    </nav>
+    
+  </div>
+
+      <!-- # 标准网格模式... -->
+      <div class="related-posts-grid">
+        <h4 class="u-border-title">相关推荐</h4>
+        <div class="row">
+                     <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
+              <article class="post">
+                  <div class="entry-media">
+    <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/explanation-dns-cache-poisoning-is-also-called-dns-spoofing.html">
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/themes/ripro/assets/images/thumb/1.jpg&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="解释:DNS缓存中毒也称为DNS欺骗">  
+      </a>
+            <div class="cao-cover">
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" width="50" height="50px"></noscript>
+</noscript>
+</noscript>
+</div>
+          </div>
+      </div>
+                  <div class="entry-wrapper">
+                  
+  <header class="entry-header">    
+    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/explanation-dns-cache-poisoning-is-also-called-dns-spoofing.html" title="解释:DNS缓存中毒也称为DNS欺骗" rel="bookmark">解释:DNS缓存中毒也称为DNS欺骗</a></h4>  </header>                </div>
+              </article>
+            </div>
+                      <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
+              <article class="post">
+                  <div class="entry-media">
+    <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/dns-server-construction-and-configuration.html">
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/uploads/2021/04/1618139491-b3bf60b851ebaeb.png&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="DNS服务器搭建与配置">  
+      </a>
+            <div class="cao-cover">
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" width="50" height="50px"></noscript>
+</noscript>
+</noscript>
+</div>
+          </div>
+      </div>
+                  <div class="entry-wrapper">
+                  
+  <header class="entry-header">    
+    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/dns-server-construction-and-configuration.html" title="DNS服务器搭建与配置" rel="bookmark">DNS服务器搭建与配置</a></h4>  </header>                </div>
+              </article>
+            </div>
+                      <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
+              <article class="post">
+                  <div class="entry-media">
+    <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/the-difference-and-introduction-between-http-and-https-and-ssl-and-tls.html">
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/uploads/2021/04/1618140921-5e056c500a1c4b6.png&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="HTTP与HTTPS与SSL与TLS的区别以及介绍">  
+      </a>
+            <div class="cao-cover">
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" width="50" height="50px"></noscript>
+</noscript>
+</noscript>
+</div>
+          </div>
+      </div>
+                  <div class="entry-wrapper">
+                  
+  <header class="entry-header">    
+    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/the-difference-and-introduction-between-http-and-https-and-ssl-and-tls.html" title="HTTP与HTTPS与SSL与TLS的区别以及介绍" rel="bookmark">HTTP与HTTPS与SSL与TLS的区别以及介绍</a></h4>  </header>                </div>
+              </article>
+            </div>
+                  </div>
+      </div>
+    
+  
+
+<div class="bottom-area">
+    <div id="comments" class="comments-area">
+        
+        
+        
+        	<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">发表评论 <small><a rel="nofollow" id="cancel-comment-reply-link" href="https://blog.lixypro.com/diannaojichu/dns-over-tls-collection-how-to-set-up-a-more-secure-dns.html#respond" style="display:none;">取消回复</a></small>
+</h3>
+<form action="https://blog.lixypro.com/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate>
+<p class="comment-form-comment"><textarea id="comment" name="comment" rows="8" aria-required="true"></textarea></p>
+<div class="row comment-author-inputs">
+<div class="col-md-4 input"><p class="comment-form-author"><label for="author">昵称*</label><input id="author" name="author" type="text" value="" size="30" aria-required="true"></p></div>
+<div class="col-md-4 input"><p class="comment-form-email"><label for="email">E-mail*</label><input id="email" name="email" type="text" value="" size="30" aria-required="true"></p></div>
+<div class="col-md-4 input"><p class="comment-form-url"><label for="url">网站</label><input id="url" name="url" type="text" value="" size="30"></p></div>
+</div>
+<p class="comment-form-cookies-consent"><input id="wp-comment-cookies-consent" name="wp-comment-cookies-consent" type="checkbox" value="yes"> <label for="wp-comment-cookies-consent">下次发表评论时，请在此浏览器中保存我的姓名、电子邮件和网站</label></p>
+<p class="form-submit"><input name="submit" type="submit" id="submit" class="button" value="发表评论"> <input type="hidden" name="comment_post_ID" value="30" id="comment_post_ID">
+<input type="hidden" name="comment_parent" id="comment_parent" value="0">
+</p>
+</form>	</div>
+<!-- #respond -->
+	    </div>
+</div>				</main>
+			</div>
+		</div>
+			</div>
+</div>
+
+
+</div>
+<!-- end sitecoent --> 
+
+	
+	<div class="module parallax">
+		<img class="jarallax-img lazyload" data-srcset="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/background/bg-1.jpg" data-sizes="auto" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="">
+		<div class="container">
+			<h4 class="entry-title">
+				提供最优质的资源集合			</h4>
+							<a target="_blank" class="button" href="https://blog.lixypro.com/">立即查看</a>
+										<a target="_blank" class="button transparent" href="https://blog.lixypro.com/">了解详情</a>
+					</div>
+	</div>
+	
+	<footer class="site-footer">
+		<div class="container">
+			
+			<div class="footer-widget">
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-3 widget--about">
+            <div class="widget--content">
+                <div class="footer--logo mb-20">
+                    <img data-dark="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" alt="Lixypro博客" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" class="tap-logo lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img class="tap-logo" src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" data-dark="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" alt="Lixypro博客"></noscript>
+                </div>
+                <p class="mb-10">Lixypro博客网站,专注于各种技术类.</p>
+            </div>
+        </div>
+        <!-- .col-md-2 end -->
+        <div class="col-xs-12 col-sm-3 col-md-2 col-md-offset-1 widget--links">
+            <div class="widget--title">
+                <h5>本站导航</h5>
+            </div>
+            <div class="widget--content">
+                <ul class="list-unstyled mb-0">
+                                    </ul>
+            </div>
+        </div>
+        <!-- .col-md-2 end -->
+        <div class="col-xs-12 col-sm-3 col-md-2 widget--links">
+            <div class="widget--title">
+                <h5>友情链接</h5>
+            </div>
+            <div class="widget--content">
+                <ul class="list-unstyled mb-0">
+                    <li><a target="_blank" href="https://www.baidu.com/">百度一下</a></li>
+<li><a target="_blank" href="https://www.zhihu.com/">知乎官网</a></li>                </ul>
+            </div>
+        </div>
+        <!-- .col-md-2 end -->
+        <div class="col-xs-12 col-sm-12 col-md-4 widget--newsletter">
+            <div class="widget--title">
+                <h5>快速搜索</h5>
+            </div>
+            <div class="widget--content">
+                <form class="newsletter--form mb-30" action="https://blog.lixypro.com/" method="get">
+                    <input type="text" class="form-control" name="s" placeholder="关键词">
+                    <button type="submit"><i class="fa fa-arrow-right"></i></button>
+                </form>
+                <h6>本站由WordPress程序强力驱动</h6>
+            </div>
+        </div>
+
+    </div>
+</div>						  <div class="site-info">
+			    © 2021 Lixypro博客 & WordPress Theme. All rights reserved			    			  </div>
+					</div>
+	</footer>
+	
+<div class="rollbar">
+	
+	<div class="rollbar-item" etap="to_full" title="全屏页面"><i class="fa fa-arrows-alt"></i></div>
+
+	
+		<div class="rollbar-item" etap="to_top" title="返回顶部"><i class="fa fa-angle-up"></i></div>
+</div>
+
+<div class="dimmer"></div>
+
+
+
+<div class="off-canvas">
+  <div class="canvas-close"><i class="mdi mdi-close"></i></div>
+  <div class="logo-wrapper">
+      <a href="https://blog.lixypro.com/">
+      <img alt="Lixypro博客" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" class="logo regular lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img class="logo regular" src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" alt="Lixypro博客"></noscript>
+    </a>
+    </div>
+  <div class="mobile-menu hidden-lg hidden-xl"></div>
+  <aside class="widget-area">
+      </aside>
+</div>
+<script>
+    console.log("\n %c RiPro V7.1.0 %c https://blog.lixypro.com \n\n", "color: #fadfa3; background: #030307; padding:5px 0;", "background: #fadfa3; padding:5px 0;");
+    console.log("SQL 请求数：69");
+    console.log("页面生成耗时： 0.32255");
+</script>
+
+
+
+<script type="text/javascript" id="toc-front-js-extra">
+/* <![CDATA[ */
+var tocplus = {"visibility_show":"show","visibility_hide":"hide","width":"Auto"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/plugins/table-of-contents-plus/front.min.js?ver=2002" id="toc-front-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/jQuery/jquery.min.js?ver=10.2.1" id="jQuery-CDN-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/KaTeX/katex.min.js?ver=10.2.1" id="Katex-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/ClipBoard/clipboard.min.js?ver=2.0.1" id="copy-clipboard-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/components/prism-core.min.js?ver=1.15.0" id="prism-core-js-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/autoloader/prism-autoloader.min.js?ver=1.15.0" id="prism-plugin-autoloader-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/toolbar/prism-toolbar.min.js?ver=1.15.0" id="prism-plugin-toolbar-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/line-numbers/prism-line-numbers.min.js?ver=1.15.0" id="prism-plugin-line-numbers-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/show-language/prism-show-language.min.js?ver=1.15.0" id="prism-plugin-show-language-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js?ver=1.15.0" id="prism-plugin-copy-to-clipboard-js"></script>
+<script type="text/javascript" id="Front_Style-js-extra">
+/* <![CDATA[ */
+var FrontStyle = {"openLinkInNewTab":"on"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/FrontStyle/frontstyle.min.js?ver=10.2.1" id="Front_Style-js"></script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/plugins/wp-smushit/app/assets/js/smush-lazy-load.min.js?ver=3.8.4" id="smush-lazy-load-js"></script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/plugins.js?ver=7.1.0" id="plugins-js"></script>
+<script type="text/javascript" id="app-js-extra">
+/* <![CDATA[ */
+var caozhuti = {"site_name":"Lixypro博客","home_url":"https:\/\/blog.lixypro.com","ajaxurl":"https:\/\/blog.lixypro.com\/wp-admin\/admin-ajax.php","is_singular":"1","tencent_captcha":{"is":"","appid":""},"infinite_load":"加载更多","infinite_loading":"<i class=\"fa fa-spinner fa-spin\"><\/i> 加载中...","site_notice":{"is":"0","color":"rgb(33, 150, 243)","html":"<div class=\"notify-content\"><h3>Lixypro欢迎你!<\/h3><div>这是一条网站公告，可在后台开启或关闭，可自定义背景颜色，标题，内容，用户首次打开关闭后不再重复弹出，此处可使用html标签...<\/div><\/div>"},"pay_type_html":{"html":"<div class=\"pay-button-box\"><\/div><p style=\"font-size: 13px; padding: 0; margin: 0;\">免费或钻石免费资源仅限余额支付<\/p>","alipay":0,"weixinpay":0}};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/app.js?ver=7.1.0" id="app-js"></script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/plugins/jquery.fancybox.min.js?ver=7.1.0" id="fancybox-js"></script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-includes/js/comment-reply.min.js?ver=5.7" id="comment-reply-js"></script>
+        <script type="text/javascript">
+            (function ($) {
+                $(document).ready(function () {
+                    $(".katex.math.inline").each(function () {
+                        var parent = $(this).parent()[0];
+                        if (parent.localName !== "code") {
+                            var texTxt = $(this).text();
+                            var el = $(this).get(0);
+                            try {
+                                katex.render(texTxt, el);
+                            } catch (err) {
+                                $(this).html("<span class=\"err\">" + err);
+                            }
+                        } else {
+                            $(this).parent().text($(this).parent().text());
+                        }
+                    });
+                    $(".katex.math.multi-line").each(function () {
+                        var texTxt = $(this).text();
+                        var el = $(this).get(0);
+                        try {
+                            katex.render(texTxt, el, {displayMode: true})
+                        } catch (err) {
+                            $(this).html("<span class=\"err\">" + err)
+                        }
+                    });
+                })
+            })(jQuery);
+        </script>
+                <script type="text/javascript">
+            Prism.plugins.autoloader.languages_path = "https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/components/";
+        </script>
+        
+</div>
+</body>
+</html>

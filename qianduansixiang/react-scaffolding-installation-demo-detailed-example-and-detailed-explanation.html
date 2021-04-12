@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="profile" href="https://gmpg.org/xfn/11">
+	<link href="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/favicon/favicon.png" rel="icon">
+  <title>React脚手架安装Demo详细示例，以及细节讲解 - Lixypro博客</title>
+
+	<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+
+	<!-- This site is optimized with the Yoast SEO plugin v16.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+	<title>React脚手架安装Demo详细示例，以及细节讲解 - Lixypro博客</title>
+	<link rel="canonical" href="https://blog.lixypro.com/qianduansixiang/react-scaffolding-installation-demo-detailed-example-and-detailed-explanation.html">
+	<meta property="og:locale" content="zh_CN">
+	<meta property="og:type" content="article">
+	<meta property="og:title" content="React脚手架安装Demo详细示例，以及细节讲解 - Lixypro博客">
+	<meta property="og:description" content="React脚手架安装Demo详细示例，以及细节讲解 基本上，做过工程化项目的前端大哥 [&hellip;]">
+	<meta property="og:url" content="https://blog.lixypro.com/qianduansixiang/react-scaffolding-installation-demo-detailed-example-and-detailed-explanation.html">
+	<meta property="og:site_name" content="Lixypro博客">
+	<meta property="article:published_time" content="2021-04-10T14:35:38+00:00">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:label1" content="作者">
+	<meta name="twitter:data1" content="administrator">
+	<meta name="twitter:label2" content="预计阅读时间">
+	<meta name="twitter:data2" content="5分">
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://blog.lixypro.com/#website","url":"https://blog.lixypro.com/","name":"Lixypro博客","description":"技术分享|网页前端|后端运维|网络安全|日常记事","potentialAction":[{"@type":"SearchAction","target":"https://blog.lixypro.com/?s={search_term_string}","query-input":"required name=search_term_string"}],"inLanguage":"zh-CN"},{"@type":"WebPage","@id":"https://blog.lixypro.com/qianduansixiang/react-scaffolding-installation-demo-detailed-example-and-detailed-explanation.html#webpage","url":"https://blog.lixypro.com/qianduansixiang/react-scaffolding-installation-demo-detailed-example-and-detailed-explanation.html","name":"React脚手架安装Demo详细示例，以及细节讲解 - Lixypro博客","isPartOf":{"@id":"https://blog.lixypro.com/#website"},"datePublished":"2021-04-10T14:35:38+00:00","dateModified":"2021-04-10T14:35:38+00:00","author":{"@id":"https://blog.lixypro.com/#/schema/person/504c3e2a3d8a31f292936e7a2241373b"},"breadcrumb":{"@id":"https://blog.lixypro.com/qianduansixiang/react-scaffolding-installation-demo-detailed-example-and-detailed-explanation.html#breadcrumb"},"inLanguage":"zh-CN","potentialAction":[{"@type":"ReadAction","target":["https://blog.lixypro.com/qianduansixiang/react-scaffolding-installation-demo-detailed-example-and-detailed-explanation.html"]}]},{"@type":"BreadcrumbList","@id":"https://blog.lixypro.com/qianduansixiang/react-scaffolding-installation-demo-detailed-example-and-detailed-explanation.html#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"item":{"@type":"WebPage","@id":"https://blog.lixypro.com/","url":"https://blog.lixypro.com/","name":"首页"}},{"@type":"ListItem","position":2,"item":{"@type":"WebPage","@id":"https://blog.lixypro.com/qianduansixiang/react-scaffolding-installation-demo-detailed-example-and-detailed-explanation.html","url":"https://blog.lixypro.com/qianduansixiang/react-scaffolding-installation-demo-detailed-example-and-detailed-explanation.html","name":"React脚手架安装Demo详细示例，以及细节讲解"}}]},{"@type":"Person","@id":"https://blog.lixypro.com/#/schema/person/504c3e2a3d8a31f292936e7a2241373b","name":"administrator","image":{"@type":"ImageObject","@id":"https://blog.lixypro.com/#personlogo","inLanguage":"zh-CN","url":"https://secure.gravatar.com/avatar/957d4bcaf62a121072d884ad505a9b2a?s=96&d=mm&r=g","contentUrl":"https://secure.gravatar.com/avatar/957d4bcaf62a121072d884ad505a9b2a?s=96&d=mm&r=g","caption":"administrator"},"sameAs":["https://blog.lixypro.com"]}]}</script>
+	<!-- / Yoast SEO plugin. -->
+
+
+<link rel="stylesheet" id="toc-screen-css" href="https://blog.lixypro.com/wp-content/plugins/table-of-contents-plus/screen.min.css?ver=2002" type="text/css" media="all">
+<link rel="stylesheet" id="Katex-css" href="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/KaTeX/katex.min.css?ver=10.2.1" type="text/css" media="all">
+<link rel="stylesheet" id="prism-theme-style-css" href="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/themes/prism-okaidia.css?ver=1.15.0" type="text/css" media="all">
+<link rel="stylesheet" id="prism-plugin-toolbar-css" href="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/toolbar/prism-toolbar.css?ver=1.15.0" type="text/css" media="all">
+<link rel="stylesheet" id="prism-plugin-line-numbers-css" href="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/line-numbers/prism-line-numbers.css?ver=1.15.0" type="text/css" media="all">
+<link rel="stylesheet" id="external-css" href="https://blog.lixypro.com/wp-content/themes/ripro/assets/css/external.css?ver=7.1.0" type="text/css" media="all">
+<link rel="stylesheet" id="sweetalert2-css" href="https://blog.lixypro.com/wp-content/themes/ripro/assets/css/sweetalert2.min.css?ver=7.1.0" type="text/css" media="all">
+<link rel="stylesheet" id="app-css" href="https://blog.lixypro.com/wp-content/themes/ripro/assets/css/app.css?ver=7.1.0" type="text/css" media="all">
+<link rel="stylesheet" id="diy-css" href="https://blog.lixypro.com/wp-content/themes/ripro/assets/css/diy.css?ver=7.1.0" type="text/css" media="all">
+<link rel="stylesheet" id="fancybox-css" href="https://blog.lixypro.com/wp-content/themes/ripro/assets/css/jquery.fancybox.min.css?ver=7.1.0" type="text/css" media="all">
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/jquery-2.2.4.min.js?ver=2.2.4" id="jquery-js"></script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/plugins/sweetalert2.min.js?ver=7.1.0" id="sweetalert2-js"></script>
+		<script>
+			document.documentElement.className = document.documentElement.className.replace( 'no-js', 'js' );
+		</script>
+				<style>.no-js img.lazyload { display: none; }
+			figure.wp-block-image img.lazyloading { min-width: 150px; }
+							.lazyload, .lazyloading { opacity: 0; }
+				.lazyloaded {
+					opacity: 1;
+					transition: opacity 400ms;
+					transition-delay: 0ms;
+				}</style>
+			<!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+      <script src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/html5shiv.js"></script>
+      <script src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/respond.min.js"></script>
+    <![endif]-->
+          <script> $(document).ready(function() { NProgress.start(); $(window).load(function() { NProgress.done(); }); });</script>
+    </head>
+
+<body class="post-template-default single single-post postid-55 single-format-standard  max_width navbar-sticky navbar-full navbar-slide no-search sidebar-none pagination-numeric no-off-canvas">
+
+<div class="site">
+    
+<header class="site-header">
+      <div class="navbar">
+      <div class="logo-wrapper">
+              <a href="https://blog.lixypro.com/">
+          <img data-dark="" alt="Lixypro博客" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" class="logo regular tap-logo lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img class="logo regular tap-logo" src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" data-dark="" alt="Lixypro博客"></noscript>
+        </a>
+            </div>
+      <div class="sep"></div>
+      
+      <nav class="main-menu hidden-xs hidden-sm hidden-md">
+        <ul id="menu-menu-1" class="nav-list u-plain-list">
+<li id="menu-item-12" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-12"><a href="https://blog.lixypro.com/">本站首页</a></li>
+<li id="menu-item-15" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-15"><a href="https://blog.lixypro.com/tags">标签集合</a></li>
+<li id="menu-item-18" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-18"><a href="https://blog.lixypro.com/qianduansixiang">前端思想</a></li>
+<li id="menu-item-19" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-19"><a href="https://blog.lixypro.com/houduanyunwei">后端运维</a></li>
+<li id="menu-item-20" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-20"><a href="https://blog.lixypro.com/zaixianfuwu">在线服务</a></li>
+<li id="menu-item-21" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-21"><a href="https://blog.lixypro.com/diannaojichu">电脑基础</a></li>
+<li id="menu-item-22" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-22"><a href="https://blog.lixypro.com/kejizixun">科技资讯</a></li>
+<li id="menu-item-23" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-23"><a href="https://blog.lixypro.com/wangluoanquan">网络安全</a></li>
+</ul>      </nav>
+      
+      <div class="main-search">
+        <form method="get" class="search-form inline" action="https://blog.lixypro.com/">
+  <input type="search" class="search-field inline-field" placeholder="输入关键词，回车..." autocomplete="off" value="" name="s" required="required">
+  <button type="submit" class="search-submit"><i class="mdi mdi-magnify"></i></button>
+</form>        <div class="search-close navbar-button"><i class="mdi mdi-close"></i></div>
+      </div>
+
+      <div class="actions">
+                <!-- user end -->
+        <div class="search-open navbar-button"><i class="mdi mdi-magnify"></i></div>
+                <div class="burger"></div>
+      </div>
+    </div>
+  </header>
+
+<div class="header-gap"></div>    
+    <div class="site-content">
+    
+
+<div class="container">
+	<div class="breadcrumbs">
+	当前位置：<a href="https://blog.lixypro.com/">Lixypro博客</a> <small>></small> <a href="https://blog.lixypro.com/qianduansixiang">前端思想</a> <small>></small> React脚手架安装Demo详细示例，以及细节讲解	</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="content-area">
+				<main class="site-main">
+					<article id="post-55" class="article-content">
+    <div class="container">
+  
+<div class="cao_entry_header">
+
+  <header class="entry-header">    
+    <h1 class="entry-title">React脚手架安装Demo详细示例，以及细节讲解</h1>  </header>
+</div>
+</div>  <div class="container">
+    <div class="entry-wrapper">
+            <div class="entry-content u-text-format u-clearfix">
+        <h1>React脚手架安装Demo详细示例，以及细节讲解</h1>
+<p>基本上，做过工程化项目的前端大哥都知道，一般自己去搭建一个项目的准备工作是挺多的，关键还容易出错，于是也就有了脚手架的出现。当然啦，在自己学习过程中还是建议自己去搭建项目的准备工作，具体开发的时候采用脚手架会更好。</p>
+<p>vue有vue-cli,angularJS有angular-cli,而做<em>react</em>项目则有<em>create-react-app</em>这个脚手架。<br>
+今天主要来讲下<em>create-react-app</em>的搭建，也是和vue-cli大同小异啦,关于react项目的创建，我们当然可以手动进行搭建，但如果项目不是特别复杂，推荐使用<em>create-react-app</em>进行项目的搭建。由Facebook官方开发。用<em>create-react-app</em>生成的项目的目录结构是比较简洁的。</p>
+<h2>通过Cnpm安装React</h2>
+<p><em>淘宝NPM镜像</em>，一个完整 npmjs.org 镜像，你可以用此代替官方版本(只读)，同步频率目前为 10分钟 一次以保证尽量与官方服务同步。</p>
+<p>当前 registry.npm.taobao.org 是从 r.cnpmjs.org 进行全量同步的.</p>
+<p>当前 npm.taobao.org 运行版本是: cnpmjs.org@3.0.0-rc.40</p>
+<p>本系统运行在 <em>Node.js@v12.8.1</em> 上.</p>
+<ul>
+<li>开源镜像: <a class="wp-editor-md-post-content-link" href="http://npm.taobao.org/mirrors" title="开源淘宝NPM镜像镜像">http://npm.taobao.org/mirrors</a>
+</li>
+<li>
+<p>Node.js 镜像: <a class="wp-editor-md-post-content-link" href="http://npm.taobao.org/mirrors/node" title="Node.js 镜像">http://npm.taobao.org/mirrors/node</a></p>
+</li>
+<li>
+<p>alinode 镜像: <a class="wp-editor-md-post-content-link" href="http://npm.taobao.org/mirrors/alinode" title="alinode 镜像">http://npm.taobao.org/mirrors/alinode</a></p>
+</li>
+<li>
+<p>phantomjs 镜像: <a class="wp-editor-md-post-content-link" href="http://npm.taobao.org/mirrors/phantomjs" title="phantomjs 镜像">http://npm.taobao.org/mirrors/phantomjs</a></p>
+</li>
+<li>
+<p>ChromeDriver 镜像: <a class="wp-editor-md-post-content-link" href="http://npm.taobao.org/mirrors/chromedriver" title="ChromeDriver 镜像">http://npm.taobao.org/mirrors/chromedriver</a></p>
+</li>
+<li>
+<p>OperaDriver 镜像: <a class="wp-editor-md-post-content-link" href="http://npm.taobao.org/mirrors/operadriver" title="OperaDriver 镜像">http://npm.taobao.org/mirrors/operadriver</a></p>
+</li>
+<li>
+<p>Selenium 镜像: <a class="wp-editor-md-post-content-link" href="http://npm.taobao.org/mirrors/selenium" title="Selenium 镜像">http://npm.taobao.org/mirrors/selenium</a></p>
+</li>
+<li>
+<p>Node.js 文档镜像: <a class="wp-editor-md-post-content-link" href="http://npm.taobao.org/mirrors/node/latest/docs/api/index.html" title="Node.js 文档镜像">http://npm.taobao.org/mirrors/node/latest/docs/api/index.html</a></p>
+</li>
+<li>
+<p>NPM 镜像: <a class="wp-editor-md-post-content-link" href="https://npm.taobao.org/mirrors/npm/" title="NPM 镜像">https://npm.taobao.org/mirrors/npm/</a></p>
+</li>
+<li>
+<p>electron 镜像: <a class="wp-editor-md-post-content-link" href="https://npm.taobao.org/mirrors/electron/" title="electron 镜像">https://npm.taobao.org/mirrors/electron/</a></p>
+</li>
+<li>
+<p>node-inspector 镜像: <a class="wp-editor-md-post-content-link" href="https://npm.taobao.org/mirrors/node-inspector/" title="node-inspector 镜像">https://npm.taobao.org/mirrors/node-inspector/</a></p>
+</li>
+</ul>
+<h3>淘宝CNPM镜像使用说明</h3>
+<p>你可以使用我们定制的 cnpm (gzip 压缩支持) 命令行工具代替默认的 npm:</p>
+<p>&#8220;` $ npm install -g cnpm &#8211;registry=https://registry.npm.taobao.org &#8220;`</p>
+<p>或者你直接通过添加 npm 参数 alias 一个新命令:</p>
+<pre><code class="language-cmd line-numbers">alias cnpm="npm --registry=https://registry.npm.taobao.org \
+--cache=<span class="katex math inline">HOME/.npm/.cache/cnpm \
+--disturl=https://npm.taobao.org/dist \
+--userconfig=</span>HOME/.cnpmrc"
+
+# Or alias it in .bashrc or .zshrc
+<span class="katex math inline">echo '\n#alias for cnpm\nalias cnpm="npm --registry=https://registry.npm.taobao.org \
+  --cache=</span>HOME/.npm/.cache/cnpm \
+  --disturl=https://npm.taobao.org/dist \
+  --userconfig=$HOME/.cnpmrc"' &gt;&gt; ~/.zshrc &amp;&amp; source ~/.zshrc 
+
+</code></pre>
+<h3>利用淘宝CNPM镜像安装模块</h3>
+<p>从 registry.npm.taobao.org 安装所有模块. 当安装的时候发现安装的模块还没有同步过来, 淘宝 NPM 会自动在后台进行同步, 并且会让你从官方 NPM registry.npmjs.org 进行安装. 下次你再安装这个模块的时候, 就会直接从 淘宝 NPM 安装了.</p>
+<p>&#8220;` $ cnpm install [name] &#8220;`</p>
+<h2>create-react-app脚手架安装</h2>
+<p>全局安装脚手架<em>create-react-app</em></p>
+<p>&#8220;` cnpm install -g create-react-app &#8220;`</p>
+<pre><code class="language-cmd line-numbers">C:\Users\lixy&gt;cnpm i -g create-react-app
+Downloading create-react-app to C:\Users\lixy\AppData\Roaming\npm\node_modules\create-react-app_tmp
+Copying C:\Users\lixy\AppData\Roaming\npm\node_modules\create-react-app_tmp\_create-react-app@4.0.2@create-react-app to C:\Users\lixy\AppData\Roaming\npm\node_modules\create-react-app
+Installing create-react-app's dependencies to C:\Users\lixy\AppData\Roaming\npm\node_modules\create-react-app/node_modules
+    at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:67:26)
+[1/11] semver@7.3.2 installed at node_modules\_semver@7.3.2@semver
+[2/11] commander@4.1.1 installed at node_modules\_commander@4.1.1@commander
+[3/11] envinfo@7.7.3 installed at node_modules\_envinfo@7.7.3@envinfo
+[4/11] cross-spawn@7.0.3 installed at node_modules\_cross-spawn@7.0.3@cross-spawn
+[5/11] prompts@2.4.0 installed at node_modules\_prompts@2.4.0@prompts
+[6/11] chalk@4.1.0 installed at node_modules\_chalk@4.1.0@chalk
+[7/11] fs-extra@9.0.1 installed at node_modules\_fs-extra@9.0.1@fs-extra
+[8/11] validate-npm-package-name@3.0.0 installed at node_modules\_validate-npm-package-name@3.0.0@validate-npm-package-name
+[9/11] hyperquest@2.1.3 installed at node_modules\_hyperquest@2.1.3@hyperquest
+[10/11] tmp@0.2.1 installed at node_modules\_tmp@0.2.1@tmp
+[11/11] tar-pack@3.4.1 installed at node_modules\_tar-pack@3.4.1@tar-pack
+Recently updated (since 2021-02-06): 1 packages (detail see file C:\Users\lixy\AppData\Roaming\npm\node_modules\create-react-app\node_modules\.recently_updates.txt)
+  2021-02-10
+    → fs-extra@9.0.1 › graceful-fs@^4.2.0(4.2.6) (01:54:54)
+All packages installed (66 packages installed from npm registry, used 10m(network 10m), speed 1.4kB/s, json 60(127.56kB), tarball 712.06kB)
+[create-react-app@4.0.2] link C:\Users\lixy\AppData\Roaming\npm\create-react-app@ -&gt; C:\Users\lixy\AppData\Roaming\npm\node_modules\create-react-app\index.js 
+</code></pre>
+<p>安装好了之后，看一下版本</p>
+<p>&#8220;` create-react-app &#8211;version &#8220;`</p>
+<pre><code class="language-cmd line-numbers">C:\Users\lixy&gt;create-react-app --version
+4.0.2
+</code></pre>
+<p>证明是安装成功的。也有可能安装败，如果遇到安装失败的情况，可以评论留言一起交流啦~相信你的问题一定可以解决。检测create-react-app是否安装成功,如果出现版本号，则表示安装成功，不过如果你当前安装的node版本不支持你安装的create-react-app版本，这一步会出现红色的报错信息。一点要注意的是，如果采用webpack打包项目的话，webpack已经升级为4.0的 webpack-cli,如果遇到用npm安装失败的话，有可能是webpack没有升级导致的问题。所以可以升级一下啦。</p>
+<h2>使用create-react-app脚手架进行创建项目</h2>
+<p>&#8220;` create-react-app your-app &#8220;`<br>
+注意命名方式,此时创建是会有一个小小的坑在此处，就是你的目录名不要使用大写，这样作只要是为了严谨性，因为在Linux下是严格区分大小写的。<br>
+然后静待时间就OK。在这个过程中，实际会安装三个东西:</p>
+<ul>
+<li>react: react的顶级库</li>
+<li>react-dom: 因为react有很多的运行环境，比如app端的react-native, 我们要在web上运行就使用react-dom</li>
+<li>react-scripts: 包含运行和打包react应用程序的所有脚本及配置</li>
+</ul>
+<p>当出现以下界面，表示创建项目成功：</p>
+<pre><code class="language-shell line-numbers">C:\Users\lixy&gt;create-react-app demo1998
+
+Creating a new React app in C:\Users\lixy\demo1998.
+
+Installing packages. This might take a couple of minutes.
+Installing react, react-dom, and react-scripts with cra-template...
+
+
+&gt; core-js@2.6.12 postinstall C:\Users\lixy\demo1998\node_modules\babel-runtime\node_modules\core-js
+&gt; node -e "try{require('./postinstall')}catch(e){}"
+
+
+&gt; core-js@3.8.3 postinstall C:\Users\lixy\demo1998\node_modules\core-js
+&gt; node -e "try{require('./postinstall')}catch(e){}"
+
+
+&gt; core-js-pure@3.8.3 postinstall C:\Users\lixy\demo1998\node_modules\core-js-pure
+&gt; node -e "try{require('./postinstall')}catch(e){}"
+
+
+&gt; ejs@2.7.4 postinstall C:\Users\lixy\demo1998\node_modules\ejs
+&gt; node ./postinstall.js
+
++ cra-template@1.1.2
++ react-scripts@4.0.2
++ react-dom@17.0.1
++ react@17.0.1
+added 1902 packages from 723 contributors and audited 1905 packages in 179.679s
+
+127 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+
+
+Initialized a git repository.
+
+Installing template dependencies using npm...
+npm WARN tsutils@3.20.0 requires a peer of typescript@&gt;=2.8.0 || &gt;= 3.2.0-dev || &gt;= 3.3.0-dev || &gt;= 3.4.0-dev || &gt;= 3.5.0-dev || &gt;= 3.6.0-dev || &gt;= 3.6.0-beta || &gt;= 3.7.0-dev || &gt;= 3.7.0-beta but none is installed. You must install peer dependencies yourself.
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@2.3.2 (node_modules\fsevents):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@2.3.2: wanted {"os":"darwin","arch":"any"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@1.2.13 (node_modules\watchpack-chokidar2\node_modules\fsevents):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@1.2.13: wanted {"os":"darwin","arch":"any"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@1.2.13 (node_modules\webpack-dev-server\node_modules\fsevents):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@1.2.13: wanted {"os":"darwin","arch":"any"} (current: {"os":"win32","arch":"x64"})
+
++ web-vitals@1.1.0
++ @testing-library/user-event@12.7.1
++ @testing-library/react@11.2.5
++ @testing-library/jest-dom@5.11.9
+added 29 packages from 78 contributors and audited 1934 packages in 14.791s
+
+127 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+
+Removing template package using npm...
+
+npm WARN tsutils@3.20.0 requires a peer of typescript@&gt;=2.8.0 || &gt;= 3.2.0-dev || &gt;= 3.3.0-dev || &gt;= 3.4.0-dev || &gt;= 3.5.0-dev || &gt;= 3.6.0-dev || &gt;= 3.6.0-beta || &gt;= 3.7.0-dev || &gt;= 3.7.0-beta but none is installed. You must install peer dependencies yourself.
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@2.3.2 (node_modules\fsevents):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@2.3.2: wanted {"os":"darwin","arch":"any"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@1.2.13 (node_modules\watchpack-chokidar2\node_modules\fsevents):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@1.2.13: wanted {"os":"darwin","arch":"any"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@1.2.13 (node_modules\webpack-dev-server\node_modules\fsevents):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@1.2.13: wanted {"os":"darwin","arch":"any"} (current: {"os":"win32","arch":"x64"})
+
+removed 1 package and audited 1933 packages in 8.197s
+
+127 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+
+Git commit not created Error: Command failed: git commit -m "Initialize project using Create React App"
+    at checkExecSyncError (child_process.js:616:11)
+    at execSync (child_process.js:652:15)
+    at tryGitCommit (C:\Users\lixy\demo1998\node_modules\react-scripts\scripts\init.js:62:5)
+    at module.exports (C:\Users\lixy\demo1998\node_modules\react-scripts\scripts\init.js:352:25)
+    at [eval]:3:14
+    at Script.runInThisContext (vm.js:133:18)
+    at Object.runInThisContext (vm.js:310:38)
+    at internal/process/execution.js:77:19
+    at [eval]-wrapper:6:22
+    at evalScript (internal/process/execution.js:76:60) {
+  status: 128,
+  signal: null,
+  output: [ null, null, null ],
+  pid: 1652,
+  stdout: null,
+  stderr: null
+}
+Removing .git directory...
+
+Success! Created demo1998 at C:\Users\lixy\demo1998
+Inside that directory, you can run several commands:
+
+  npm start
+    Starts the development server.
+
+  npm run build
+    Bundles the app into static files for production.
+
+  npm test
+    Starts the test runner.
+
+  npm run eject
+    Removes this tool and copies build dependencies, configuration files
+    and scripts into the app directory. If you do this, you can’t go back!
+
+We suggest that you begin by typing:
+
+  cd demo1998
+  npm start
+
+Happy hacking!
+</code></pre>
+<p>根据上面的提示，通过<br>
+&#8220;` cd your-app &#8220;`命令进入目录并运行&#8220;` npm start &#8220;`即可运行项目,应用启动成功后，在浏览器中打开[http://localhost:3000](http://localhost:3000 &#8220;localhost&#8221;)，即可访问应用。</p>
+      </div>
+      <div id="pay-single-box"></div>
+          <div class="entry-tags">
+          <a href="https://blog.lixypro.com/tag/node-js" rel="tag">
+        node.js      </a>
+          <a href="https://blog.lixypro.com/tag/react" rel="tag">
+        react      </a>
+          <a href="https://blog.lixypro.com/tag/%e7%bd%91%e9%a1%b5%e8%ae%be%e8%ae%a1" rel="tag">
+        网页设计      </a>
+      </div>
+<div class="article-copyright">RIPRO主题是一个优秀的主题，极致后台体验，无插件，集成会员系统<br><a href="https://blog.lixypro.com/">Lixypro博客</a> &raquo; <a href="https://blog.lixypro.com/qianduansixiang/react-scaffolding-installation-demo-detailed-example-and-detailed-explanation.html">React脚手架安装Demo详细示例，以及细节讲解</a>
+</div>
+
+<div class="article-footer">
+    <div class="author-box">
+    <div class="author-image">
+      <img alt="administrator" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/avatar/1.png" class="lazyload avatar avatar-140 photo " height="140" width="140">    </div>
+    <div class="author-info">
+      <h4 class="author-name">
+        <a target="_blank" href="javascript:;">administrator</a>
+        <span class="label label-default"><i class="fa fa-diamond"></i> 普通</span>      </h4>
+    </div>
+  </div>
+      <div class="xshare">
+      <span class="xshare-title">分享到：</span>
+            <a etap="share" data-share="qq" class="share-qq"><i class="fa fa-qq"></i></a>
+      <a etap="share" data-share="weibo" class="share-weibo"><i class="fa fa-weibo"></i></a>
+              <a href="javascript:;" class="btn-bigger-cover share-weixin" data-nonce="b7b1772c3c" data-id="55" data-action="create-bigger-image" id="bigger-cover"><i class="fa fa-paper-plane"></i></a>
+        </div>
+   
+</div>    </div>
+  </div>
+</article>
+
+
+  <div class="entry-navigation">
+    <nav class="article-nav">
+        <span class="article-nav-prev">上一篇<br><a href="https://blog.lixypro.com/houduanyunwei/detailed-explanation-of-linux-environment-variable-configuration-method.html" rel="prev">Linux环境变量配置方法详解</a></span>
+        <span class="article-nav-next">下一篇<br><a href="https://blog.lixypro.com/qianduansixiang/ten-thousand-characters-long-text-what-is-react-detailed-documentation-for-self-study-introduction.html" rel="next">万字长文,什么是React,自学入门专用详细文档</a></span>
+    </nav>
+    
+  </div>
+
+      <!-- # 标准网格模式... -->
+      <div class="related-posts-grid">
+        <h4 class="u-border-title">相关推荐</h4>
+        <div class="row">
+                     <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
+              <article class="post">
+                  <div class="entry-media">
+    <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+      <a target="_blank" href="https://blog.lixypro.com/qianduansixiang/ten-thousand-characters-long-text-what-is-react-detailed-documentation-for-self-study-introduction.html">
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/uploads/2021/04/1618133300-1e5facf40263759.png&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="万字长文,什么是React,自学入门专用详细文档">  
+      </a>
+            <div class="cao-cover">
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" width="50" height="50px"></noscript>
+</noscript>
+</div>
+          </div>
+      </div>
+                  <div class="entry-wrapper">
+                  
+  <header class="entry-header">    
+    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/qianduansixiang/ten-thousand-characters-long-text-what-is-react-detailed-documentation-for-self-study-introduction.html" title="万字长文,什么是React,自学入门专用详细文档" rel="bookmark">万字长文,什么是React,自学入门专用详细文档</a></h4>  </header>                </div>
+              </article>
+            </div>
+                      <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
+              <article class="post">
+                  <div class="entry-media">
+    <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+      <a target="_blank" href="https://blog.lixypro.com/pingmiansheji/recommended-free-material-websites-commonly-used-by-graphic-designers.html">
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/uploads/2021/04/1618140510-b7bc2a2f5bb6d52.jpg&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="干货」平面设计师常用的免费素材网站推荐">  
+      </a>
+            <div class="cao-cover">
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" width="50" height="50px"></noscript>
+</noscript>
+</div>
+          </div>
+      </div>
+                  <div class="entry-wrapper">
+                  
+  <header class="entry-header">    
+    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/pingmiansheji/recommended-free-material-websites-commonly-used-by-graphic-designers.html" title="干货」平面设计师常用的免费素材网站推荐" rel="bookmark">干货」平面设计师常用的免费素材网站推荐</a></h4>  </header>                </div>
+              </article>
+            </div>
+                  </div>
+      </div>
+    
+  
+
+<div class="bottom-area">
+    <div id="comments" class="comments-area">
+        
+        
+        
+        	<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">发表评论 <small><a rel="nofollow" id="cancel-comment-reply-link" href="https://blog.lixypro.com/qianduansixiang/react-scaffolding-installation-demo-detailed-example-and-detailed-explanation.html#respond" style="display:none;">取消回复</a></small>
+</h3>
+<form action="https://blog.lixypro.com/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate>
+<p class="comment-form-comment"><textarea id="comment" name="comment" rows="8" aria-required="true"></textarea></p>
+<div class="row comment-author-inputs">
+<div class="col-md-4 input"><p class="comment-form-author"><label for="author">昵称*</label><input id="author" name="author" type="text" value="" size="30" aria-required="true"></p></div>
+<div class="col-md-4 input"><p class="comment-form-email"><label for="email">E-mail*</label><input id="email" name="email" type="text" value="" size="30" aria-required="true"></p></div>
+<div class="col-md-4 input"><p class="comment-form-url"><label for="url">网站</label><input id="url" name="url" type="text" value="" size="30"></p></div>
+</div>
+<p class="comment-form-cookies-consent"><input id="wp-comment-cookies-consent" name="wp-comment-cookies-consent" type="checkbox" value="yes"> <label for="wp-comment-cookies-consent">下次发表评论时，请在此浏览器中保存我的姓名、电子邮件和网站</label></p>
+<p class="form-submit"><input name="submit" type="submit" id="submit" class="button" value="发表评论"> <input type="hidden" name="comment_post_ID" value="55" id="comment_post_ID">
+<input type="hidden" name="comment_parent" id="comment_parent" value="0">
+</p>
+</form>	</div>
+<!-- #respond -->
+	    </div>
+</div>				</main>
+			</div>
+		</div>
+			</div>
+</div>
+
+
+</div>
+<!-- end sitecoent --> 
+
+	
+	<div class="module parallax">
+		<img class="jarallax-img lazyload" data-srcset="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/background/bg-1.jpg" data-sizes="auto" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="">
+		<div class="container">
+			<h4 class="entry-title">
+				提供最优质的资源集合			</h4>
+							<a target="_blank" class="button" href="https://blog.lixypro.com/">立即查看</a>
+										<a target="_blank" class="button transparent" href="https://blog.lixypro.com/">了解详情</a>
+					</div>
+	</div>
+	
+	<footer class="site-footer">
+		<div class="container">
+			
+			<div class="footer-widget">
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-3 widget--about">
+            <div class="widget--content">
+                <div class="footer--logo mb-20">
+                    <img data-dark="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" alt="Lixypro博客" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" class="tap-logo lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img class="tap-logo" src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" data-dark="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" alt="Lixypro博客"></noscript>
+                </div>
+                <p class="mb-10">Lixypro博客网站,专注于各种技术类.</p>
+            </div>
+        </div>
+        <!-- .col-md-2 end -->
+        <div class="col-xs-12 col-sm-3 col-md-2 col-md-offset-1 widget--links">
+            <div class="widget--title">
+                <h5>本站导航</h5>
+            </div>
+            <div class="widget--content">
+                <ul class="list-unstyled mb-0">
+                                    </ul>
+            </div>
+        </div>
+        <!-- .col-md-2 end -->
+        <div class="col-xs-12 col-sm-3 col-md-2 widget--links">
+            <div class="widget--title">
+                <h5>友情链接</h5>
+            </div>
+            <div class="widget--content">
+                <ul class="list-unstyled mb-0">
+                    <li><a target="_blank" href="https://www.baidu.com/">百度一下</a></li>
+<li><a target="_blank" href="https://www.zhihu.com/">知乎官网</a></li>                </ul>
+            </div>
+        </div>
+        <!-- .col-md-2 end -->
+        <div class="col-xs-12 col-sm-12 col-md-4 widget--newsletter">
+            <div class="widget--title">
+                <h5>快速搜索</h5>
+            </div>
+            <div class="widget--content">
+                <form class="newsletter--form mb-30" action="https://blog.lixypro.com/" method="get">
+                    <input type="text" class="form-control" name="s" placeholder="关键词">
+                    <button type="submit"><i class="fa fa-arrow-right"></i></button>
+                </form>
+                <h6>本站由WordPress程序强力驱动</h6>
+            </div>
+        </div>
+
+    </div>
+</div>						  <div class="site-info">
+			    © 2021 Lixypro博客 & WordPress Theme. All rights reserved			    			  </div>
+					</div>
+	</footer>
+	
+<div class="rollbar">
+	
+	<div class="rollbar-item" etap="to_full" title="全屏页面"><i class="fa fa-arrows-alt"></i></div>
+
+	
+		<div class="rollbar-item" etap="to_top" title="返回顶部"><i class="fa fa-angle-up"></i></div>
+</div>
+
+<div class="dimmer"></div>
+
+
+
+<div class="off-canvas">
+  <div class="canvas-close"><i class="mdi mdi-close"></i></div>
+  <div class="logo-wrapper">
+      <a href="https://blog.lixypro.com/">
+      <img alt="Lixypro博客" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" class="logo regular lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img class="logo regular" src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" alt="Lixypro博客"></noscript>
+    </a>
+    </div>
+  <div class="mobile-menu hidden-lg hidden-xl"></div>
+  <aside class="widget-area">
+      </aside>
+</div>
+<script>
+    console.log("\n %c RiPro V7.1.0 %c https://blog.lixypro.com \n\n", "color: #fadfa3; background: #030307; padding:5px 0;", "background: #fadfa3; padding:5px 0;");
+    console.log("SQL 请求数：67");
+    console.log("页面生成耗时： 0.31954");
+</script>
+
+
+
+<script type="text/javascript" id="toc-front-js-extra">
+/* <![CDATA[ */
+var tocplus = {"visibility_show":"show","visibility_hide":"hide","width":"Auto"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/plugins/table-of-contents-plus/front.min.js?ver=2002" id="toc-front-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/jQuery/jquery.min.js?ver=10.2.1" id="jQuery-CDN-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/KaTeX/katex.min.js?ver=10.2.1" id="Katex-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/ClipBoard/clipboard.min.js?ver=2.0.1" id="copy-clipboard-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/components/prism-core.min.js?ver=1.15.0" id="prism-core-js-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/autoloader/prism-autoloader.min.js?ver=1.15.0" id="prism-plugin-autoloader-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/toolbar/prism-toolbar.min.js?ver=1.15.0" id="prism-plugin-toolbar-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/line-numbers/prism-line-numbers.min.js?ver=1.15.0" id="prism-plugin-line-numbers-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/show-language/prism-show-language.min.js?ver=1.15.0" id="prism-plugin-show-language-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js?ver=1.15.0" id="prism-plugin-copy-to-clipboard-js"></script>
+<script type="text/javascript" id="Front_Style-js-extra">
+/* <![CDATA[ */
+var FrontStyle = {"openLinkInNewTab":"on"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/FrontStyle/frontstyle.min.js?ver=10.2.1" id="Front_Style-js"></script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/plugins/wp-smushit/app/assets/js/smush-lazy-load.min.js?ver=3.8.4" id="smush-lazy-load-js"></script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/plugins.js?ver=7.1.0" id="plugins-js"></script>
+<script type="text/javascript" id="app-js-extra">
+/* <![CDATA[ */
+var caozhuti = {"site_name":"Lixypro博客","home_url":"https:\/\/blog.lixypro.com","ajaxurl":"https:\/\/blog.lixypro.com\/wp-admin\/admin-ajax.php","is_singular":"1","tencent_captcha":{"is":"","appid":""},"infinite_load":"加载更多","infinite_loading":"<i class=\"fa fa-spinner fa-spin\"><\/i> 加载中...","site_notice":{"is":"0","color":"rgb(33, 150, 243)","html":"<div class=\"notify-content\"><h3>Lixypro欢迎你!<\/h3><div>这是一条网站公告，可在后台开启或关闭，可自定义背景颜色，标题，内容，用户首次打开关闭后不再重复弹出，此处可使用html标签...<\/div><\/div>"},"pay_type_html":{"html":"<div class=\"pay-button-box\"><\/div><p style=\"font-size: 13px; padding: 0; margin: 0;\">免费或钻石免费资源仅限余额支付<\/p>","alipay":0,"weixinpay":0}};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/app.js?ver=7.1.0" id="app-js"></script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/plugins/jquery.fancybox.min.js?ver=7.1.0" id="fancybox-js"></script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-includes/js/comment-reply.min.js?ver=5.7" id="comment-reply-js"></script>
+        <script type="text/javascript">
+            (function ($) {
+                $(document).ready(function () {
+                    $(".katex.math.inline").each(function () {
+                        var parent = $(this).parent()[0];
+                        if (parent.localName !== "code") {
+                            var texTxt = $(this).text();
+                            var el = $(this).get(0);
+                            try {
+                                katex.render(texTxt, el);
+                            } catch (err) {
+                                $(this).html("<span class=\"err\">" + err);
+                            }
+                        } else {
+                            $(this).parent().text($(this).parent().text());
+                        }
+                    });
+                    $(".katex.math.multi-line").each(function () {
+                        var texTxt = $(this).text();
+                        var el = $(this).get(0);
+                        try {
+                            katex.render(texTxt, el, {displayMode: true})
+                        } catch (err) {
+                            $(this).html("<span class=\"err\">" + err)
+                        }
+                    });
+                })
+            })(jQuery);
+        </script>
+                <script type="text/javascript">
+            Prism.plugins.autoloader.languages_path = "https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/components/";
+        </script>
+        
+</div>
+</body>
+</html>

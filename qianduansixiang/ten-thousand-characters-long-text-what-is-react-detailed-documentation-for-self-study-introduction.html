@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="profile" href="https://gmpg.org/xfn/11">
+	<link href="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/favicon/favicon.png" rel="icon">
+  <title>万字长文,什么是React,自学入门专用详细文档 - Lixypro博客</title>
+
+	<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+
+	<!-- This site is optimized with the Yoast SEO plugin v16.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+	<title>万字长文,什么是React,自学入门专用详细文档 - Lixypro博客</title>
+	<link rel="canonical" href="https://blog.lixypro.com/qianduansixiang/ten-thousand-characters-long-text-what-is-react-detailed-documentation-for-self-study-introduction.html">
+	<meta property="og:locale" content="zh_CN">
+	<meta property="og:type" content="article">
+	<meta property="og:title" content="万字长文,什么是React,自学入门专用详细文档 - Lixypro博客">
+	<meta property="og:description" content="万字长文,什么是React,自学入门专用详细文档 什么是React？ React 是 [&hellip;]">
+	<meta property="og:url" content="https://blog.lixypro.com/qianduansixiang/ten-thousand-characters-long-text-what-is-react-detailed-documentation-for-self-study-introduction.html">
+	<meta property="og:site_name" content="Lixypro博客">
+	<meta property="article:published_time" content="2021-04-10T14:37:59+00:00">
+	<meta property="article:modified_time" content="2021-04-11T09:31:19+00:00">
+	<meta property="og:image" content="https://blog.lixypro.com/wp-content/uploads/2021/04/1618133300-1e5facf40263759.png">
+	<meta property="og:image:width" content="1920">
+	<meta property="og:image:height" content="720">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:label1" content="作者">
+	<meta name="twitter:data1" content="administrator">
+	<meta name="twitter:label2" content="预计阅读时间">
+	<meta name="twitter:data2" content="1分">
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://blog.lixypro.com/#website","url":"https://blog.lixypro.com/","name":"Lixypro博客","description":"技术分享|网页前端|后端运维|网络安全|日常记事","potentialAction":[{"@type":"SearchAction","target":"https://blog.lixypro.com/?s={search_term_string}","query-input":"required name=search_term_string"}],"inLanguage":"zh-CN"},{"@type":"ImageObject","@id":"https://blog.lixypro.com/qianduansixiang/ten-thousand-characters-long-text-what-is-react-detailed-documentation-for-self-study-introduction.html#primaryimage","inLanguage":"zh-CN","url":"https://blog.lixypro.com/wp-content/uploads/2021/04/1618133300-1e5facf40263759.png","contentUrl":"https://blog.lixypro.com/wp-content/uploads/2021/04/1618133300-1e5facf40263759.png","width":1920,"height":720},{"@type":"WebPage","@id":"https://blog.lixypro.com/qianduansixiang/ten-thousand-characters-long-text-what-is-react-detailed-documentation-for-self-study-introduction.html#webpage","url":"https://blog.lixypro.com/qianduansixiang/ten-thousand-characters-long-text-what-is-react-detailed-documentation-for-self-study-introduction.html","name":"万字长文,什么是React,自学入门专用详细文档 - Lixypro博客","isPartOf":{"@id":"https://blog.lixypro.com/#website"},"primaryImageOfPage":{"@id":"https://blog.lixypro.com/qianduansixiang/ten-thousand-characters-long-text-what-is-react-detailed-documentation-for-self-study-introduction.html#primaryimage"},"datePublished":"2021-04-10T14:37:59+00:00","dateModified":"2021-04-11T09:31:19+00:00","author":{"@id":"https://blog.lixypro.com/#/schema/person/504c3e2a3d8a31f292936e7a2241373b"},"breadcrumb":{"@id":"https://blog.lixypro.com/qianduansixiang/ten-thousand-characters-long-text-what-is-react-detailed-documentation-for-self-study-introduction.html#breadcrumb"},"inLanguage":"zh-CN","potentialAction":[{"@type":"ReadAction","target":["https://blog.lixypro.com/qianduansixiang/ten-thousand-characters-long-text-what-is-react-detailed-documentation-for-self-study-introduction.html"]}]},{"@type":"BreadcrumbList","@id":"https://blog.lixypro.com/qianduansixiang/ten-thousand-characters-long-text-what-is-react-detailed-documentation-for-self-study-introduction.html#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"item":{"@type":"WebPage","@id":"https://blog.lixypro.com/","url":"https://blog.lixypro.com/","name":"首页"}},{"@type":"ListItem","position":2,"item":{"@type":"WebPage","@id":"https://blog.lixypro.com/qianduansixiang/ten-thousand-characters-long-text-what-is-react-detailed-documentation-for-self-study-introduction.html","url":"https://blog.lixypro.com/qianduansixiang/ten-thousand-characters-long-text-what-is-react-detailed-documentation-for-self-study-introduction.html","name":"万字长文,什么是React,自学入门专用详细文档"}}]},{"@type":"Person","@id":"https://blog.lixypro.com/#/schema/person/504c3e2a3d8a31f292936e7a2241373b","name":"administrator","image":{"@type":"ImageObject","@id":"https://blog.lixypro.com/#personlogo","inLanguage":"zh-CN","url":"https://secure.gravatar.com/avatar/957d4bcaf62a121072d884ad505a9b2a?s=96&d=mm&r=g","contentUrl":"https://secure.gravatar.com/avatar/957d4bcaf62a121072d884ad505a9b2a?s=96&d=mm&r=g","caption":"administrator"},"sameAs":["https://blog.lixypro.com"]}]}</script>
+	<!-- / Yoast SEO plugin. -->
+
+
+<link rel="stylesheet" id="toc-screen-css" href="https://blog.lixypro.com/wp-content/plugins/table-of-contents-plus/screen.min.css?ver=2002" type="text/css" media="all">
+<link rel="stylesheet" id="Katex-css" href="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/KaTeX/katex.min.css?ver=10.2.1" type="text/css" media="all">
+<link rel="stylesheet" id="prism-theme-style-css" href="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/themes/prism-okaidia.css?ver=1.15.0" type="text/css" media="all">
+<link rel="stylesheet" id="prism-plugin-toolbar-css" href="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/toolbar/prism-toolbar.css?ver=1.15.0" type="text/css" media="all">
+<link rel="stylesheet" id="prism-plugin-line-numbers-css" href="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/line-numbers/prism-line-numbers.css?ver=1.15.0" type="text/css" media="all">
+<link rel="stylesheet" id="external-css" href="https://blog.lixypro.com/wp-content/themes/ripro/assets/css/external.css?ver=7.1.0" type="text/css" media="all">
+<link rel="stylesheet" id="sweetalert2-css" href="https://blog.lixypro.com/wp-content/themes/ripro/assets/css/sweetalert2.min.css?ver=7.1.0" type="text/css" media="all">
+<link rel="stylesheet" id="app-css" href="https://blog.lixypro.com/wp-content/themes/ripro/assets/css/app.css?ver=7.1.0" type="text/css" media="all">
+<link rel="stylesheet" id="diy-css" href="https://blog.lixypro.com/wp-content/themes/ripro/assets/css/diy.css?ver=7.1.0" type="text/css" media="all">
+<link rel="stylesheet" id="fancybox-css" href="https://blog.lixypro.com/wp-content/themes/ripro/assets/css/jquery.fancybox.min.css?ver=7.1.0" type="text/css" media="all">
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/jquery-2.2.4.min.js?ver=2.2.4" id="jquery-js"></script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/plugins/sweetalert2.min.js?ver=7.1.0" id="sweetalert2-js"></script>
+		<script>
+			document.documentElement.className = document.documentElement.className.replace( 'no-js', 'js' );
+		</script>
+				<style>.no-js img.lazyload { display: none; }
+			figure.wp-block-image img.lazyloading { min-width: 150px; }
+							.lazyload, .lazyloading { opacity: 0; }
+				.lazyloaded {
+					opacity: 1;
+					transition: opacity 400ms;
+					transition-delay: 0ms;
+				}</style>
+			<!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+      <script src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/html5shiv.js"></script>
+      <script src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/respond.min.js"></script>
+    <![endif]-->
+          <script> $(document).ready(function() { NProgress.start(); $(window).load(function() { NProgress.done(); }); });</script>
+    </head>
+
+<body class="post-template-default single single-post postid-57 single-format-standard  max_width navbar-sticky navbar-full navbar-slide no-search sidebar-none pagination-numeric no-off-canvas">
+
+<div class="site">
+    
+<header class="site-header">
+      <div class="navbar">
+      <div class="logo-wrapper">
+              <a href="https://blog.lixypro.com/">
+          <img data-dark="" alt="Lixypro博客" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" class="logo regular tap-logo lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img class="logo regular tap-logo" src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" data-dark="" alt="Lixypro博客"></noscript>
+        </a>
+            </div>
+      <div class="sep"></div>
+      
+      <nav class="main-menu hidden-xs hidden-sm hidden-md">
+        <ul id="menu-menu-1" class="nav-list u-plain-list">
+<li id="menu-item-12" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-12"><a href="https://blog.lixypro.com/">本站首页</a></li>
+<li id="menu-item-15" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-15"><a href="https://blog.lixypro.com/tags">标签集合</a></li>
+<li id="menu-item-18" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-18"><a href="https://blog.lixypro.com/qianduansixiang">前端思想</a></li>
+<li id="menu-item-19" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-19"><a href="https://blog.lixypro.com/houduanyunwei">后端运维</a></li>
+<li id="menu-item-20" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-20"><a href="https://blog.lixypro.com/zaixianfuwu">在线服务</a></li>
+<li id="menu-item-21" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-21"><a href="https://blog.lixypro.com/diannaojichu">电脑基础</a></li>
+<li id="menu-item-22" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-22"><a href="https://blog.lixypro.com/kejizixun">科技资讯</a></li>
+<li id="menu-item-23" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-23"><a href="https://blog.lixypro.com/wangluoanquan">网络安全</a></li>
+</ul>      </nav>
+      
+      <div class="main-search">
+        <form method="get" class="search-form inline" action="https://blog.lixypro.com/">
+  <input type="search" class="search-field inline-field" placeholder="输入关键词，回车..." autocomplete="off" value="" name="s" required="required">
+  <button type="submit" class="search-submit"><i class="mdi mdi-magnify"></i></button>
+</form>        <div class="search-close navbar-button"><i class="mdi mdi-close"></i></div>
+      </div>
+
+      <div class="actions">
+                <!-- user end -->
+        <div class="search-open navbar-button"><i class="mdi mdi-magnify"></i></div>
+                <div class="burger"></div>
+      </div>
+    </div>
+  </header>
+
+<div class="header-gap"></div>    
+    <div class="site-content">
+    
+
+<div class="container">
+	<div class="breadcrumbs">
+	当前位置：<a href="https://blog.lixypro.com/">Lixypro博客</a> <small>></small> <a href="https://blog.lixypro.com/qianduansixiang">前端思想</a> <small>></small> 万字长文,什么是React,自学入门专用详细文档	</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="content-area">
+				<main class="site-main">
+					<article id="post-57" class="article-content">
+    <div class="container">
+  
+<div class="cao_entry_header">
+
+  <header class="entry-header">    
+    <h1 class="entry-title">万字长文,什么是React,自学入门专用详细文档</h1>  </header>
+</div>
+</div>  <div class="container">
+    <div class="entry-wrapper">
+            <div class="entry-content u-text-format u-clearfix">
+        <h1>万字长文,什么是<em>React</em>,自学入门专用详细文档</h1>
+<p><a class="wp-editor-md-post-content-link" href="https://blog.lixypro.com/wp-content/uploads/2021/04/1618133300-1e5facf40263759.png"><img class="lazyload " src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="https://blog.lixypro.com/wp-content/uploads/2021/04/1618133300-1e5facf40263759.png" alt="万字长文,什么是*React*,自学入门专用详细文档"><noscript>
+<img alt="万字长文,什么是*React*,自学入门专用详细文档" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618133300-1e5facf40263759.png" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618133300-1e5facf40263759.png" alt="万字长文,什么是*React*,自学入门专用详细文档"></noscript>
+</noscript></a></p>
+<h2>什么是<em>React</em>？</h2>
+<p><em>React</em> 是一个用于构建用户界面的 JAVASCRIPT 库。</p>
+<p><em>React</em> 主要用于构建UI，很多人认为 <em>React</em> 是 MVC 中的 V（视图）。</p>
+<p><em>React</em> 起源于 Facebook 的内部项目，用来架设 Instagram 的网站，并于 2013 年 5 月开源。</p>
+<p><em>React</em> 拥有较高的性能，代码逻辑非常简单，越来越多的人已开始关注和使用它。</p>
+<p><em>React</em>.js（<em>React</em>）是 Facebook 推出的一个用来构建用户界面的 JavaScript 库。</p>
+<p>Facebook开源了<em>React</em>，这是该公司用于构建反应式图形界面的JavaScript库，已经应用于构建Instagram网站及 Facebook部分网站。最近出现了AngularJS、MeteorJS 和Polymer中实现的Model-Driven Views等框架，<em>React</em>也顺应了这种趋势。<em>React</em>基于在数据模型之上声明式指定用户界面的理念，用户界面会自动与底层数据保持同步。与前面提及 的框架不同，出于灵活性考虑，<em>React</em>使用JavaScript来构建用户界面，没有选择HTML。Not Rest</p>
+<p>由于 <em>React</em>的设计思想极其独特，属于革命性创新，性能出众，代码逻辑却非常简单。所以，越来越多的人开始关注和使用，认为它可能是将来 Web 开发的主流工具。</p>
+<p>这个项目本身也越滚越大，从最早的UI引擎变成了一整套前后端通吃的 Web App 解决方案。衍生的 <em>React</em> Native 项目，目标更是宏伟，希望用写 Web App 的方式去写 Native App。如果能够实现，整个互联网行业都会被颠覆，因为同一组人只需要写一次 UI ，就能同时运行在服务器、浏览器和手机。</p>
+<p><em>React</em>主要用于构建UI。你可以在<em>React</em>里传递多种类型的参数，如声明代码，帮助你渲染出UI、也可以是静态的HTML DOM元素、也可以传递动态变量、甚至是可交互的应用组件。</p>
+<p>由于<em>React</em>的设计思想极为独特，因此是一项革命性的创新，具有出色的性能，但是代码逻辑非常简单。 因此，越来越多的人开始关注和使用它，认为它可能是将来Web开发的主流工具。</p>
+<p>从第一个UI引擎开始，该项目本身就变得越来越大，以创建一整套涵盖所有前端和后端的Web App管理计划。 派生的<em>React</em> Native项目的目标更加宏大。 期望以与Web App相同的方式编写Native App。 如果能够实现，整个互联网行业将被推翻。 由于同一群人只需要编写一次UI，因此它可以同时在服务器，浏览器和手机上运行。</p>
+<ul>
+<li>声明式设计 −<em>React</em>采用声明范式，可以轻松描述应用。</li>
+<li>高效 −<em>React</em>通过对DOM的模拟，最大限度地减少与DOM的交互。</li>
+<li>灵活 −<em>React</em>可以与已知的库或框架很好地配合。</li>
+<li>JSX − JSX 是 JavaScript 语法的扩展。<em>React</em> 开发不一定使用 JSX ，但我们建议使用它。</li>
+<li>组件 − 通过 <em>React</em> 构建组件，使得代码更加容易得到复用，能够很好的应用在大项目的开发中。</li>
+<li>单向响应的数据流 − <em>React</em> 实现了单向响应的数据流，从而减少了重复代码，这也是它为什么比传统数据绑定更简单。</li>
+</ul>
+<h2>
+<em>React</em>有什么优点？</h2>
+<ul>
+<li>
+<em>React</em>速度很快<br>
+它并不直接对DOM进行操作，引入了一个叫做虚拟DOM的概念，安插在javascript逻辑和实际的DOM之间，性能好
+</li>
+<li>
+<p>跨浏览器兼容<br>
+虚拟DOM帮助我们解决了跨浏览器问题，它为我们提供了标准化的API，甚至在IE8中都是没问题的。</p>
+</li>
+<li>
+<p>一切都是component：<br>
+代码更加模块化，重用代码更容易，可维护性高。</p>
+</li>
+<li>
+<p>单向数据流<br>
+Flux是一个用于在JavaScript应用中创建单向数据层的架构，它随着<em>React</em>视图库的开发而被Facebook概念化。</p>
+</li>
+<li>
+<p>同构、纯粹的javascript<br>
+因为搜索引擎的爬虫程序依赖的是服务端响应而不是JavaScript的执行，预渲染你的应用有助于搜索引擎优化。</p>
+</li>
+<li>
+<p>兼容性好<br>
+比如使用RequireJS来加载和打包，而Browserify和Webpack适用于构建大型应用。它们使得那些艰难的任务不再让人望而生畏。</p>
+</li>
+<li>
+<p>能够实现服务器端的渲染，便于搜索引擎优化。这一点要比Backbone, Angular 1.x和Ember早期强能够。</p>
+</li>
+<li>很好的和现有的代码结合。<em>React</em>只是MVC中的View层，对于其他的部分并没有硬性要求。意味着很多公司在选择用Angular全部重构和用<em>React</em>部分重构的时候，选择了<em>React</em>部分重构因为一切都是component，所以代码更加模块化，重用代码更容易。</li>
+<li>学起来非常容易，几个小时就可以入门。</li>
+<li>因为强调只从this.props和this.state生成HTML，写起来bug比较少。</li>
+</ul>
+<h3>虚拟DOM</h3>
+<p>虚拟DOM。 当需要更改DOM树的状态时，虚拟DOM机制将比较同一事件循环前后的DOM树。 如果两个DOM树不同，那么<em>React</em>将只关注这些差异。 该区域执行响应式DOM修改以实现最有效的DOM操作和表示。</p>
+<p>例如，如果我们修改绑定到DOM树的某些节点或UI组件的状态，<em>React</em>将立即将其标记为“脏状态”。 在事件循环结束时，<em>React</em>将计算需要在DOM树上修改的位置及其最终状态，并将这些位置重新呈现一次。</p>
+<p>好处是显而易见的。 它不会在每次修改组件状态时重新呈现，而是在Event循环结束后进行计算以减少冗余DOM操作。 另外，<em>React</em>只为需要修改的地方制作新的渲染图，而不是重新渲染整个DOM树，这自然非常有效。</p>
+<p>虚拟DOM，高效速度快，跨浏览器兼容，<em>React</em>之所以速度快，是因为其独特的特征——虚拟DOM（Document Object Model）。虚拟DOM顾名思义不是真实的DOM，它不需要浏览器的DOM API支持。虚拟DOM是在DOM的基础上建立一个抽象层，其实质是一个JavaScript对象，当数据和状态发生了变化，都会被自动高效的同步到虚拟DOM中，最后再将仅变化的部分同步到DOM中。为什么直接操作DOM很慢，而虚拟DOM很快，需先了解浏览器的渲染机制：</p>
+<ul>
+<li>DOM树：浏览器将HTML解析成DOM树；</li>
+<li>CSS规则树：浏览器将CSS解析成规则树；</li>
+<li>Render树：将DON和CSS树合并之后形成Render树；</li>
+<li>布局（layout）：对Render树的各个节点进行布局，计算页面位置，大小等；</li>
+<li>绘制（paint)：根据计算出的规则，通过显卡，将内容绘制在屏幕上。</li>
+</ul>
+<p>其中布局和绘制是两个非常耗时的过程。</p>
+<h4>直接操作DOM为什么很慢？</h4>
+<p>直接对DOM对象进行操作，例如：在现有DOM树中新增节点，删除节点，或改变当前节点的位置和大小等，将引起浏览器的reflow操作；改变背景颜色，改变字体大小，将引起浏览器的repaint操作。这些操作都会增加耗时，降低浏览器渲染的性能。</p>
+<h4>虚拟DOM为什么很快？</h4>
+<p><em>React</em>的虚拟DOM，是一个存储于内存中的JavaScript对象，<em>React</em>先将页面发生的变化更新到虚拟DOM，每一次的变化都和上一次虚拟DOM的状态进行比较，找到变化的部分，最终raect会将包含了所有变化的虚拟DOM与真实DOM进行比较，找到DOM发生变化的部分，一次性应用到DOM上，从而提高页面渲染速度与性能。</p>
+<h3>模板化</h3>
+<p>组件可以嵌套或模板化-实际上，<em>React</em>中提到的“组件”通常是可以封装和重用的UI模块，可以理解为“在DOM区域具有良好UI功能的部分”。 然后我们可以逐层嵌套这些组件，当然，组件之间会有依赖关系。组件是<em>React</em>的核心，一个完整的<em>React</em>应用是由若干个组件搭建起来的，每个组件有自己的数据和方法，组件具体如何划分，需要根据不同的项目来确定。组件的特征是可复用，可维护性高。<br>
+至于模块化，类似于ejs，它可以用作要在页面上引用以供重用的独立模块。 它可以直接使用UI组件作为脚本模块。 它可以与CommonJS，AMD，CMD和其他规范一起使用，以需要必需的组件。 模块并处理它们的依赖关系，<em>React</em>自然受到某些开发人员的青睐。</p>
+<h3>灵活</h3>
+<p><em>React</em>只是MVC中的View层，自己无法构建大型的应用，需要与已有的框架和库来配合，如：、Flux（前端架构） 、Redux（状态管理）、Axios/Fetch（异步请求）等。</p>
+<h3>
+<em>React</em> Native</h3>
+<p><em>React</em> Native 是使用JavaScript和<em>React</em>编写的原生移动应用，在设计原理上与<em>React</em>一致，通过声明式的组件机制来搭建丰富多彩的用户界面。<em>React</em> Native并不是“网页应用”或者说是“HTML5应用”又或者“是混合应用”，而是一个真正的移动应用。在使用感受上与C和JAVA编写的应用几乎是无法区分。<em>React</em> Native兼容了原生代码，应用的一部分用原生，一部分用<em>React</em> Native也是没问题的（如Facebook）。</p>
+<h2>
+<em>React</em>缺点</h2>
+<ul>
+<li>本身只是View，如果是大型项目基本都需要加上<em>React</em> Router和Redux
+</li>
+<li>
+<p><em>React</em>JS的HTML模板功能既不完备、也不健壮</p>
+</li>
+</ul>
+<p><em>React</em>JS支持用JSX编写HTML模板理论上，前端工程师只要把静态HTML原型复制到JSX源文件中， 增加一些变量替换代码， 就能改造成动态页面。 理论上这种做法要比Cycle.js、Widok、ScalaTags等框架更适合复用设计师提供的HTML原型。</p>
+<p>不幸的是，<em>React</em>JS对HTML的支持残缺不全。开发者必须手动把class和for属性替换成className和htmlFor，还要把内联的style样式从CSS语法改成JSON语法，代码才能运行。 这种开发方式下，前端工程师虽然可以把HTML原型复制粘贴到代码中，但还需要大量改造才能实际运行。 比Cycle.js、Widok、或者、ScalaTags省不了太多事。除此之外，<em>React</em>JS还提供了propTypes机制校验虚拟DOM的合法性。 然而，这一机制也漏洞百出。 即使指定了propTypes，<em>React</em>JS也不能在编译前提前发现错误。只有测试覆盖率很高的项目时才能在每个组件使用其他组件时进行校验。 即使测试覆盖率很高，propTypes仍旧不能检测出拼错的属性名，如果你把onClick写成了onclick， <em>React</em>JS就不会报错，往往导致开发者额外花费大量时间排查一个很简单的bug。</p>
+<ul>
+<li>不适合单独做一个完整的框架</li>
+</ul>
+<p><em>React</em>是目标是UI组件，通常可以和其它框架组合使用，目前并不适合单独做一个完整的框架。<em>React</em> 即使配上 Flux 的组合，也不能称之一个完整的框架，比如你想用Promise化的AJAX？对不起没有，自己找现成的库去。而且第三方组件远远不如Angular多。<em>React</em>本身只是一个V而已，所以如果是大型项目想要一套完整的框架的话，也许还需要引入Flux和route相关的东西。而Angular在这方面提供的东西比<em>React</em>多多了.</p>
+<ul>
+<li>
+<em>React</em>JS与服务器通信时需要复杂的异步编程</li>
+</ul>
+<p><em>React</em>JS从服务器加载数据时的架构可以看成MVVM(Model–View–ViewModel)模式。 前端工程师需要编写一个数据库访问层作为Model，把<em>React</em>JS的state当做ViewModel，而render当做View。 Model负责访问数据库并把数据设置到state(即View Model)上，可以用Promise和fetch API实现。 然后，render，即View，负责把View Model渲染到页面上。<br>
+在这整套流程中，前端程序员需要编写大量闭包组成的异步流程， 设置、访问状态的代码五零四散， 一不小心就会bug丛生，就算小心翼翼的处理各种异步事件，也会导致程序变得复杂，既难调试，又难维护。</p>
+<ul>
+<li>大多数坑没踩出来</li>
+</ul>
+<p>大概就是现在还太新了很难说将来有没有大的API变化，目前在大的稳定的项目上采用<em>React</em>的，我也就只知道有Yahoo的Email。所以现在很少有批评<em>React</em>的声音，也许不是他真的就没有坑，而是那些坑还没有被踩出来而已。</p>
+      </div>
+      <div id="pay-single-box"></div>
+          <div class="entry-tags">
+          <a href="https://blog.lixypro.com/tag/node-js" rel="tag">
+        node.js      </a>
+          <a href="https://blog.lixypro.com/tag/react" rel="tag">
+        react      </a>
+      </div>
+<div class="article-copyright">RIPRO主题是一个优秀的主题，极致后台体验，无插件，集成会员系统<br><a href="https://blog.lixypro.com/">Lixypro博客</a> &raquo; <a href="https://blog.lixypro.com/qianduansixiang/ten-thousand-characters-long-text-what-is-react-detailed-documentation-for-self-study-introduction.html">万字长文,什么是React,自学入门专用详细文档</a>
+</div>
+
+<div class="article-footer">
+    <div class="author-box">
+    <div class="author-image">
+      <img alt="administrator" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/avatar/1.png" class="lazyload avatar avatar-140 photo " height="140" width="140">    </div>
+    <div class="author-info">
+      <h4 class="author-name">
+        <a target="_blank" href="javascript:;">administrator</a>
+        <span class="label label-default"><i class="fa fa-diamond"></i> 普通</span>      </h4>
+    </div>
+  </div>
+      <div class="xshare">
+      <span class="xshare-title">分享到：</span>
+            <a etap="share" data-share="qq" class="share-qq"><i class="fa fa-qq"></i></a>
+      <a etap="share" data-share="weibo" class="share-weibo"><i class="fa fa-weibo"></i></a>
+              <a href="javascript:;" class="btn-bigger-cover share-weixin" data-nonce="1087715ec6" data-id="57" data-action="create-bigger-image" id="bigger-cover"><i class="fa fa-paper-plane"></i></a>
+        </div>
+   
+</div>    </div>
+  </div>
+</article>
+
+
+  <div class="entry-navigation">
+    <nav class="article-nav">
+        <span class="article-nav-prev">上一篇<br><a href="https://blog.lixypro.com/qianduansixiang/react-scaffolding-installation-demo-detailed-example-and-detailed-explanation.html" rel="prev">React脚手架安装Demo详细示例，以及细节讲解</a></span>
+        <span class="article-nav-next">下一篇<br><a href="https://blog.lixypro.com/pingmiansheji/recommended-free-material-websites-commonly-used-by-graphic-designers.html" rel="next">干货」平面设计师常用的免费素材网站推荐</a></span>
+    </nav>
+    
+  </div>
+
+      <!-- # 标准网格模式... -->
+      <div class="related-posts-grid">
+        <h4 class="u-border-title">相关推荐</h4>
+        <div class="row">
+                     <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
+              <article class="post">
+                  <div class="entry-media">
+    <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+      <a target="_blank" href="https://blog.lixypro.com/qianduansixiang/react-scaffolding-installation-demo-detailed-example-and-detailed-explanation.html">
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/themes/ripro/assets/images/thumb/1.jpg&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="React脚手架安装Demo详细示例，以及细节讲解">  
+      </a>
+            <div class="cao-cover">
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" width="50" height="50px"></noscript>
+</div>
+          </div>
+      </div>
+                  <div class="entry-wrapper">
+                  
+  <header class="entry-header">    
+    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/qianduansixiang/react-scaffolding-installation-demo-detailed-example-and-detailed-explanation.html" title="React脚手架安装Demo详细示例，以及细节讲解" rel="bookmark">React脚手架安装Demo详细示例，以及细节讲解</a></h4>  </header>                </div>
+              </article>
+            </div>
+                  </div>
+      </div>
+    
+  
+
+<div class="bottom-area">
+    <div id="comments" class="comments-area">
+        
+        
+        
+        	<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">发表评论 <small><a rel="nofollow" id="cancel-comment-reply-link" href="https://blog.lixypro.com/qianduansixiang/ten-thousand-characters-long-text-what-is-react-detailed-documentation-for-self-study-introduction.html#respond" style="display:none;">取消回复</a></small>
+</h3>
+<form action="https://blog.lixypro.com/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate>
+<p class="comment-form-comment"><textarea id="comment" name="comment" rows="8" aria-required="true"></textarea></p>
+<div class="row comment-author-inputs">
+<div class="col-md-4 input"><p class="comment-form-author"><label for="author">昵称*</label><input id="author" name="author" type="text" value="" size="30" aria-required="true"></p></div>
+<div class="col-md-4 input"><p class="comment-form-email"><label for="email">E-mail*</label><input id="email" name="email" type="text" value="" size="30" aria-required="true"></p></div>
+<div class="col-md-4 input"><p class="comment-form-url"><label for="url">网站</label><input id="url" name="url" type="text" value="" size="30"></p></div>
+</div>
+<p class="comment-form-cookies-consent"><input id="wp-comment-cookies-consent" name="wp-comment-cookies-consent" type="checkbox" value="yes"> <label for="wp-comment-cookies-consent">下次发表评论时，请在此浏览器中保存我的姓名、电子邮件和网站</label></p>
+<p class="form-submit"><input name="submit" type="submit" id="submit" class="button" value="发表评论"> <input type="hidden" name="comment_post_ID" value="57" id="comment_post_ID">
+<input type="hidden" name="comment_parent" id="comment_parent" value="0">
+</p>
+</form>	</div>
+<!-- #respond -->
+	    </div>
+</div>				</main>
+			</div>
+		</div>
+			</div>
+</div>
+
+
+</div>
+<!-- end sitecoent --> 
+
+	
+	<div class="module parallax">
+		<img class="jarallax-img lazyload" data-srcset="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/background/bg-1.jpg" data-sizes="auto" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="">
+		<div class="container">
+			<h4 class="entry-title">
+				提供最优质的资源集合			</h4>
+							<a target="_blank" class="button" href="https://blog.lixypro.com/">立即查看</a>
+										<a target="_blank" class="button transparent" href="https://blog.lixypro.com/">了解详情</a>
+					</div>
+	</div>
+	
+	<footer class="site-footer">
+		<div class="container">
+			
+			<div class="footer-widget">
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-3 widget--about">
+            <div class="widget--content">
+                <div class="footer--logo mb-20">
+                    <img data-dark="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" alt="Lixypro博客" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" class="tap-logo lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img class="tap-logo" src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" data-dark="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" alt="Lixypro博客"></noscript>
+                </div>
+                <p class="mb-10">Lixypro博客网站,专注于各种技术类.</p>
+            </div>
+        </div>
+        <!-- .col-md-2 end -->
+        <div class="col-xs-12 col-sm-3 col-md-2 col-md-offset-1 widget--links">
+            <div class="widget--title">
+                <h5>本站导航</h5>
+            </div>
+            <div class="widget--content">
+                <ul class="list-unstyled mb-0">
+                                    </ul>
+            </div>
+        </div>
+        <!-- .col-md-2 end -->
+        <div class="col-xs-12 col-sm-3 col-md-2 widget--links">
+            <div class="widget--title">
+                <h5>友情链接</h5>
+            </div>
+            <div class="widget--content">
+                <ul class="list-unstyled mb-0">
+                    <li><a target="_blank" href="https://www.baidu.com/">百度一下</a></li>
+<li><a target="_blank" href="https://www.zhihu.com/">知乎官网</a></li>                </ul>
+            </div>
+        </div>
+        <!-- .col-md-2 end -->
+        <div class="col-xs-12 col-sm-12 col-md-4 widget--newsletter">
+            <div class="widget--title">
+                <h5>快速搜索</h5>
+            </div>
+            <div class="widget--content">
+                <form class="newsletter--form mb-30" action="https://blog.lixypro.com/" method="get">
+                    <input type="text" class="form-control" name="s" placeholder="关键词">
+                    <button type="submit"><i class="fa fa-arrow-right"></i></button>
+                </form>
+                <h6>本站由WordPress程序强力驱动</h6>
+            </div>
+        </div>
+
+    </div>
+</div>						  <div class="site-info">
+			    © 2021 Lixypro博客 & WordPress Theme. All rights reserved			    			  </div>
+					</div>
+	</footer>
+	
+<div class="rollbar">
+	
+	<div class="rollbar-item" etap="to_full" title="全屏页面"><i class="fa fa-arrows-alt"></i></div>
+
+	
+		<div class="rollbar-item" etap="to_top" title="返回顶部"><i class="fa fa-angle-up"></i></div>
+</div>
+
+<div class="dimmer"></div>
+
+
+
+<div class="off-canvas">
+  <div class="canvas-close"><i class="mdi mdi-close"></i></div>
+  <div class="logo-wrapper">
+      <a href="https://blog.lixypro.com/">
+      <img alt="Lixypro博客" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" class="logo regular lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img class="logo regular" src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" alt="Lixypro博客"></noscript>
+    </a>
+    </div>
+  <div class="mobile-menu hidden-lg hidden-xl"></div>
+  <aside class="widget-area">
+      </aside>
+</div>
+<script>
+    console.log("\n %c RiPro V7.1.0 %c https://blog.lixypro.com \n\n", "color: #fadfa3; background: #030307; padding:5px 0;", "background: #fadfa3; padding:5px 0;");
+    console.log("SQL 请求数：63");
+    console.log("页面生成耗时： 0.32058");
+</script>
+
+
+
+<script type="text/javascript" id="toc-front-js-extra">
+/* <![CDATA[ */
+var tocplus = {"visibility_show":"show","visibility_hide":"hide","width":"Auto"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/plugins/table-of-contents-plus/front.min.js?ver=2002" id="toc-front-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/jQuery/jquery.min.js?ver=10.2.1" id="jQuery-CDN-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/KaTeX/katex.min.js?ver=10.2.1" id="Katex-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/ClipBoard/clipboard.min.js?ver=2.0.1" id="copy-clipboard-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/components/prism-core.min.js?ver=1.15.0" id="prism-core-js-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/autoloader/prism-autoloader.min.js?ver=1.15.0" id="prism-plugin-autoloader-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/toolbar/prism-toolbar.min.js?ver=1.15.0" id="prism-plugin-toolbar-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/line-numbers/prism-line-numbers.min.js?ver=1.15.0" id="prism-plugin-line-numbers-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/show-language/prism-show-language.min.js?ver=1.15.0" id="prism-plugin-show-language-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js?ver=1.15.0" id="prism-plugin-copy-to-clipboard-js"></script>
+<script type="text/javascript" id="Front_Style-js-extra">
+/* <![CDATA[ */
+var FrontStyle = {"openLinkInNewTab":"on"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/FrontStyle/frontstyle.min.js?ver=10.2.1" id="Front_Style-js"></script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/plugins/wp-smushit/app/assets/js/smush-lazy-load.min.js?ver=3.8.4" id="smush-lazy-load-js"></script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/plugins.js?ver=7.1.0" id="plugins-js"></script>
+<script type="text/javascript" id="app-js-extra">
+/* <![CDATA[ */
+var caozhuti = {"site_name":"Lixypro博客","home_url":"https:\/\/blog.lixypro.com","ajaxurl":"https:\/\/blog.lixypro.com\/wp-admin\/admin-ajax.php","is_singular":"1","tencent_captcha":{"is":"","appid":""},"infinite_load":"加载更多","infinite_loading":"<i class=\"fa fa-spinner fa-spin\"><\/i> 加载中...","site_notice":{"is":"0","color":"rgb(33, 150, 243)","html":"<div class=\"notify-content\"><h3>Lixypro欢迎你!<\/h3><div>这是一条网站公告，可在后台开启或关闭，可自定义背景颜色，标题，内容，用户首次打开关闭后不再重复弹出，此处可使用html标签...<\/div><\/div>"},"pay_type_html":{"html":"<div class=\"pay-button-box\"><\/div><p style=\"font-size: 13px; padding: 0; margin: 0;\">免费或钻石免费资源仅限余额支付<\/p>","alipay":0,"weixinpay":0}};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/app.js?ver=7.1.0" id="app-js"></script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/plugins/jquery.fancybox.min.js?ver=7.1.0" id="fancybox-js"></script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-includes/js/comment-reply.min.js?ver=5.7" id="comment-reply-js"></script>
+        <script type="text/javascript">
+            (function ($) {
+                $(document).ready(function () {
+                    $(".katex.math.inline").each(function () {
+                        var parent = $(this).parent()[0];
+                        if (parent.localName !== "code") {
+                            var texTxt = $(this).text();
+                            var el = $(this).get(0);
+                            try {
+                                katex.render(texTxt, el);
+                            } catch (err) {
+                                $(this).html("<span class=\"err\">" + err);
+                            }
+                        } else {
+                            $(this).parent().text($(this).parent().text());
+                        }
+                    });
+                    $(".katex.math.multi-line").each(function () {
+                        var texTxt = $(this).text();
+                        var el = $(this).get(0);
+                        try {
+                            katex.render(texTxt, el, {displayMode: true})
+                        } catch (err) {
+                            $(this).html("<span class=\"err\">" + err)
+                        }
+                    });
+                })
+            })(jQuery);
+        </script>
+                <script type="text/javascript">
+            Prism.plugins.autoloader.languages_path = "https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/components/";
+        </script>
+        
+</div>
+</body>
+</html>

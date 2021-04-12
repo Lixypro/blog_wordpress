@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="profile" href="https://gmpg.org/xfn/11">
+	<link href="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/favicon/favicon.png" rel="icon">
+  <title>Linux(centos)通过源码包方式安装nginx1.8.1 - Lixypro博客</title>
+
+	<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+
+	<!-- This site is optimized with the Yoast SEO plugin v16.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+	<title>Linux(centos)通过源码包方式安装nginx1.8.1 - Lixypro博客</title>
+	<meta name="description" content="Lixypro博客 - 后端运维 - Linux(centos)通过源码包方式安装nginx1.8.1 Nginx (engine x) 是一个高性能的HTTP和反向代理web服务器，同时也提供了IMAP/POP3/SMTP服务。Nginx是由伊戈尔·赛索耶夫为俄罗斯访问量第二的Rambler.ru站点开发的">
+	<link rel="canonical" href="https://blog.lixypro.com/houduanyunwei/linux-centos-install-nginx1-8-1-through-source-package.html">
+	<meta property="og:locale" content="zh_CN">
+	<meta property="og:type" content="article">
+	<meta property="og:title" content="Linux(centos)通过源码包方式安装nginx1.8.1 - Lixypro博客">
+	<meta property="og:description" content="Lixypro博客 - 后端运维 - Linux(centos)通过源码包方式安装nginx1.8.1 Nginx (engine x) 是一个高性能的HTTP和反向代理web服务器，同时也提供了IMAP/POP3/SMTP服务。Nginx是由伊戈尔·赛索耶夫为俄罗斯访问量第二的Rambler.ru站点开发的">
+	<meta property="og:url" content="https://blog.lixypro.com/houduanyunwei/linux-centos-install-nginx1-8-1-through-source-package.html">
+	<meta property="og:site_name" content="Lixypro博客">
+	<meta property="article:published_time" content="2021-04-10T10:22:29+00:00">
+	<meta property="article:modified_time" content="2021-04-11T11:10:58+00:00">
+	<meta property="og:image" content="https://blog.lixypro.com/wp-content/uploads/2021/04/1618139383-73898d7f1ddbfbf.jpg">
+	<meta property="og:image:width" content="1920">
+	<meta property="og:image:height" content="1080">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:label1" content="作者">
+	<meta name="twitter:data1" content="administrator">
+	<meta name="twitter:label2" content="预计阅读时间">
+	<meta name="twitter:data2" content="13分">
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://blog.lixypro.com/#website","url":"https://blog.lixypro.com/","name":"Lixypro博客","description":"技术分享|网页前端|后端运维|网络安全|日常记事","potentialAction":[{"@type":"SearchAction","target":"https://blog.lixypro.com/?s={search_term_string}","query-input":"required name=search_term_string"}],"inLanguage":"zh-CN"},{"@type":"ImageObject","@id":"https://blog.lixypro.com/houduanyunwei/linux-centos-install-nginx1-8-1-through-source-package.html#primaryimage","inLanguage":"zh-CN","url":"https://blog.lixypro.com/wp-content/uploads/2021/04/1618139383-73898d7f1ddbfbf.jpg","contentUrl":"https://blog.lixypro.com/wp-content/uploads/2021/04/1618139383-73898d7f1ddbfbf.jpg","width":1920,"height":1080},{"@type":"WebPage","@id":"https://blog.lixypro.com/houduanyunwei/linux-centos-install-nginx1-8-1-through-source-package.html#webpage","url":"https://blog.lixypro.com/houduanyunwei/linux-centos-install-nginx1-8-1-through-source-package.html","name":"Linux(centos)通过源码包方式安装nginx1.8.1 - Lixypro博客","isPartOf":{"@id":"https://blog.lixypro.com/#website"},"primaryImageOfPage":{"@id":"https://blog.lixypro.com/houduanyunwei/linux-centos-install-nginx1-8-1-through-source-package.html#primaryimage"},"datePublished":"2021-04-10T10:22:29+00:00","dateModified":"2021-04-11T11:10:58+00:00","author":{"@id":"https://blog.lixypro.com/#/schema/person/504c3e2a3d8a31f292936e7a2241373b"},"description":"Lixypro博客 - 后端运维 - Linux(centos)通过源码包方式安装nginx1.8.1 Nginx (engine x) 是一个高性能的HTTP和反向代理web服务器，同时也提供了IMAP/POP3/SMTP服务。Nginx是由伊戈尔·赛索耶夫为俄罗斯访问量第二的Rambler.ru站点开发的","breadcrumb":{"@id":"https://blog.lixypro.com/houduanyunwei/linux-centos-install-nginx1-8-1-through-source-package.html#breadcrumb"},"inLanguage":"zh-CN","potentialAction":[{"@type":"ReadAction","target":["https://blog.lixypro.com/houduanyunwei/linux-centos-install-nginx1-8-1-through-source-package.html"]}]},{"@type":"BreadcrumbList","@id":"https://blog.lixypro.com/houduanyunwei/linux-centos-install-nginx1-8-1-through-source-package.html#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"item":{"@type":"WebPage","@id":"https://blog.lixypro.com/","url":"https://blog.lixypro.com/","name":"首页"}},{"@type":"ListItem","position":2,"item":{"@type":"WebPage","@id":"https://blog.lixypro.com/houduanyunwei/linux-centos-install-nginx1-8-1-through-source-package.html","url":"https://blog.lixypro.com/houduanyunwei/linux-centos-install-nginx1-8-1-through-source-package.html","name":"Linux(centos)通过源码包方式安装nginx1.8.1"}}]},{"@type":"Person","@id":"https://blog.lixypro.com/#/schema/person/504c3e2a3d8a31f292936e7a2241373b","name":"administrator","image":{"@type":"ImageObject","@id":"https://blog.lixypro.com/#personlogo","inLanguage":"zh-CN","url":"https://secure.gravatar.com/avatar/957d4bcaf62a121072d884ad505a9b2a?s=96&d=mm&r=g","contentUrl":"https://secure.gravatar.com/avatar/957d4bcaf62a121072d884ad505a9b2a?s=96&d=mm&r=g","caption":"administrator"},"sameAs":["https://blog.lixypro.com"]}]}</script>
+	<!-- / Yoast SEO plugin. -->
+
+
+<link rel="stylesheet" id="toc-screen-css" href="https://blog.lixypro.com/wp-content/plugins/table-of-contents-plus/screen.min.css?ver=2002" type="text/css" media="all">
+<link rel="stylesheet" id="Katex-css" href="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/KaTeX/katex.min.css?ver=10.2.1" type="text/css" media="all">
+<link rel="stylesheet" id="prism-theme-style-css" href="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/themes/prism-okaidia.css?ver=1.15.0" type="text/css" media="all">
+<link rel="stylesheet" id="prism-plugin-toolbar-css" href="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/toolbar/prism-toolbar.css?ver=1.15.0" type="text/css" media="all">
+<link rel="stylesheet" id="prism-plugin-line-numbers-css" href="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/line-numbers/prism-line-numbers.css?ver=1.15.0" type="text/css" media="all">
+<link rel="stylesheet" id="external-css" href="https://blog.lixypro.com/wp-content/themes/ripro/assets/css/external.css?ver=7.1.0" type="text/css" media="all">
+<link rel="stylesheet" id="sweetalert2-css" href="https://blog.lixypro.com/wp-content/themes/ripro/assets/css/sweetalert2.min.css?ver=7.1.0" type="text/css" media="all">
+<link rel="stylesheet" id="app-css" href="https://blog.lixypro.com/wp-content/themes/ripro/assets/css/app.css?ver=7.1.0" type="text/css" media="all">
+<link rel="stylesheet" id="diy-css" href="https://blog.lixypro.com/wp-content/themes/ripro/assets/css/diy.css?ver=7.1.0" type="text/css" media="all">
+<link rel="stylesheet" id="fancybox-css" href="https://blog.lixypro.com/wp-content/themes/ripro/assets/css/jquery.fancybox.min.css?ver=7.1.0" type="text/css" media="all">
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/jquery-2.2.4.min.js?ver=2.2.4" id="jquery-js"></script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/plugins/sweetalert2.min.js?ver=7.1.0" id="sweetalert2-js"></script>
+		<script>
+			document.documentElement.className = document.documentElement.className.replace( 'no-js', 'js' );
+		</script>
+				<style>.no-js img.lazyload { display: none; }
+			figure.wp-block-image img.lazyloading { min-width: 150px; }
+							.lazyload, .lazyloading { opacity: 0; }
+				.lazyloaded {
+					opacity: 1;
+					transition: opacity 400ms;
+					transition-delay: 0ms;
+				}</style>
+			<!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+      <script src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/html5shiv.js"></script>
+      <script src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/respond.min.js"></script>
+    <![endif]-->
+          <script> $(document).ready(function() { NProgress.start(); $(window).load(function() { NProgress.done(); }); });</script>
+    </head>
+
+<body class="post-template-default single single-post postid-46 single-format-standard  max_width navbar-sticky navbar-full navbar-slide no-search sidebar-none pagination-numeric no-off-canvas">
+
+<div class="site">
+    
+<header class="site-header">
+      <div class="navbar">
+      <div class="logo-wrapper">
+              <a href="https://blog.lixypro.com/">
+          <img data-dark="" alt="Lixypro博客" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" class="logo regular tap-logo lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img class="logo regular tap-logo" src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" data-dark="" alt="Lixypro博客"></noscript>
+        </a>
+            </div>
+      <div class="sep"></div>
+      
+      <nav class="main-menu hidden-xs hidden-sm hidden-md">
+        <ul id="menu-menu-1" class="nav-list u-plain-list">
+<li id="menu-item-12" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-12"><a href="https://blog.lixypro.com/">本站首页</a></li>
+<li id="menu-item-15" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-15"><a href="https://blog.lixypro.com/tags">标签集合</a></li>
+<li id="menu-item-18" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-18"><a href="https://blog.lixypro.com/qianduansixiang">前端思想</a></li>
+<li id="menu-item-19" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-19"><a href="https://blog.lixypro.com/houduanyunwei">后端运维</a></li>
+<li id="menu-item-20" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-20"><a href="https://blog.lixypro.com/zaixianfuwu">在线服务</a></li>
+<li id="menu-item-21" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-21"><a href="https://blog.lixypro.com/diannaojichu">电脑基础</a></li>
+<li id="menu-item-22" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-22"><a href="https://blog.lixypro.com/kejizixun">科技资讯</a></li>
+<li id="menu-item-23" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-23"><a href="https://blog.lixypro.com/wangluoanquan">网络安全</a></li>
+</ul>      </nav>
+      
+      <div class="main-search">
+        <form method="get" class="search-form inline" action="https://blog.lixypro.com/">
+  <input type="search" class="search-field inline-field" placeholder="输入关键词，回车..." autocomplete="off" value="" name="s" required="required">
+  <button type="submit" class="search-submit"><i class="mdi mdi-magnify"></i></button>
+</form>        <div class="search-close navbar-button"><i class="mdi mdi-close"></i></div>
+      </div>
+
+      <div class="actions">
+                <!-- user end -->
+        <div class="search-open navbar-button"><i class="mdi mdi-magnify"></i></div>
+                <div class="burger"></div>
+      </div>
+    </div>
+  </header>
+
+<div class="header-gap"></div>    
+    <div class="site-content">
+    
+
+<div class="container">
+	<div class="breadcrumbs">
+	当前位置：<a href="https://blog.lixypro.com/">Lixypro博客</a> <small>></small> <a href="https://blog.lixypro.com/houduanyunwei">后端运维</a> <small>></small> Linux(centos)通过源码包方式安装nginx1.8.1	</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="content-area">
+				<main class="site-main">
+					<article id="post-46" class="article-content">
+    <div class="container">
+  
+<div class="cao_entry_header">
+
+  <header class="entry-header">    
+    <h1 class="entry-title">Linux(centos)通过源码包方式安装nginx1.8.1</h1>  </header>
+</div>
+</div>  <div class="container">
+    <div class="entry-wrapper">
+            <div class="entry-content u-text-format u-clearfix">
+        <p>Nginx (engine x) 是一个高性能的HTTP和反向代理web服务器，同时也提供了IMAP/POP3/SMTP服务。Nginx是由伊戈尔·赛索耶夫为俄罗斯访问量第二的Rambler.ru站点（俄文：Рамблер）开发的，第一个公开版本0.1.0发布于2004年10月4日。<br>
+其将源代码以类BSD许可证的形式发布，因它的稳定性、丰富的功能集、示例配置文件和低系统资源的消耗而闻名。<br>
+2011年6月1日，nginx 1.0.4发布。<br>
+Nginx是一款轻量级的Web 服务器/反向代理服务器及电子邮件（IMAP/POP3）代理服务器，在BSD-like 协议下发行。其特点是占有内存少，并发能力强，事实上nginx的并发能力在同类型的网页服务器中表现较好，中国大陆使用nginx网站用户有：百度、京东、新浪、网易、腾讯、淘宝等。</p>
+<p><img class="lazyload " src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="https://blog.lixypro.com/wp-content/uploads/2021/04/1618139383-73898d7f1ddbfbf.jpg" alt="Linux(centos)通过源码包方式安装nginx1.8.1"><noscript>
+<img alt="Linux(centos)通过源码包方式安装nginx1.8.1" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618139383-73898d7f1ddbfbf.jpg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618139383-73898d7f1ddbfbf.jpg" alt="Linux(centos)通过源码包方式安装nginx1.8.1"></noscript>
+</noscript></p>
+<h2>1. 两种安装方法：Yum安装和源码包安装</h2>
+<p>很久之前就打算记录下nginx源码的安装记录，因为最初搭建服务器的使用，是直接使用了yum直接安装，毕竟安装方式粗暴简单。后端开发也很久了，但是从来也没怎么注意服务器这块，所以尝试使用源码包来安装nginx，而且在当前服务器编译，更符合系统的性能，性能效率也会更好。</p>
+<p><code>yum</code> 安装是在线安装，好处是：安装方式简单，不易出错；</p>
+<p><code>源码包</code> 安装是先将 <code>nginx</code> 的源码下载下来，在自己的系统里编译生成可执行文件，然后执行，好处是：因为是在自己的系统上编译的，更符合自己系统的性能，也就是说在自己的系统上执行 <code>nginx</code> 服务性能效率更好。</p>
+<h3>1.1. 区别：安装路径不同</h3>
+<ul>
+<li>
+<code>yum</code> 在线安装会将 <code>nginx</code> 的安装文件放在系统的不同位置，可以通过命令 <code>rpm -ql nginx</code> 来查看安装路径，卸载的时候，只能通过 命令来卸载，因为我们不可能 将这些文件自己手动删除，可以通过命令 <code>rpm -e nginx</code> 来卸载，这个命令一般不会报错，因为 <code>nginx</code> 不与其他的包有依赖关系，如果提示关于 依赖包的问题 ，可以尝试 <code>rpm -e --nodeps nginx</code> 来卸载，这个命令相当于强制卸载，不考虑依赖问题。
+</li>
+<li>
+<p><code>源码包</code> 安装他的所有文件（包括配置文件，库文件，资源文件等）都在同一个目录下，我们想卸载的时候，直接将这个文件删除就可以，不会有任何垃圾文件存在。通过<code>源码包</code>编译安装的软件，通常都放在 <code>/usr/local/包名</code> 路径下。</p>
+</li>
+</ul>
+<h3>1.2. 区别：启动方式不同</h3>
+<ul>
+<li>
+<code>yum</code> 安装 <code>nginx</code>，我们可以通过 系统服务命令 <code>service</code> 来启动或停止</li>
+<li>
+<code>源码包</code> 安装 <code>nginx</code> 启动的时候不能使用 <code>service</code> 来启动，需要执行 <code>nginx</code> 安装目录下的 <code>sbin</code> 目录下的 <code>nginx</code> 可执行程序才行</li>
+</ul>
+<h3>1.3. Nginx编译安装和Nginx RPm安装区别总结</h3>
+<p>编译安装：指的是将源码包编成二进制文件。<br>
+优点：可以自行调整编译参数。自己可以调整需要的结果，也比较安全。<br>
+缺点：安装较为复杂。需要调试参数，维护也比较麻烦。</p>
+<p>RPM：指的是把已经编译好的二进制文件。安装到对应的目录。<br>
+优点：安装快捷。方便。<br>
+缺点：卸载的时候可能会出现问题，卸载时有时把依赖包可能直接卸载掉，导致影响其他的程序不能正常使用。</p>
+<h2>2. 安裝Nginx工作开始</h2>
+<h3>2.1. 安装前的系统需求（Nginx依賴一些其他的包）</h3>
+<p>下载Nginx源码包，但是你如果直接编译安装，会报错，原因是Nginx依赖一些其他的包，但是我们的机子上并没有安装，所以我们要先下载一些Nginx依赖的包。</p>
+<h4>2.1.1. wget安装（必备）</h4>
+<p><strong>wget</strong>是一个下载文件的工具，它用在命令行下。对于Linux用户是必不可少的工具，我们经常要下载一些软件或从远程服务器恢复备份到本地服务器。<br>
+wget支持HTTP，HTTPS和FTP协议，可以使用HTTP代理。所谓的自动下载是指，wget可以在用户退出系统的之后在后台执行。这意味这你可以登录系统，启动一个wget下载任务，然后退出系统，wget将在后台执行直到任务完成<br>
+wget 可以跟踪HTML页面上的链接依次下载来创建远程服务器的本地版本，完全重建原始站点的目录结构。这又常被称作”递归下载”。<br>
+wget 非常稳定，它在带宽很窄的情况下和不稳定网络中有很强的适应性.如果是由于网络的原因下载失败，wget会不断的尝试，直到整个文件下载完毕。如果是服务器打断下载过程，它会再次联到服务器上从停止的地方继续下载。这对从那些限定了链接时间的服务器上下载大文件非常有用。</p>
+<pre><code class="language-shell line-numbers">[root@lixy ~]# wget
+-bash: wget: 未找到命令
+[root@lixy ~]# yum install wget* -y
+已加载插件：fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: mirrors.163.com
+ * extras: mirrors.163.com
+ * updates: mirrors.163.com
+base                                                                                                                                                                                       | 3.6 kB  00:00:00     
+extras                                                                                                                                                                                     | 2.9 kB  00:00:00     
+updates                                                                                                                                                                                    | 2.9 kB  00:00:00     
+正在解决依赖关系
+--&gt; 正在检查事务
+---&gt; 软件包 wget.x86_64.0.1.14-18.el7_6.1 将被 安装
+--&gt; 解决依赖关系完成
+
+依赖关系解决
+
+==================================================================================================================================================================================================================
+ Package                                        架构                                             版本                                                        源                                              大小
+==================================================================================================================================================================================================================
+正在安装:
+ wget                                           x86_64                                           1.14-18.el7_6.1                                             base                                           547 k
+
+事务概要
+==================================================================================================================================================================================================================
+安装  1 软件包
+
+总下载量：547 k
+安装大小：2.0 M
+Downloading packages:
+wget-1.14-18.el7_6.1.x86_64.rpm                                                                                                                                                            | 547 kB  00:00:00     
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  正在安装    : wget-1.14-18.el7_6.1.x86_64                                                                                                                                                                   1/1 
+  验证中      : wget-1.14-18.el7_6.1.x86_64                                                                                                                                                                   1/1 
+
+已安装:
+  wget.x86_64 0:1.14-18.el7_6.1                                                                                                                                                                                   
+
+完毕！
+[root@lixy ~]# 
+</code></pre>
+<h4>2.1.2. GCC和各种编译工具(依赖包)</h4>
+<p>这个不用多说明了吧？必须要用的，复制进去运行就可以了！</p>
+<pre><code class="language-shell line-numbers">yum install make apr* autoconf automake gcc gcc-c++ zlib-devel openssl openssl-devel pcre-devel gd  kernel keyutils  patch  perl kernel-headers compat* mpfr cpp glibc libgomp libstdc++-devel ppl cloog-ppl keyutils-libs-devel libcom_err-devel libsepol-devel libselinux-devel krb5-devel zlib-devel libXpm* freetype libjpeg* libpng* php-common php-gd ncurses* libtool* libxml2 libxml2-devel patch expat-devel -y
+</code></pre>
+<p>记住千万不要复制错了，因为，一个包漏了的话，会给下面步骤带来非常非常非常非常非常非常非常非常非常非常大的麻烦，记住！</p>
+<pre><code class="language-shell line-numbers">Downloading packages:
+(1/277): ModemManager-glib-1.6.10-3.el7_6.x86_64.rpm                                                                                  | 232 kB  00:00:00     
+(2/277): adwaita-cursor-theme-3.28.0-1.el7.noarch.rpm                                                                                 | 641 kB  00:00:00     
+(3/277): apr-1.4.8-5.el7.x86_64.rpm                                                                                                   | 103 kB  00:00:00     
+(4/277): apr-devel-1.4.8-5.el7.x86_64.rpm                                                                                             | 188 kB  00:00:00     
+(5/277): apr-util-1.5.2-6.el7.x86_64.rpm                                                                                              |  92 kB  00:00:00     
+(6/277): apr-util-devel-1.5.2-6.el7.x86_64.rpm                                                                                        |  76 kB  00:00:00     
+(7/277): apr-util-ldap-1.5.2-6.el7.x86_64.rpm                                                                                         |  19 kB  00:00:00     
+(8/277): apr-util-mysql-1.5.2-6.el7.x86_64.rpm                                                                                        |  23 kB  00:00:00     
+(9/277): apr-util-nss-1.5.2-6.el7.x86_64.rpm                                                                                          |  21 kB  00:00:00     
+(10/277): apr-util-odbc-1.5.2-6.el7.x86_64.rpm                                                                                        |  27 kB  00:00:00     
+(11/277): apr-util-openssl-1.5.2-6.el7.x86_64.rpm                                                                                     |  20 kB  00:00:00     
+(12/277): apr-util-pgsql-1.5.2-6.el7.x86_64.rpm                                                                                       |  23 kB  00:00:00     
+(13/277): adwaita-icon-theme-3.28.0-1.el7.noarch.rpm                                                                                  |  11 MB  00:00:01     
+(14/277): apr-util-sqlite-1.5.2-6.el7.x86_64.rpm                                                                                      |  21 kB  00:00:00     
+(15/277): at-spi2-atk-2.26.2-1.el7.x86_64.rpm                                                                                         |  81 kB  00:00:00     
+(16/277): at-spi2-core-2.28.0-1.el7.x86_64.rpm                                                                                        | 158 kB  00:00:00     
+(17/277): atk-2.28.1-1.el7.x86_64.rpm                                                                                                 | 263 kB  00:00:00     
+(18/277): autoconf-2.69-11.el7.noarch.rpm                                                                                             | 701 kB  00:00:00     
+(19/277): avahi-glib-0.6.31-19.el7.x86_64.rpm                                                                                         |  25 kB  00:00:00     
+(20/277): automake-1.13.4-3.el7.noarch.rpm                                                                                            | 679 kB  00:00:00     
+(21/277): avahi-libs-0.6.31-19.el7.x86_64.rpm                                                                                         |  61 kB  00:00:00     
+(22/277): cairo-1.15.12-4.el7.x86_64.rpm                                                                                              | 741 kB  00:00:00     
+(23/277): cairo-gobject-1.15.12-4.el7.x86_64.rpm                                                                                      |  26 kB  00:00:00     
+(24/277): cdparanoia-libs-10.2-17.el7.x86_64.rpm                                                                                      |  56 kB  00:00:00     
+(25/277): clutter-1.26.2-2.el7.x86_64.rpm                                                                                             | 1.1 MB  00:00:00     
+(26/277): clutter-gst2-2.0.18-1.el7.x86_64.rpm                                                                                        |  61 kB  00:00:00     
+(27/277): clutter-gtk-1.8.4-1.el7.x86_64.rpm                                                                                          |  44 kB  00:00:00     
+(28/277): cogl-1.22.2-2.el7.x86_64.rpm                                                                                                | 462 kB  00:00:00     
+(29/277): colord-libs-1.3.4-1.el7.x86_64.rpm                                                                                          | 185 kB  00:00:00     
+(30/277): compat-cheese314-3.14.2-1.el7.x86_64.rpm                                                                                    |  54 kB  00:00:00     
+(31/277): compat-dapl-1.2.19-4.el7.x86_64.rpm                                                                                         | 110 kB  00:00:00     
+(32/277): compat-dapl-devel-1.2.19-4.el7.x86_64.rpm                                                                                   |  27 kB  00:00:00     
+(33/277): compat-dapl-static-1.2.19-4.el7.x86_64.rpm                                                                                  |  88 kB  00:00:00     
+(34/277): compat-db-4.7.25-28.el7.x86_64.rpm                                                                                          |  13 kB  00:00:00     
+(35/277): compat-dapl-utils-1.2.19-4.el7.x86_64.rpm                                                                                   |  81 kB  00:00:00     
+(36/277): compat-db-headers-4.7.25-28.el7.noarch.rpm                                                                                  |  48 kB  00:00:00     
+(37/277): compat-db47-4.7.25-28.el7.x86_64.rpm                                                                                        | 795 kB  00:00:00     
+(38/277): compat-exiv2-023-0.23-2.el7.x86_64.rpm                                                                                      | 681 kB  00:00:00     
+(39/277): compat-exiv2-026-0.26-1.el7.x86_64.rpm                                                                                      | 828 kB  00:00:00     
+(40/277): compat-gcc-44-c++-4.4.7-8.el7.x86_64.rpm                                                                                    | 6.3 MB  00:00:01     
+(41/277): compat-gcc-44-4.4.7-8.el7.x86_64.rpm                                                                                        |  10 MB  00:00:02     
+(42/277): compat-glade315-3.15.0-1.el7.x86_64.rpm                                                                                     | 243 kB  00:00:00     
+(43/277): compat-glew-1.9.0-7.el7.x86_64.rpm                                                                                          | 197 kB  00:00:00     
+(44/277): compat-gcc-44-gfortran-4.4.7-8.el7.x86_64.rpm                                                                               | 4.8 MB  00:00:00     
+(45/277): compat-glibc-2.12-4.el7.centos.x86_64.rpm                                                                                   | 1.2 MB  00:00:00     
+(46/277): compat-glibc-headers-2.12-4.el7.centos.x86_64.rpm                                                                           | 452 kB  00:00:00     
+(47/277): compat-gnome-desktop314-3.14.2-1.el7.x86_64.rpm                                                                             | 108 kB  00:00:00     
+(48/277): compat-grilo02-0.2.12-1.el7.x86_64.rpm                                                                                      | 102 kB  00:00:00     
+(49/277): compat-libcap1-1.10-7.el7.x86_64.rpm                                                                                        |  19 kB  00:00:00     
+(50/277): compat-libcogl-pango12-1.14.0-3.el7.x86_64.rpm                                                                              |  27 kB  00:00:00     
+(51/277): compat-libcogl12-1.14.0-3.el7.x86_64.rpm                                                                                    | 282 kB  00:00:00     
+(52/277): compat-libcolord1-1.0.4-1.el7.x86_64.rpm                                                                                    |  96 kB  00:00:00     
+(53/277): compat-libf2c-34-3.4.6-32.el7.x86_64.rpm                                                                                    | 155 kB  00:00:00     
+(54/277): compat-libgdata13-0.13.3-1.el7.x86_64.rpm                                                                                   | 217 kB  00:00:00     
+(55/277): compat-libgfortran-41-4.1.2-45.el7.x86_64.rpm                                                                               | 134 kB  00:00:00     
+(56/277): compat-libgnome-bluetooth11-3.8.2.1-2.el7.x86_64.rpm                                                                        |  63 kB  00:00:00     
+(57/277): compat-libgnome-desktop3-7-3.8.4-2.el7.x86_64.rpm                                                                           |  88 kB  00:00:00     
+(58/277): compat-libgweather3-3.8.2-1.el7.x86_64.rpm                                                                                  |  56 kB  00:00:00     
+(59/277): compat-libical1-1.0.1-2.el7.x86_64.rpm                                                                                      | 172 kB  00:00:00     
+(60/277): compat-libmediaart0-0.7.0-1.el7.x86_64.rpm                                                                                  |  33 kB  00:00:00     
+(61/277): compat-libmpc-1.0.1-3.el7.x86_64.rpm                                                                                        |  40 kB  00:00:00     
+(62/277): compat-libpackagekit-glib2-16-0.8.9-1.el7.x86_64.rpm                                                                        | 112 kB  00:00:00     
+(63/277): compat-libstdc++-33-3.2.3-72.el7.x86_64.rpm                                                                                 | 191 kB  00:00:00     
+(64/277): compat-libtiff3-3.9.4-12.el7.x86_64.rpm                                                                                     | 135 kB  00:00:00     
+(65/277): compat-libxcb-1.9-1.el7.x86_64.rpm                                                                                          |  44 kB  00:00:00     
+(66/277): compat-libupower-glib1-0.9.20-1.el7.x86_64.rpm                                                                              |  33 kB  00:00:00     
+(67/277): compat-openldap-2.3.43-5.el7.x86_64.rpm                                                                                     | 174 kB  00:00:00     
+(68/277): compat-openmpi16-1.6.4-10.7.2.el7.x86_64.rpm                                                                                | 2.5 MB  00:00:00     
+(69/277): compat-opensm-libs-3.3.15-3.el7.x86_64.rpm                                                                                  |  39 kB  00:00:00     
+(70/277): compat-poppler022-0.22.5-4.el7.x86_64.rpm                                                                                   | 722 kB  00:00:00     
+(71/277): compat-openmpi16-devel-1.6.4-10.7.2.el7.x86_64.rpm                                                                          | 4.5 MB  00:00:00     
+(72/277): compat-poppler022-cpp-0.22.5-4.el7.x86_64.rpm                                                                               |  36 kB  00:00:00     
+(73/277): compat-poppler022-glib-0.22.5-4.el7.x86_64.rpm                                                                              |  87 kB  00:00:00     
+(74/277): compat-poppler022-qt-0.22.5-4.el7.x86_64.rpm                                                                                | 150 kB  00:00:00     
+(75/277): cups-libs-1.6.3-40.el7.x86_64.rpm                                                                                           | 358 kB  00:00:00     
+(76/277): cyrus-sasl-2.1.26-23.el7.x86_64.rpm                                                                                         |  88 kB  00:00:00     
+(77/277): cyrus-sasl-devel-2.1.26-23.el7.x86_64.rpm                                                                                   | 310 kB  00:00:00     
+(78/277): dconf-0.28.0-4.el7.x86_64.rpm                                                                                               | 106 kB  00:00:00     
+(79/277): dejavu-fonts-common-2.33-6.el7.noarch.rpm                                                                                   |  64 kB  00:00:00     
+(80/277): cpp-4.8.5-39.el7.x86_64.rpm                                                                                                 | 5.9 MB  00:00:00     
+(81/277): dejavu-sans-fonts-2.33-6.el7.noarch.rpm                                                                                     | 1.4 MB  00:00:00     
+(82/277): enchant-1.6.0-8.el7.x86_64.rpm                                                                                              |  55 kB  00:00:00     
+(83/277): environment-modules-3.2.10-10.el7.x86_64.rpm                                                                                | 107 kB  00:00:00     
+(84/277): expat-devel-2.1.0-10.el7_3.x86_64.rpm                                                                                       |  57 kB  00:00:00     
+(85/277): flac-libs-1.3.0-5.el7_1.x86_64.rpm                                                                                          | 169 kB  00:00:00     
+(86/277): fontconfig-2.13.0-4.3.el7.x86_64.rpm                                                                                        | 254 kB  00:00:00     
+(87/277): fontpackages-filesystem-1.44-8.el7.noarch.rpm                                                                               | 9.9 kB  00:00:00     
+(88/277): fribidi-1.0.2-1.el7_7.1.x86_64.rpm                                                                                          |  79 kB  00:00:00     
+(89/277): gcc-c++-4.8.5-39.el7.x86_64.rpm                                                                                             | 7.2 MB  00:00:01     
+(90/277): gcc-gfortran-4.8.5-39.el7.x86_64.rpm                                                                                        | 6.7 MB  00:00:01     
+(91/277): gcr-3.28.0-1.el7.x86_64.rpm                                                                                                 | 677 kB  00:00:00     
+(92/277): gcc-4.8.5-39.el7.x86_64.rpm                                                                                                 |  16 MB  00:00:03     
+(93/277): gd-2.0.35-26.el7.x86_64.rpm                                                                                                 | 146 kB  00:00:00     
+(94/277): geoclue2-2.4.8-1.el7.x86_64.rpm                                                                                             | 106 kB  00:00:00     
+(95/277): gdk-pixbuf2-2.36.12-3.el7.x86_64.rpm                                                                                        | 570 kB  00:00:00     
+(96/277): glib-networking-2.56.1-1.el7.x86_64.rpm                                                                                     | 145 kB  00:00:00     
+(97/277): glibc-devel-2.17-292.el7.x86_64.rpm                                                                                         | 1.1 MB  00:00:00     
+(98/277): glibc-headers-2.17-292.el7.x86_64.rpm                                                                                       | 687 kB  00:00:00     
+(99/277): gnome-online-accounts-3.28.0-1.el7.x86_64.rpm                                                                               | 1.0 MB  00:00:00     
+(100/277): gnutls-3.3.29-9.el7_6.x86_64.rpm                                                                                           | 680 kB  00:00:00     
+--------------------------------------------省略N万字--------------------------------------------
+--------------------------------------------省略N万字--------------------------------------------
+--------------------------------------------省略N万字--------------------------------------------
+--------------------------------------------省略N万字--------------------------------------------
+已安装:
+  apr.x86_64 0:1.4.8-5.el7                             apr-devel.x86_64 0:1.4.8-5.el7                     apr-util.x86_64 0:1.5.2-6.el7                    
+  apr-util-devel.x86_64 0:1.5.2-6.el7                  apr-util-ldap.x86_64 0:1.5.2-6.el7                 apr-util-mysql.x86_64 0:1.5.2-6.el7              
+  apr-util-nss.x86_64 0:1.5.2-6.el7                    apr-util-odbc.x86_64 0:1.5.2-6.el7                 apr-util-openssl.x86_64 0:1.5.2-6.el7            
+  apr-util-pgsql.x86_64 0:1.5.2-6.el7                  apr-util-sqlite.x86_64 0:1.5.2-6.el7               autoconf.noarch 0:2.69-11.el7                    
+  automake.noarch 0:1.13.4-3.el7                       compat-cheese314.x86_64 0:3.14.2-1.el7             compat-dapl.x86_64 1:1.2.19-4.el7                
+  compat-dapl-devel.x86_64 1:1.2.19-4.el7              compat-dapl-static.x86_64 1:1.2.19-4.el7           compat-dapl-utils.x86_64 1:1.2.19-4.el7          
+  compat-db.x86_64 0:4.7.25-28.el7                     compat-db-headers.noarch 0:4.7.25-28.el7           compat-db47.x86_64 0:4.7.25-28.el7               
+  compat-exiv2-023.x86_64 0:0.23-2.el7                 compat-exiv2-026.x86_64 0:0.26-1.el7               compat-gcc-44.x86_64 0:4.4.7-8.el7               
+  compat-gcc-44-c++.x86_64 0:4.4.7-8.el7               compat-gcc-44-gfortran.x86_64 0:4.4.7-8.el7        compat-glade315.x86_64 0:3.15.0-1.el7            
+  compat-glew.x86_64 0:1.9.0-7.el7                     compat-glibc.x86_64 1:2.12-4.el7.centos            compat-glibc-headers.x86_64 1:2.12-4.el7.centos  
+  compat-gnome-desktop314.x86_64 0:3.14.2-1.el7        compat-grilo02.x86_64 0:0.2.12-1.el7               compat-libcap1.x86_64 0:1.10-7.el7               
+  compat-libcogl-pango12.x86_64 0:1.14.0-3.el7         compat-libcogl12.x86_64 0:1.14.0-3.el7             compat-libcolord1.x86_64 0:1.0.4-1.el7           
+  compat-libf2c-34.x86_64 0:3.4.6-32.el7               compat-libgdata13.x86_64 0:0.13.3-1.el7            compat-libgfortran-41.x86_64 0:4.1.2-45.el7      
+  compat-libgnome-bluetooth11.x86_64 1:3.8.2.1-2.el7   compat-libgnome-desktop3-7.x86_64 0:3.8.4-2.el7    compat-libgweather3.x86_64 0:3.8.2-1.el7         
+  compat-libical1.x86_64 0:1.0.1-2.el7                 compat-libmediaart0.x86_64 0:0.7.0-1.el7           compat-libmpc.x86_64 0:1.0.1-3.el7               
+  compat-libpackagekit-glib2-16.x86_64 0:0.8.9-1.el7   compat-libstdc++-33.x86_64 0:3.2.3-72.el7          compat-libtiff3.x86_64 0:3.9.4-12.el7            
+  compat-libupower-glib1.x86_64 0:0.9.20-1.el7         compat-libxcb.x86_64 0:1.9-1.el7                   compat-openldap.x86_64 1:2.3.43-5.el7            
+  compat-openmpi16.x86_64 0:1.6.4-10.7.2.el7           compat-openmpi16-devel.x86_64 0:1.6.4-10.7.2.el7   compat-opensm-libs.x86_64 0:3.3.15-3.el7         
+  compat-poppler022.x86_64 0:0.22.5-4.el7              compat-poppler022-cpp.x86_64 0:0.22.5-4.el7        compat-poppler022-glib.x86_64 0:0.22.5-4.el7     
+  compat-poppler022-qt.x86_64 0:0.22.5-4.el7           cpp.x86_64 0:4.8.5-39.el7                          expat-devel.x86_64 0:2.1.0-10.el7_3              
+  gcc.x86_64 0:4.8.5-39.el7                            gcc-c++.x86_64 0:4.8.5-39.el7                      gd.x86_64 0:2.0.35-26.el7                        
+  kernel-headers.x86_64 0:3.10.0-1062.12.1.el7         keyutils.x86_64 0:1.5.8-3.el7                      keyutils-libs-devel.x86_64 0:1.5.8-3.el7         
+  krb5-devel.x86_64 0:1.15.1-37.el7_7.2                libXpm.x86_64 0:3.5.12-1.el7                       libXpm-devel.x86_64 0:3.5.12-1.el7               
+  libcom_err-devel.x86_64 0:1.42.9-16.el7              libjpeg-turbo.x86_64 0:1.2.90-8.el7                libjpeg-turbo-devel.x86_64 0:1.2.90-8.el7        
+  libjpeg-turbo-static.x86_64 0:1.2.90-8.el7           libjpeg-turbo-utils.x86_64 0:1.2.90-8.el7          libpng-devel.x86_64 2:1.5.13-7.el7_2             
+  libpng-static.x86_64 2:1.5.13-7.el7_2                libpng12.x86_64 0:1.2.50-10.el7                    libpng12-devel.x86_64 0:1.2.50-10.el7            
+  libselinux-devel.x86_64 0:2.5-14.1.el7               libsepol-devel.x86_64 0:2.5-10.el7                 libstdc++-devel.x86_64 0:4.8.5-39.el7            
+  libtool.x86_64 0:2.4.2-22.el7_3                      libtool-ltdl.x86_64 0:2.4.2-22.el7_3               libtool-ltdl-devel.x86_64 0:2.4.2-22.el7_3       
+  libxml2-devel.x86_64 0:2.9.1-6.el7_2.3               mpfr.x86_64 0:3.1.1-4.el7                          ncurses-devel.x86_64 0:5.9-14.20130511.el7_4     
+  ncurses-static.x86_64 0:5.9-14.20130511.el7_4        ncurses-term.noarch 0:5.9-14.20130511.el7_4        openssl-devel.x86_64 1:1.0.2k-19.el7             
+  patch.x86_64 0:2.7.1-12.el7_7                        pcre-devel.x86_64 0:8.32-17.el7                    php-common.x86_64 0:5.4.16-46.1.el7_7            
+  php-gd.x86_64 0:5.4.16-46.1.el7_7                    zlib-devel.x86_64 0:1.2.7-18.el7                  
+
+作为依赖被安装:
+  ModemManager-glib.x86_64 0:1.6.10-3.el7_6             adwaita-cursor-theme.noarch 0:3.28.0-1.el7      adwaita-icon-theme.noarch 0:3.28.0-1.el7           
+  at-spi2-atk.x86_64 0:2.26.2-1.el7                     at-spi2-core.x86_64 0:2.28.0-1.el7              atk.x86_64 0:2.28.1-1.el7                          
+  avahi-glib.x86_64 0:0.6.31-19.el7                     avahi-libs.x86_64 0:0.6.31-19.el7               cairo.x86_64 0:1.15.12-4.el7                       
+  cairo-gobject.x86_64 0:1.15.12-4.el7                  cdparanoia-libs.x86_64 0:10.2-17.el7            clutter.x86_64 0:1.26.2-2.el7                      
+  clutter-gst2.x86_64 0:2.0.18-1.el7                    clutter-gtk.x86_64 0:1.8.4-1.el7                cogl.x86_64 0:1.22.2-2.el7                         
+  colord-libs.x86_64 0:1.3.4-1.el7                      cups-libs.x86_64 1:1.6.3-40.el7                 cyrus-sasl.x86_64 0:2.1.26-23.el7                  
+  cyrus-sasl-devel.x86_64 0:2.1.26-23.el7               dconf.x86_64 0:0.28.0-4.el7                     dejavu-fonts-common.noarch 0:2.33-6.el7            
+  dejavu-sans-fonts.noarch 0:2.33-6.el7                 enchant.x86_64 1:1.6.0-8.el7                    environment-modules.x86_64 0:3.2.10-10.el7         
+  flac-libs.x86_64 0:1.3.0-5.el7_1                      fontconfig.x86_64 0:2.13.0-4.3.el7              fontpackages-filesystem.noarch 0:1.44-8.el7        
+  fribidi.x86_64 0:1.0.2-1.el7_7.1                      gcc-gfortran.x86_64 0:4.8.5-39.el7              gcr.x86_64 0:3.28.0-1.el7                          
+  gdk-pixbuf2.x86_64 0:2.36.12-3.el7                    geoclue2.x86_64 0:2.4.8-1.el7                   glib-networking.x86_64 0:2.56.1-1.el7              
+  glibc-devel.x86_64 0:2.17-292.el7                     glibc-headers.x86_64 0:2.17-292.el7             gnome-online-accounts.x86_64 0:3.28.0-1.el7        
+  gnutls.x86_64 0:3.3.29-9.el7_6                        graphite2.x86_64 0:1.3.10-1.el7_3               gsettings-desktop-schemas.x86_64 0:3.28.0-2.el7    
+  gsm.x86_64 0:1.0.13-11.el7                            gstreamer1.x86_64 0:1.10.4-2.el7                gstreamer1-plugins-bad-free.x86_64 0:1.10.4-3.el7  
+  gstreamer1-plugins-base.x86_64 0:1.10.4-2.el7         gtk-update-icon-cache.x86_64 0:3.22.30-3.el7    gtk2.x86_64 0:2.24.31-1.el7                        
+  gtk3.x86_64 0:3.22.30-3.el7                           harfbuzz.x86_64 0:1.7.5-2.el7                   harfbuzz-icu.x86_64 0:1.7.5-2.el7                  
+  hicolor-icon-theme.noarch 0:0.12-7.el7                hunspell.x86_64 0:1.3.2-15.el7                  hunspell-en-US.noarch 0:0.20121024-6.el7           
+  hwloc-libs.x86_64 0:1.11.8-4.el7                      hyphen.x86_64 0:2.8.6-5.el7                     infinipath-psm.x86_64 0:3.3-26_g604758e_open.2.el7 
+  iso-codes.noarch 0:3.46-2.el7                         jasper-libs.x86_64 0:1.900.1-33.el7             jbigkit-libs.x86_64 0:2.0-11.el7                   
+  json-glib.x86_64 0:1.4.2-2.el7                        lcms2.x86_64 0:2.6-3.el7                        libICE.x86_64 0:1.0.9-9.el7                        
+  libSM.x86_64 0:1.2.2-2.el7                            libX11.x86_64 0:1.6.7-2.el7                     libX11-common.noarch 0:1.6.7-2.el7                 
+  libX11-devel.x86_64 0:1.6.7-2.el7                     libXau.x86_64 0:1.0.8-2.1.el7                   libXau-devel.x86_64 0:1.0.8-2.1.el7                
+  libXcomposite.x86_64 0:0.4.4-4.1.el7                  libXcursor.x86_64 0:1.1.15-1.el7                libXdamage.x86_64 0:1.1.4-4.1.el7                  
+  libXext.x86_64 0:1.3.3-3.el7                          libXfixes.x86_64 0:5.0.3-1.el7                  libXft.x86_64 0:2.3.2-2.el7                        
+  libXi.x86_64 0:1.7.9-1.el7                            libXinerama.x86_64 0:1.1.3-2.1.el7              libXrandr.x86_64 0:1.5.1-2.el7                     
+  libXrender.x86_64 0:0.9.10-1.el7                      libXt.x86_64 0:1.1.5-3.el7                      libXtst.x86_64 0:1.2.3-1.el7                       
+  libXv.x86_64 0:1.0.11-1.el7                           libXxf86vm.x86_64 0:1.1.4-1.el7                 libarchive.x86_64 0:3.1.2-14.el7_7                 
+  libasyncns.x86_64 0:0.8-7.el7                         libcanberra.x86_64 0:0.30-5.el7                 libcanberra-gtk3.x86_64 0:0.30-5.el7               
+  libdb-devel.x86_64 0:5.3.21-25.el7                    libdvdnav.x86_64 0:5.0.3-1.el7                  libdvdread.x86_64 0:5.0.3-3.el7                    
+  libepoxy.x86_64 0:1.5.2-1.el7                         libesmtp.x86_64 0:1.0.6-7.el7                   libevdev.x86_64 0:1.5.6-1.el7                      
+  libgfortran.x86_64 0:4.8.5-39.el7                     libglvnd.x86_64 1:1.0.1-0.8.git5baa1e5.el7      libglvnd-egl.x86_64 1:1.0.1-0.8.git5baa1e5.el7     
+  libglvnd-gles.x86_64 1:1.0.1-0.8.git5baa1e5.el7       libglvnd-glx.x86_64 1:1.0.1-0.8.git5baa1e5.el7  libgudev1.x86_64 0:219-67.el7_7.3                  
+  libgusb.x86_64 0:0.2.9-1.el7                          libibumad.x86_64 0:22.1-3.el7                   libibverbs.x86_64 0:22.1-3.el7                     
+  libicu.x86_64 0:50.2-3.el7                            libinput.x86_64 0:1.10.7-2.el7                  libkadm5.x86_64 0:1.15.1-37.el7_7.2                
+  libmng.x86_64 0:1.0.10-14.el7                         libmodman.x86_64 0:2.0.1-8.el7                  libmpc.x86_64 0:1.0.1-3.el7                        
+  libmpcdec.x86_64 0:1.2.6-12.el7                       libnotify.x86_64 0:0.7.7-1.el7                  liboauth.x86_64 0:0.9.7-4.el7                      
+  libogg.x86_64 2:1.3.0-7.el7                           libproxy.x86_64 0:0.4.11-11.el7                 libquadmath.x86_64 0:4.8.5-39.el7                  
+  libquadmath-devel.x86_64 0:4.8.5-39.el7               librdmacm.x86_64 0:22.1-3.el7                   librsvg2.x86_64 0:2.40.20-1.el7                    
+  libsecret.x86_64 0:0.18.6-1.el7                       libsndfile.x86_64 0:1.0.25-10.el7               libsoup.x86_64 0:2.62.2-2.el7                      
+  libsrtp.x86_64 0:1.4.4-10.20101004cvs.el7             libtdb.x86_64 0:1.3.16-1.el7                    libthai.x86_64 0:0.1.14-9.el7                      
+  libtheora.x86_64 1:1.1.1-8.el7                        libtiff.x86_64 0:4.0.3-32.el7                   libusbx.x86_64 0:1.0.21-1.el7                      
+  libverto-devel.x86_64 0:0.2.5-4.el7                   libvisual.x86_64 0:0.4.0-16.el7                 libvorbis.x86_64 1:1.3.3-8.el7.1                   
+  libwacom.x86_64 0:0.30-1.el7                          libwacom-data.noarch 0:0.30-1.el7               libwayland-client.x86_64 0:1.15.0-1.el7            
+  libwayland-cursor.x86_64 0:1.15.0-1.el7               libwayland-egl.x86_64 0:1.15.0-1.el7            libwayland-server.x86_64 0:1.15.0-1.el7            
+  libwebp.x86_64 0:0.3.0-7.el7                          libxcb.x86_64 0:1.13-1.el7                      libxcb-devel.x86_64 0:1.13-1.el7                   
+  libxkbcommon.x86_64 0:0.7.1-3.el7                     libxkbfile.x86_64 0:1.0.9-3.el7                 libxshmfence.x86_64 0:1.2-1.el7                    
+  libxslt.x86_64 0:1.1.28-5.el7                         libzip.x86_64 0:0.10.1-8.el7                    m4.x86_64 0:1.4.16-10.el7                          
+  mesa-libEGL.x86_64 0:18.3.4-6.el7_7                   mesa-libGL.x86_64 0:18.3.4-6.el7_7              mesa-libGLU.x86_64 0:9.0.0-4.el7                   
+  mesa-libgbm.x86_64 0:18.3.4-6.el7_7                   mesa-libglapi.x86_64 0:18.3.4-6.el7_7           mtdev.x86_64 0:1.1.5-5.el7                         
+  nettle.x86_64 0:2.7.1-8.el7                           openjpeg-libs.x86_64 0:1.5.1-18.el7             openldap-devel.x86_64 0:2.4.44-21.el7_6            
+  opensm-libs.x86_64 0:3.3.21-2.el7                     opus.x86_64 0:1.0.2-6.el7                       orc.x86_64 0:0.4.26-1.el7                          
+  pango.x86_64 0:1.42.4-4.el7_7                         pciutils.x86_64 0:3.5.1-3.el7                   perl-Data-Dumper.x86_64 0:2.145-3.el7              
+  perl-Test-Harness.noarch 0:3.28-3.el7                 perl-Thread-Queue.noarch 0:3.02-2.el7           pixman.x86_64 0:0.34.0-1.el7                       
+  poppler-data.noarch 0:0.4.6-3.el7                     postgresql-libs.x86_64 0:9.2.24-2.el7_7         pulseaudio-libs.x86_64 0:10.0-5.el7                
+  qt.x86_64 1:4.8.7-3.el7_6                             qt-settings.noarch 0:19-23.10.el7.centos        qt-x11.x86_64 1:4.8.7-3.el7_6                      
+  rdma-core.x86_64 0:22.1-3.el7                         rest.x86_64 0:0.8.1-2.el7                       sound-theme-freedesktop.noarch 0:0.8-3.el7         
+  soundtouch.x86_64 0:1.4.0-9.el7                       t1lib.x86_64 0:5.1.2-14.el7                     tcl.x86_64 1:8.5.13-8.el7                          
+  telepathy-glib.x86_64 0:0.24.1-1.el7                  totem-pl-parser.x86_64 0:3.26.1-1.el7           trousers.x86_64 0:0.3.14-2.el7                     
+  unixODBC.x86_64 0:2.3.1-14.el7                        webkitgtk4.x86_64 0:2.22.7-2.el7                webkitgtk4-jsc.x86_64 0:2.22.7-2.el7               
+  webkitgtk4-plugin-process-gtk2.x86_64 0:2.22.7-2.el7  xkeyboard-config.noarch 0:2.24-1.el7            xml-common.noarch 0:0.6.3-39.el7                   
+  xorg-x11-proto-devel.noarch 0:2018.4-1.el7            xz-devel.x86_64 0:5.2.2-1.el7                  
+
+完毕！
+</code></pre>
+<h4>2.1.3. 下载Nginx源码包</h4>
+<p>下载地址，别无选择，我是从<a class="wp-editor-md-post-content-link" href="https://nginx.org/en/download.html">官网</a>下载的，版本是：<a class="wp-editor-md-post-content-link" href="https://nginx.org/download/nginx-1.8.1.tar.gz">nginx-1.8.1.tar.gz</a></p>
+<pre><code class="language-shell line-numbers">[root@lixy src]# wget https://nginx.org/download/nginx-1.8.1.tar.gz
+[root@lixy src]# ls -la
+总用量 816
+drwxr-xr-x.  3 root root     51 2月  20 22:24 .
+drwxr-xr-x. 12 root root    131 2月  15 14:52 ..
+drwxr-xr-x.  8 1001 1001    158 1月  26 2016 nginx-1.8.1
+-rw-r--r--.  1 root root 833473 2月  20 22:23 nginx-1.8.1.tar.gz
+[root@lixy src]# pwd
+/usr/local/src
+
+</code></pre>
+<p>然后就是解压命令：<code>tar -zxvf ./nginx-1.8.1.tar.gz</code><br>
+解压完之后别动先，还有事情要做，请继续往下看。</p>
+<h2>3. 编译Nginx源码包</h2>
+<p>编译开始之前，最好先了解下<a class="wp-editor-md-post-content-link" href="https://segmentfault.com/a/1190000002797601">编译参数</a>这个讲解是非常详细的。<br>
+nginx大部分常用模块，编译时<code>./configure –help以–without</code>开头的都默认安装。</p>
+<ul>
+<li>–prefix=PATH ： 指定nginx的安装目录。默认 /usr/local/nginx</li>
+<li>–conf-path=PATH ： 设置nginx.conf配置文件的路径。nginx允许使用不同的配置文件启动，通过命令行中的-c选项。默认为prefix/conf/nginx.conf</li>
+<li>–user=name： 设置nginx工作进程的用户。安装完成后，可以随时在nginx.conf配置文件更改user指令。默认的用户名是nobody。–group=name类似</li>
+<li>–with-pcre ： 设置PCRE库的源码路径，如果已通过yum方式安装，使用–with-pcre自动找到库文件。使用–with-pcre=PATH时，需要从PCRE网站下载pcre库的源码（版本4.4 &#8211; 8.30）并解压，剩下的就交给Nginx的./configure和make来完成。perl正则表达式使用在location指令和 ngx&#95;http&#95;rewrite_module模块中。</li>
+<li>–with-zlib=PATH ： 指定 zlib（版本1.1.3 &#8211; 1.2.5）的源码解压目录。在默认就启用的网络传输压缩模块ngx&#95;http&#95;gzip_module时需要使用zlib 。</li>
+<li>–with-http&#95;ssl&#95;module ： 使用https协议模块。默认情况下，该模块没有被构建。前提是openssl与openssl-devel已安装</li>
+<li>–with-http&#95;stub&#95;status_module ： 用来监控 Nginx 的当前状态</li>
+<li>–with-http&#95;realip&#95;module ： 通过这个模块允许我们改变客户端请求头中客户端IP地址值(例如X-Real-IP 或 X-Forwarded-For)，意义在于能够使得后台服务器记录原始客户端的IP地址</li>
+<li>–add-module=PATH ： 添加第三方外部模块，如nginx-sticky-module-ng或缓存模块。每次添加新的模块都要重新编译（Tengine可以在新加入module时无需重新编译）</li>
+</ul>
+<p><strong>我的编译方式</strong>（如果你们担心出错，就按照我的方式<strong>一摸一样</strong>就行）：</p>
+<pre><code class="language-shell line-numbers">./configure --prefix=/usr/local/nginx-1.8.1 --with-http\_stub\_status\_module --with-http\_ssl_module --with-pcre
+</code></pre>
+<p>之后就是：<code>make  &amp;&amp;  make install</code></p>
+<h2>4. 测试Nginx-1.8.1</h2>
+<p>切换到安装目录（安装到<code>/usr/local/nginx-1.8.1</code>）,然后测试Nginx-1.8.1，是否成功；</p>
+<p><code>[root@lixy ~]# cd /usr/local/nginx-1.8.1/<br>
+[root@lixy nginx-1.8.1]# ls -la<br>
+总用量 4<br>
+drwxr-xr-x.  6 root root   54 2月  20 22:47 .<br>
+drwxr-xr-x. 13 root root  150 2月  20 22:45 ..<br>
+drwxr-xr-x.  2 root root 4096 2月  20 22:47 conf<br>
+drwxr-xr-x.  2 root root   40 2月  20 22:47 html<br>
+drwxr-xr-x.  2 root root    6 2月  20 22:47 logs<br>
+drwxr-xr-x.  2 root root   19 2月  20 22:47 sbin<br>
+[root@lixy nginx-1.8.1]# pwd<br>
+/usr/local/nginx-1.8.1<br>
+[root@lixy nginx-1.8.1]# cd ./sbin/<br>
+[root@lixy sbin]# pwd<br>
+/usr/local/nginx-1.8.1/sbin<br>
+[root@lixy sbin]# ls -la<br>
+总用量 5084<br>
+drwxr-xr-x. 2 root root      19 2月  20 22:47 .<br>
+drwxr-xr-x. 6 root root      54 2月  20 22:47 ..<br>
+-rwxr-xr-x. 1 root root 5204896 2月  20 22:47 nginx<br>
+[root@lixy sbin]#</code><br>
+测试命令，比如说先看看版本：<code>/usr/local/nginx-1.8.1/sbin/nginx -v</code></p>
+<pre><code class="language-shell line-numbers">[root@lixy sbin]# /usr/local/nginx-1.8.1/sbin/nginx -v
+nginx version: nginx/1.8.1
+</code></pre>
+<h3>4.1. .创建软链接</h3>
+<pre><code class="language-shell line-numbers">ln -s /usr/local/nginx-1.8.1/sbin/nginx /usr/bin/nginx
+</code></pre>
+<h3>4.2. 6.开机自启动</h3>
+<pre><code class="language-shell line-numbers">vim /etc/init.d/nginx
+</code></pre>
+<p>输入如下内容</p>
+<pre><code class="language-shell line-numbers">#!/bin/sh
+#
+# nginx - this script starts and stops the nginx daemon
+#
+# chkconfig:   - 85 15
+# description:  NGINX is an HTTP(S) server, HTTP(S) reverse \
+#               proxy and IMAP/POP3 proxy server
+# processname: nginx
+# config:      /usr/local/nginx-1.8.1/conf/nginx.conf
+# config:      /etc/sysconfig/nginx
+# pidfile:     /usr/local/nginx-1.8.1/logs/nginx.pid
+# Source function library.
+. /etc/rc.d/init.d/functions
+# Source networking configuration.
+. /etc/sysconfig/network
+# Check that networking is up.
+[ "<span class="katex math inline">NETWORKING" = "no" ] &amp;&amp; exit 0
+nginx="/usr/local/nginx-1.8.1/sbin/nginx"
+prog=</span>(basename <span class="katex math inline">nginx)
+NGINX_CONF_FILE="/usr/local/nginx-1.8.1/conf/nginx.conf"
+[ -f /etc/sysconfig/nginx ] &amp;&amp; . /etc/sysconfig/nginx
+lockfile=/var/lock/subsys/nginx
+make_dirs() {
+   # make required directories
+   user=`</span>nginx -V 2&gt;&amp;1 | grep "configure arguments:" | sed 's/[^*]*--user=\([^ ]*\).*/\1/g' -`
+   if [ -z "`grep <span class="katex math inline">user /etc/passwd`" ]; then
+       useradd -M -s /bin/nologin</span>user
+   fi
+   options=`<span class="katex math inline">nginx -V 2&gt;&amp;1 | grep 'configure arguments:'`
+   for opt in</span>options; do
+       if [ `echo <span class="katex math inline">opt | grep '.*-temp-path'` ]; then
+           value=`echo</span>opt | cut -d "=" -f 2`
+           if [ ! -d "<span class="katex math inline">value" ]; then
+               # echo "creating"</span>value
+               mkdir -p <span class="katex math inline">value &amp;&amp; chown -R</span>user <span class="katex math inline">value
+           fi
+       fi
+   done
+}
+start() {
+    [ -x</span>nginx ] || exit 5
+    [ -f <span class="katex math inline">NGINX_CONF_FILE ] || exit 6
+    make_dirs
+    echo -n</span>"Starting <span class="katex math inline">prog: "
+    daemon</span>nginx -c <span class="katex math inline">NGINX_CONF_FILE
+    retval=</span>?
+    echo
+    [ <span class="katex math inline">retval -eq 0 ] &amp;&amp; touch</span>lockfile
+    return <span class="katex math inline">retval
+}
+stop() {
+    echo -n</span>"Stopping <span class="katex math inline">prog: "
+    killproc</span>prog -QUIT
+    retval=<span class="katex math inline">?
+    echo
+    [</span>retval -eq 0 ] &amp;&amp; rm -f <span class="katex math inline">lockfile
+    return</span>retval
+}
+restart() {
+    configtest || return <span class="katex math inline">?
+    stop
+    sleep 1
+    start
+}
+reload() {
+    configtest || return</span>?
+    echo -n <span class="katex math inline">"Reloading</span>prog: "
+    killproc <span class="katex math inline">nginx -HUP
+    RETVAL=</span>?
+    echo
+}
+force_reload() {
+    restart
+}
+configtest() {
+  <span class="katex math inline">nginx -t -c</span>NGINX_CONF_FILE
+}
+rh_status() {
+    status <span class="katex math inline">prog
+}
+rh_status_q() {
+    rh_status &gt;/dev/null 2&gt;&amp;1
+}
+case "</span>1" in
+    start)
+        rh_status_q &amp;&amp; exit 0
+        <span class="katex math inline">1
+        ;;
+    stop)
+        rh_status_q || exit 0</span>1
+        ;;
+    restart|configtest)
+        <span class="katex math inline">1
+        ;;
+    reload)
+        rh_status_q || exit 7</span>1
+        ;;
+    force-reload)
+        force_reload
+        ;;
+    status)
+        rh_status
+        ;;
+    condrestart|try-restart)
+        rh_status_q || exit 0
+            ;;
+    *)
+        echo <span class="katex math inline">"Usage:</span>0 {start|stop|status|restart|condrestart|try-restart|reload|force-reload|configtest}"
+        exit 2
+esac
+</code></pre>
+<p>赋予脚本可执行权限</p>
+<pre><code class="language-shell line-numbers">chmod a+x /etc/init.d/nginx
+</code></pre>
+<p>将nginx服务加入chkconfig管理列表</p>
+<pre><code class="language-shell line-numbers">chkconfig --add /etc/init.d/nginx
+chkconfig nginx on
+# 启动
+systemctl status nginx.service
+</code></pre>
+<h3>4.3. 7.测试</h3>
+<pre><code class="language-shell line-numbers">curl localhost:80
+</code></pre>
+<h2>5. 完成</h2>
+<p>参考链接：<a class="wp-editor-md-post-content-link" href="https://www.cnblogs.com/stulzq/p/9291223.html">https://www.cnblogs.com/stulzq/p/9291223.html</a><br>
+<a class="wp-editor-md-post-content-link" href="https://blog.ryoma.top/posts/nginx_install/">https://blog.ryoma.top/posts/nginx_install/</a></p>
+      </div>
+      <div id="pay-single-box"></div>
+          <div class="entry-tags">
+          <a href="https://blog.lixypro.com/tag/centos" rel="tag">
+        Centos      </a>
+          <a href="https://blog.lixypro.com/tag/configure" rel="tag">
+        configure      </a>
+          <a href="https://blog.lixypro.com/tag/make-install" rel="tag">
+        make install      </a>
+          <a href="https://blog.lixypro.com/tag/nginx" rel="tag">
+        nginx      </a>
+          <a href="https://blog.lixypro.com/tag/%e5%ae%89%e5%85%a8" rel="tag">
+        安全      </a>
+      </div>
+<div class="article-copyright">RIPRO主题是一个优秀的主题，极致后台体验，无插件，集成会员系统<br><a href="https://blog.lixypro.com/">Lixypro博客</a> &raquo; <a href="https://blog.lixypro.com/houduanyunwei/linux-centos-install-nginx1-8-1-through-source-package.html">Linux(centos)通过源码包方式安装nginx1.8.1</a>
+</div>
+
+<div class="article-footer">
+    <div class="author-box">
+    <div class="author-image">
+      <img alt="administrator" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/avatar/1.png" class="lazyload avatar avatar-140 photo " height="140" width="140">    </div>
+    <div class="author-info">
+      <h4 class="author-name">
+        <a target="_blank" href="javascript:;">administrator</a>
+        <span class="label label-default"><i class="fa fa-diamond"></i> 普通</span>      </h4>
+    </div>
+  </div>
+      <div class="xshare">
+      <span class="xshare-title">分享到：</span>
+            <a etap="share" data-share="qq" class="share-qq"><i class="fa fa-qq"></i></a>
+      <a etap="share" data-share="weibo" class="share-weibo"><i class="fa fa-weibo"></i></a>
+              <a href="javascript:;" class="btn-bigger-cover share-weixin" data-nonce="f88f21cb2e" data-id="46" data-action="create-bigger-image" id="bigger-cover"><i class="fa fa-paper-plane"></i></a>
+        </div>
+   
+</div>    </div>
+  </div>
+</article>
+
+
+  <div class="entry-navigation">
+    <nav class="article-nav">
+        <span class="article-nav-prev">上一篇<br><a href="https://blog.lixypro.com/houduanyunwei/iptables-for-linux-detailed-explanation-and-examples.html" rel="prev">IPtables for Linux详解以及实例</a></span>
+        <span class="article-nav-next">下一篇<br><a href="https://blog.lixypro.com/houduanyunwei/use-firewalld-to-build-a-dynamic-firewall.html" rel="next">Linux的FirewallD详细基础说明</a></span>
+    </nav>
+    
+  </div>
+
+      <!-- # 标准网格模式... -->
+      <div class="related-posts-grid">
+        <h4 class="u-border-title">相关推荐</h4>
+        <div class="row">
+                     <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
+              <article class="post">
+                  <div class="entry-media">
+    <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/iptables-for-linux-detailed-explanation-and-examples.html">
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/uploads/2021/04/1618049585-9d70a7e2c2e0fdb.png&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="IPtables for Linux详解以及实例">  
+      </a>
+            <div class="cao-cover">
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" width="50" height="50px"></noscript>
+</noscript>
+</noscript>
+</noscript>
+</div>
+          </div>
+      </div>
+                  <div class="entry-wrapper">
+                  
+  <header class="entry-header">    
+    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/iptables-for-linux-detailed-explanation-and-examples.html" title="IPtables for Linux详解以及实例" rel="bookmark">IPtables for Linux详解以及实例</a></h4>  </header>                </div>
+              </article>
+            </div>
+                      <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
+              <article class="post">
+                  <div class="entry-media">
+    <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/explanation-dns-cache-poisoning-is-also-called-dns-spoofing.html">
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/themes/ripro/assets/images/thumb/1.jpg&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="解释:DNS缓存中毒也称为DNS欺骗">  
+      </a>
+            <div class="cao-cover">
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" width="50" height="50px"></noscript>
+</noscript>
+</noscript>
+</noscript>
+</div>
+          </div>
+      </div>
+                  <div class="entry-wrapper">
+                  
+  <header class="entry-header">    
+    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/explanation-dns-cache-poisoning-is-also-called-dns-spoofing.html" title="解释:DNS缓存中毒也称为DNS欺骗" rel="bookmark">解释:DNS缓存中毒也称为DNS欺骗</a></h4>  </header>                </div>
+              </article>
+            </div>
+                      <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
+              <article class="post">
+                  <div class="entry-media">
+    <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/detailed_explanation_of_the_process_of_compiling_and_installing_apache_on_centos_server_source_package.html">
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/themes/ripro/assets/images/thumb/1.jpg&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Centos服务器源码包编译安装Apache过程详解">  
+      </a>
+            <div class="cao-cover">
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" width="50" height="50px"></noscript>
+</noscript>
+</noscript>
+</noscript>
+</div>
+          </div>
+      </div>
+                  <div class="entry-wrapper">
+                  
+  <header class="entry-header">    
+    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/detailed_explanation_of_the_process_of_compiling_and_installing_apache_on_centos_server_source_package.html" title="Centos服务器源码包编译安装Apache过程详解" rel="bookmark">Centos服务器源码包编译安装Apache过程详解</a></h4>  </header>                </div>
+              </article>
+            </div>
+                      <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
+              <article class="post">
+                  <div class="entry-media">
+    <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/detailed-explanation-of-linux-environment-variable-configuration-method.html">
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/themes/ripro/assets/images/thumb/1.jpg&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Linux环境变量配置方法详解">  
+      </a>
+            <div class="cao-cover">
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" width="50" height="50px"></noscript>
+</noscript>
+</noscript>
+</noscript>
+</div>
+          </div>
+      </div>
+                  <div class="entry-wrapper">
+                  
+  <header class="entry-header">    
+    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/detailed-explanation-of-linux-environment-variable-configuration-method.html" title="Linux环境变量配置方法详解" rel="bookmark">Linux环境变量配置方法详解</a></h4>  </header>                </div>
+              </article>
+            </div>
+                  </div>
+      </div>
+    
+  
+
+<div class="bottom-area">
+    <div id="comments" class="comments-area">
+        
+        
+        
+        	<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">发表评论 <small><a rel="nofollow" id="cancel-comment-reply-link" href="https://blog.lixypro.com/houduanyunwei/linux-centos-install-nginx1-8-1-through-source-package.html#respond" style="display:none;">取消回复</a></small>
+</h3>
+<form action="https://blog.lixypro.com/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate>
+<p class="comment-form-comment"><textarea id="comment" name="comment" rows="8" aria-required="true"></textarea></p>
+<div class="row comment-author-inputs">
+<div class="col-md-4 input"><p class="comment-form-author"><label for="author">昵称*</label><input id="author" name="author" type="text" value="" size="30" aria-required="true"></p></div>
+<div class="col-md-4 input"><p class="comment-form-email"><label for="email">E-mail*</label><input id="email" name="email" type="text" value="" size="30" aria-required="true"></p></div>
+<div class="col-md-4 input"><p class="comment-form-url"><label for="url">网站</label><input id="url" name="url" type="text" value="" size="30"></p></div>
+</div>
+<p class="comment-form-cookies-consent"><input id="wp-comment-cookies-consent" name="wp-comment-cookies-consent" type="checkbox" value="yes"> <label for="wp-comment-cookies-consent">下次发表评论时，请在此浏览器中保存我的姓名、电子邮件和网站</label></p>
+<p class="form-submit"><input name="submit" type="submit" id="submit" class="button" value="发表评论"> <input type="hidden" name="comment_post_ID" value="46" id="comment_post_ID">
+<input type="hidden" name="comment_parent" id="comment_parent" value="0">
+</p>
+</form>	</div>
+<!-- #respond -->
+	    </div>
+</div>				</main>
+			</div>
+		</div>
+			</div>
+</div>
+
+
+</div>
+<!-- end sitecoent --> 
+
+	
+	<div class="module parallax">
+		<img class="jarallax-img lazyload" data-srcset="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/background/bg-1.jpg" data-sizes="auto" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="">
+		<div class="container">
+			<h4 class="entry-title">
+				提供最优质的资源集合			</h4>
+							<a target="_blank" class="button" href="https://blog.lixypro.com/">立即查看</a>
+										<a target="_blank" class="button transparent" href="https://blog.lixypro.com/">了解详情</a>
+					</div>
+	</div>
+	
+	<footer class="site-footer">
+		<div class="container">
+			
+			<div class="footer-widget">
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-3 widget--about">
+            <div class="widget--content">
+                <div class="footer--logo mb-20">
+                    <img data-dark="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" alt="Lixypro博客" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" class="tap-logo lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img class="tap-logo" src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" data-dark="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" alt="Lixypro博客"></noscript>
+                </div>
+                <p class="mb-10">Lixypro博客网站,专注于各种技术类.</p>
+            </div>
+        </div>
+        <!-- .col-md-2 end -->
+        <div class="col-xs-12 col-sm-3 col-md-2 col-md-offset-1 widget--links">
+            <div class="widget--title">
+                <h5>本站导航</h5>
+            </div>
+            <div class="widget--content">
+                <ul class="list-unstyled mb-0">
+                                    </ul>
+            </div>
+        </div>
+        <!-- .col-md-2 end -->
+        <div class="col-xs-12 col-sm-3 col-md-2 widget--links">
+            <div class="widget--title">
+                <h5>友情链接</h5>
+            </div>
+            <div class="widget--content">
+                <ul class="list-unstyled mb-0">
+                    <li><a target="_blank" href="https://www.baidu.com/">百度一下</a></li>
+<li><a target="_blank" href="https://www.zhihu.com/">知乎官网</a></li>                </ul>
+            </div>
+        </div>
+        <!-- .col-md-2 end -->
+        <div class="col-xs-12 col-sm-12 col-md-4 widget--newsletter">
+            <div class="widget--title">
+                <h5>快速搜索</h5>
+            </div>
+            <div class="widget--content">
+                <form class="newsletter--form mb-30" action="https://blog.lixypro.com/" method="get">
+                    <input type="text" class="form-control" name="s" placeholder="关键词">
+                    <button type="submit"><i class="fa fa-arrow-right"></i></button>
+                </form>
+                <h6>本站由WordPress程序强力驱动</h6>
+            </div>
+        </div>
+
+    </div>
+</div>						  <div class="site-info">
+			    © 2021 Lixypro博客 & WordPress Theme. All rights reserved			    			  </div>
+					</div>
+	</footer>
+	
+<div class="rollbar">
+	
+	<div class="rollbar-item" etap="to_full" title="全屏页面"><i class="fa fa-arrows-alt"></i></div>
+
+	
+		<div class="rollbar-item" etap="to_top" title="返回顶部"><i class="fa fa-angle-up"></i></div>
+</div>
+
+<div class="dimmer"></div>
+
+
+
+<div class="off-canvas">
+  <div class="canvas-close"><i class="mdi mdi-close"></i></div>
+  <div class="logo-wrapper">
+      <a href="https://blog.lixypro.com/">
+      <img alt="Lixypro博客" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" class="logo regular lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img class="logo regular" src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" alt="Lixypro博客"></noscript>
+    </a>
+    </div>
+  <div class="mobile-menu hidden-lg hidden-xl"></div>
+  <aside class="widget-area">
+      </aside>
+</div>
+<script>
+    console.log("\n %c RiPro V7.1.0 %c https://blog.lixypro.com \n\n", "color: #fadfa3; background: #030307; padding:5px 0;", "background: #fadfa3; padding:5px 0;");
+    console.log("SQL 请求数：67");
+    console.log("页面生成耗时： 0.32578");
+</script>
+
+
+
+<script type="text/javascript" id="toc-front-js-extra">
+/* <![CDATA[ */
+var tocplus = {"visibility_show":"show","visibility_hide":"hide","width":"Auto"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/plugins/table-of-contents-plus/front.min.js?ver=2002" id="toc-front-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/jQuery/jquery.min.js?ver=10.2.1" id="jQuery-CDN-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/KaTeX/katex.min.js?ver=10.2.1" id="Katex-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/ClipBoard/clipboard.min.js?ver=2.0.1" id="copy-clipboard-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/components/prism-core.min.js?ver=1.15.0" id="prism-core-js-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/autoloader/prism-autoloader.min.js?ver=1.15.0" id="prism-plugin-autoloader-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/toolbar/prism-toolbar.min.js?ver=1.15.0" id="prism-plugin-toolbar-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/line-numbers/prism-line-numbers.min.js?ver=1.15.0" id="prism-plugin-line-numbers-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/show-language/prism-show-language.min.js?ver=1.15.0" id="prism-plugin-show-language-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js?ver=1.15.0" id="prism-plugin-copy-to-clipboard-js"></script>
+<script type="text/javascript" id="Front_Style-js-extra">
+/* <![CDATA[ */
+var FrontStyle = {"openLinkInNewTab":"on"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/FrontStyle/frontstyle.min.js?ver=10.2.1" id="Front_Style-js"></script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/plugins/wp-smushit/app/assets/js/smush-lazy-load.min.js?ver=3.8.4" id="smush-lazy-load-js"></script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/plugins.js?ver=7.1.0" id="plugins-js"></script>
+<script type="text/javascript" id="app-js-extra">
+/* <![CDATA[ */
+var caozhuti = {"site_name":"Lixypro博客","home_url":"https:\/\/blog.lixypro.com","ajaxurl":"https:\/\/blog.lixypro.com\/wp-admin\/admin-ajax.php","is_singular":"1","tencent_captcha":{"is":"","appid":""},"infinite_load":"加载更多","infinite_loading":"<i class=\"fa fa-spinner fa-spin\"><\/i> 加载中...","site_notice":{"is":"0","color":"rgb(33, 150, 243)","html":"<div class=\"notify-content\"><h3>Lixypro欢迎你!<\/h3><div>这是一条网站公告，可在后台开启或关闭，可自定义背景颜色，标题，内容，用户首次打开关闭后不再重复弹出，此处可使用html标签...<\/div><\/div>"},"pay_type_html":{"html":"<div class=\"pay-button-box\"><\/div><p style=\"font-size: 13px; padding: 0; margin: 0;\">免费或钻石免费资源仅限余额支付<\/p>","alipay":0,"weixinpay":0}};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/app.js?ver=7.1.0" id="app-js"></script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/plugins/jquery.fancybox.min.js?ver=7.1.0" id="fancybox-js"></script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-includes/js/comment-reply.min.js?ver=5.7" id="comment-reply-js"></script>
+        <script type="text/javascript">
+            (function ($) {
+                $(document).ready(function () {
+                    $(".katex.math.inline").each(function () {
+                        var parent = $(this).parent()[0];
+                        if (parent.localName !== "code") {
+                            var texTxt = $(this).text();
+                            var el = $(this).get(0);
+                            try {
+                                katex.render(texTxt, el);
+                            } catch (err) {
+                                $(this).html("<span class=\"err\">" + err);
+                            }
+                        } else {
+                            $(this).parent().text($(this).parent().text());
+                        }
+                    });
+                    $(".katex.math.multi-line").each(function () {
+                        var texTxt = $(this).text();
+                        var el = $(this).get(0);
+                        try {
+                            katex.render(texTxt, el, {displayMode: true})
+                        } catch (err) {
+                            $(this).html("<span class=\"err\">" + err)
+                        }
+                    });
+                })
+            })(jQuery);
+        </script>
+                <script type="text/javascript">
+            Prism.plugins.autoloader.languages_path = "https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/components/";
+        </script>
+        
+</div>
+</body>
+</html>

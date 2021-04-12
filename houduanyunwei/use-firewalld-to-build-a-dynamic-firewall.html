@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="profile" href="https://gmpg.org/xfn/11">
+	<link href="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/favicon/favicon.png" rel="icon">
+  <title>Linux的FirewallD详细基础说明 - Lixypro博客</title>
+
+	<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+
+	<!-- This site is optimized with the Yoast SEO plugin v16.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+	<title>Linux的FirewallD详细基础说明 - Lixypro博客</title>
+	<meta name="description" content="Lixypro博客 - Linux的FirewallD详细基础说明 FirewallD 提供了支持网络/防火墙区域(zone)定义网络链接以及接口安全等级的动态防火墙管理工具。它支持 IPv4, IPv6 防火墙设置以及以太网桥接，并且拥有运行时配置和永久配置选项。">
+	<link rel="canonical" href="https://blog.lixypro.com/houduanyunwei/use-firewalld-to-build-a-dynamic-firewall.html">
+	<meta property="og:locale" content="zh_CN">
+	<meta property="og:type" content="article">
+	<meta property="og:title" content="Linux的FirewallD详细基础说明 - Lixypro博客">
+	<meta property="og:description" content="Lixypro博客 - Linux的FirewallD详细基础说明 FirewallD 提供了支持网络/防火墙区域(zone)定义网络链接以及接口安全等级的动态防火墙管理工具。它支持 IPv4, IPv6 防火墙设置以及以太网桥接，并且拥有运行时配置和永久配置选项。">
+	<meta property="og:url" content="https://blog.lixypro.com/houduanyunwei/use-firewalld-to-build-a-dynamic-firewall.html">
+	<meta property="og:site_name" content="Lixypro博客">
+	<meta property="article:published_time" content="2021-04-10T13:57:09+00:00">
+	<meta property="article:modified_time" content="2021-04-11T11:07:02+00:00">
+	<meta property="og:image" content="https://blog.lixypro.com/wp-content/uploads/2021/04/1618139043-b6db0c73a979ae8.png">
+	<meta property="og:image:width" content="1920">
+	<meta property="og:image:height" content="720">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:label1" content="作者">
+	<meta name="twitter:data1" content="administrator">
+	<meta name="twitter:label2" content="预计阅读时间">
+	<meta name="twitter:data2" content="7分">
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://blog.lixypro.com/#website","url":"https://blog.lixypro.com/","name":"Lixypro博客","description":"技术分享|网页前端|后端运维|网络安全|日常记事","potentialAction":[{"@type":"SearchAction","target":"https://blog.lixypro.com/?s={search_term_string}","query-input":"required name=search_term_string"}],"inLanguage":"zh-CN"},{"@type":"ImageObject","@id":"https://blog.lixypro.com/houduanyunwei/use-firewalld-to-build-a-dynamic-firewall.html#primaryimage","inLanguage":"zh-CN","url":"https://blog.lixypro.com/wp-content/uploads/2021/04/1618139043-b6db0c73a979ae8.png","contentUrl":"https://blog.lixypro.com/wp-content/uploads/2021/04/1618139043-b6db0c73a979ae8.png","width":1920,"height":720},{"@type":"WebPage","@id":"https://blog.lixypro.com/houduanyunwei/use-firewalld-to-build-a-dynamic-firewall.html#webpage","url":"https://blog.lixypro.com/houduanyunwei/use-firewalld-to-build-a-dynamic-firewall.html","name":"Linux的FirewallD详细基础说明 - Lixypro博客","isPartOf":{"@id":"https://blog.lixypro.com/#website"},"primaryImageOfPage":{"@id":"https://blog.lixypro.com/houduanyunwei/use-firewalld-to-build-a-dynamic-firewall.html#primaryimage"},"datePublished":"2021-04-10T13:57:09+00:00","dateModified":"2021-04-11T11:07:02+00:00","author":{"@id":"https://blog.lixypro.com/#/schema/person/504c3e2a3d8a31f292936e7a2241373b"},"description":"Lixypro博客 - Linux的FirewallD详细基础说明 FirewallD 提供了支持网络/防火墙区域(zone)定义网络链接以及接口安全等级的动态防火墙管理工具。它支持 IPv4, IPv6 防火墙设置以及以太网桥接，并且拥有运行时配置和永久配置选项。","breadcrumb":{"@id":"https://blog.lixypro.com/houduanyunwei/use-firewalld-to-build-a-dynamic-firewall.html#breadcrumb"},"inLanguage":"zh-CN","potentialAction":[{"@type":"ReadAction","target":["https://blog.lixypro.com/houduanyunwei/use-firewalld-to-build-a-dynamic-firewall.html"]}]},{"@type":"BreadcrumbList","@id":"https://blog.lixypro.com/houduanyunwei/use-firewalld-to-build-a-dynamic-firewall.html#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"item":{"@type":"WebPage","@id":"https://blog.lixypro.com/","url":"https://blog.lixypro.com/","name":"首页"}},{"@type":"ListItem","position":2,"item":{"@type":"WebPage","@id":"https://blog.lixypro.com/houduanyunwei/use-firewalld-to-build-a-dynamic-firewall.html","url":"https://blog.lixypro.com/houduanyunwei/use-firewalld-to-build-a-dynamic-firewall.html","name":"Linux的FirewallD详细基础说明"}}]},{"@type":"Person","@id":"https://blog.lixypro.com/#/schema/person/504c3e2a3d8a31f292936e7a2241373b","name":"administrator","image":{"@type":"ImageObject","@id":"https://blog.lixypro.com/#personlogo","inLanguage":"zh-CN","url":"https://secure.gravatar.com/avatar/957d4bcaf62a121072d884ad505a9b2a?s=96&d=mm&r=g","contentUrl":"https://secure.gravatar.com/avatar/957d4bcaf62a121072d884ad505a9b2a?s=96&d=mm&r=g","caption":"administrator"},"sameAs":["https://blog.lixypro.com"]}]}</script>
+	<!-- / Yoast SEO plugin. -->
+
+
+<link rel="stylesheet" id="toc-screen-css" href="https://blog.lixypro.com/wp-content/plugins/table-of-contents-plus/screen.min.css?ver=2002" type="text/css" media="all">
+<link rel="stylesheet" id="Katex-css" href="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/KaTeX/katex.min.css?ver=10.2.1" type="text/css" media="all">
+<link rel="stylesheet" id="prism-theme-style-css" href="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/themes/prism-okaidia.css?ver=1.15.0" type="text/css" media="all">
+<link rel="stylesheet" id="prism-plugin-toolbar-css" href="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/toolbar/prism-toolbar.css?ver=1.15.0" type="text/css" media="all">
+<link rel="stylesheet" id="prism-plugin-line-numbers-css" href="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/line-numbers/prism-line-numbers.css?ver=1.15.0" type="text/css" media="all">
+<link rel="stylesheet" id="external-css" href="https://blog.lixypro.com/wp-content/themes/ripro/assets/css/external.css?ver=7.1.0" type="text/css" media="all">
+<link rel="stylesheet" id="sweetalert2-css" href="https://blog.lixypro.com/wp-content/themes/ripro/assets/css/sweetalert2.min.css?ver=7.1.0" type="text/css" media="all">
+<link rel="stylesheet" id="app-css" href="https://blog.lixypro.com/wp-content/themes/ripro/assets/css/app.css?ver=7.1.0" type="text/css" media="all">
+<link rel="stylesheet" id="diy-css" href="https://blog.lixypro.com/wp-content/themes/ripro/assets/css/diy.css?ver=7.1.0" type="text/css" media="all">
+<link rel="stylesheet" id="fancybox-css" href="https://blog.lixypro.com/wp-content/themes/ripro/assets/css/jquery.fancybox.min.css?ver=7.1.0" type="text/css" media="all">
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/jquery-2.2.4.min.js?ver=2.2.4" id="jquery-js"></script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/plugins/sweetalert2.min.js?ver=7.1.0" id="sweetalert2-js"></script>
+		<script>
+			document.documentElement.className = document.documentElement.className.replace( 'no-js', 'js' );
+		</script>
+				<style>.no-js img.lazyload { display: none; }
+			figure.wp-block-image img.lazyloading { min-width: 150px; }
+							.lazyload, .lazyloading { opacity: 0; }
+				.lazyloaded {
+					opacity: 1;
+					transition: opacity 400ms;
+					transition-delay: 0ms;
+				}</style>
+			<!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+      <script src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/html5shiv.js"></script>
+      <script src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/respond.min.js"></script>
+    <![endif]-->
+          <script> $(document).ready(function() { NProgress.start(); $(window).load(function() { NProgress.done(); }); });</script>
+    </head>
+
+<body class="post-template-default single single-post postid-50 single-format-standard  max_width navbar-sticky navbar-full navbar-slide no-search sidebar-none pagination-numeric no-off-canvas">
+
+<div class="site">
+    
+<header class="site-header">
+      <div class="navbar">
+      <div class="logo-wrapper">
+              <a href="https://blog.lixypro.com/">
+          <img data-dark="" alt="Lixypro博客" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" class="logo regular tap-logo lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img class="logo regular tap-logo" src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" data-dark="" alt="Lixypro博客"></noscript>
+        </a>
+            </div>
+      <div class="sep"></div>
+      
+      <nav class="main-menu hidden-xs hidden-sm hidden-md">
+        <ul id="menu-menu-1" class="nav-list u-plain-list">
+<li id="menu-item-12" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-12"><a href="https://blog.lixypro.com/">本站首页</a></li>
+<li id="menu-item-15" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-15"><a href="https://blog.lixypro.com/tags">标签集合</a></li>
+<li id="menu-item-18" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-18"><a href="https://blog.lixypro.com/qianduansixiang">前端思想</a></li>
+<li id="menu-item-19" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-19"><a href="https://blog.lixypro.com/houduanyunwei">后端运维</a></li>
+<li id="menu-item-20" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-20"><a href="https://blog.lixypro.com/zaixianfuwu">在线服务</a></li>
+<li id="menu-item-21" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-21"><a href="https://blog.lixypro.com/diannaojichu">电脑基础</a></li>
+<li id="menu-item-22" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-22"><a href="https://blog.lixypro.com/kejizixun">科技资讯</a></li>
+<li id="menu-item-23" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-23"><a href="https://blog.lixypro.com/wangluoanquan">网络安全</a></li>
+</ul>      </nav>
+      
+      <div class="main-search">
+        <form method="get" class="search-form inline" action="https://blog.lixypro.com/">
+  <input type="search" class="search-field inline-field" placeholder="输入关键词，回车..." autocomplete="off" value="" name="s" required="required">
+  <button type="submit" class="search-submit"><i class="mdi mdi-magnify"></i></button>
+</form>        <div class="search-close navbar-button"><i class="mdi mdi-close"></i></div>
+      </div>
+
+      <div class="actions">
+                <!-- user end -->
+        <div class="search-open navbar-button"><i class="mdi mdi-magnify"></i></div>
+                <div class="burger"></div>
+      </div>
+    </div>
+  </header>
+
+<div class="header-gap"></div>    
+    <div class="site-content">
+    
+
+<div class="container">
+	<div class="breadcrumbs">
+	当前位置：<a href="https://blog.lixypro.com/">Lixypro博客</a> <small>></small> <a href="https://blog.lixypro.com/houduanyunwei">后端运维</a> <small>></small> Linux的FirewallD详细基础说明	</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="content-area">
+				<main class="site-main">
+					<article id="post-50" class="article-content">
+    <div class="container">
+  
+<div class="cao_entry_header">
+
+  <header class="entry-header">    
+    <h1 class="entry-title">Linux的FirewallD详细基础说明</h1>  </header>
+</div>
+</div>  <div class="container">
+    <div class="entry-wrapper">
+            <div class="entry-content u-text-format u-clearfix">
+        <h1>使用 FirewallD 构建动态防火墙</h1>
+<p><img class="lazyload " src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="https://blog.lixypro.com/wp-content/uploads/2021/04/1618139043-b6db0c73a979ae8.png" alt="Linux的FirewallD详细基础说明"><noscript>
+<img alt="Linux的FirewallD详细基础说明" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618139043-b6db0c73a979ae8.png" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618139043-b6db0c73a979ae8.png" alt="Linux的FirewallD详细基础说明"></noscript>
+</noscript></p>
+<p>FirewallD 提供了支持网络/防火墙区域(zone)定义网络链接以及接口安全等级的动态防火墙管理工具。它支持 IPv4, IPv6 防火墙设置以及以太网桥接，并且拥有运行时配置和永久配置选项。它也支持允许服务或者应用程序直接添加防火墙规则的接口。 以前的 system-config-firewall/lokkit 防火墙模型是静态的，每次修改都要求防火墙完全重启。这个过程包括内核 netfilter 防火墙模块的卸载和新配置所需模块的装载等。而模块的卸载将会破坏状态防火墙和确立的连接。</p>
+<p>相反，firewall daemon 动态管理防火墙，不需要重启整个防火墙便可应用更改。因而也就没有必要重载所有内核防火墙模块了。不过，要使用 firewall daemon 就要求防火墙的所有变更都要通过该守护进程来实现，以确保守护进程中的状态和内核里的防火墙是一致的。另外，firewall daemon 无法解析由 ip*tables 和 ebtables 命令行工具添加的防火墙规则。</p>
+<p>守护进程通过 D-BUS 提供当前激活的防火墙设置信息，也通过 D-BUS 接受使用 PolicyKit 认证方式做的更改。</p>
+<h2>守护进程</h2>
+<p>应用程序、守护进程和用户可以通过 D-BUS 请求启用一个防火墙特性。特性可以是预定义的防火墙功能，如：服务、端口和协议的组合、端口/数据报转发、伪装、ICMP 拦截或自定义规则等。该功能可以启用确定的一段时间也可以再次停用。</p>
+<p>通过所谓的直接接口，其他的服务(例如 libvirt )能够通过 iptables 变元(arguments)和参数(parameters)增加自己的规则。</p>
+<p><code>amanda</code> 、<code>ftp</code> 、<code>samba</code> 和<code>tftp</code> 服务的 <code>netfilter</code> 防火墙助手也被“守护进程”解决了,只要它们还作为预定义服务的一部分。附加助手的装载不作为当前接口的一部分。由于一些助手只有在由模块控制的所有连接都关闭后才可装载。因而，跟踪连接信息很重要，需要列入考虑范围。</p>
+<h2>静态防火墙(system-config-firewall/lokkit)</h2>
+<p>使用 <code>system-config-firewall</code> 和 <code>lokkit</code> 的静态防火墙模型实际上仍然可用并将继续提供，但却不能与“守护进程”同时使用。用户或者管理员可以决定使用哪一种方案。</p>
+<p>在软件安装，初次启动或者是首次联网时，将会出现一个选择器。通过它你可以选择要使用的防火墙方案。其他的解决方案将保持完整，可以通过更换模式启用。</p>
+<p><code>firewall daemon</code> 独立于 <code>system-config-firewall</code>，但二者不能同时使用。</p>
+<h2>使用 iptables 和 ip6tables 的静态防火墙规则</h2>
+<p>如果你想使用自己的 iptables 和 ip6tables 静态防火墙规则, 那么请安装 iptables-services 并且禁用 firewalld ，启用 iptables 和ip6tables:</p>
+<pre><code class="language-shell line-numbers">yum install iptables-services
+systemctl mask firewalld.service
+systemctl enable iptables.service
+systemctl enable ip6tables.service
+
+</code></pre>
+<p>静态防火墙规则配置文件是<code>/etc/sysconfig/iptables</code> 以及<code>/etc/sysconfig/ip6tables</code></p>
+<p><em>注： iptables 与 iptables-services 软件包不提供与服务配套使用的防火墙规则. 这些服务是用来保障兼容性以及供想使用自己防火墙规则的人使用的. 你可以安装并使用 system-config-firewall 来创建上述服务需要的规则. 为了能使用 system-config-firewall, 你必须停止 firewalld.</em></p>
+<p>为服务创建规则并停用 firewalld 后，就可以启用 iptables 与 ip6tables 服务了:</p>
+<pre><code class="language-shell line-numbers">systemctl stop firewalld.service
+systemctl start iptables.service
+systemctl start ip6tables.service
+</code></pre>
+<h2>什么是区域？</h2>
+<p>网络区域定义了网络连接的可信等级。这是一个一对多的关系，这意味着一次连接可以仅仅是一个区域的一部分，而一个区域可以用于很多连接。</p>
+<h3>预定义的服务</h3>
+<p>服务是端口和/或协议入口的组合。备选内容包括 netfilter 助手模块以及 IPv4、IPv6地址。</p>
+<h3>端口和协议</h3>
+<p>定义了 tcp 或 udp 端口，端口可以是一个端口或者端口范围。</p>
+<h3>ICMP 阻塞</h3>
+<p>可以选择 Internet 控制报文协议的报文。这些报文可以是信息请求亦可是对信息请求或错误条件创建的响应。</p>
+<h3>伪装</h3>
+<p>私有网络地址可以被映射到公开的IP地址。这是一次正规的地址转换。</p>
+<h3>端口转发</h3>
+<p>端口可以映射到另一个端口以及/或者其他主机。</p>
+<h2>哪个区域可用?</h2>
+<p>由firewalld 提供的区域按照从不信任到信任的顺序排序。</p>
+<h3>丢弃</h3>
+<p>任何流入网络的包都被丢弃，不作出任何响应。只允许流出的网络连接。</p>
+<h3>阻塞</h3>
+<p>任何进入的网络连接都被拒绝，并返回 IPv4 的 icmp-host-prohibited 报文或者 IPv6 的 icmp6-adm-prohibited 报文。只允许由该系统初始化的网络连接。</p>
+<h3>公开</h3>
+<p>用以可以公开的部分。你认为网络中其他的计算机不可信并且可能伤害你的计算机。只允许选中的连接接入。（You do not trust the other computers on networks to not harm your computer. Only selected incoming connections are accepted.）</p>
+<h3>外部</h3>
+<p>用在路由器等启用伪装的外部网络。你认为网络中其他的计算机不可信并且可能伤害你的计算机。只允许选中的连接接入。</p>
+<h3>隔离区（dmz）</h3>
+<p>用以允许隔离区（dmz）中的电脑有限地被外界网络访问。只接受被选中的连接。</p>
+<h3>工作</h3>
+<p>用在工作网络。你信任网络中的大多数计算机不会影响你的计算机。只接受被选中的连接。</p>
+<h3>家庭</h3>
+<p>用在家庭网络。你信任网络中的大多数计算机不会影响你的计算机。只接受被选中的连接。</p>
+<h3>内部</h3>
+<p>用在内部网络。你信任网络中的大多数计算机不会影响你的计算机。只接受被选中的连接。</p>
+<h3>受信任的</h3>
+<p>允许所有网络连接。</p>
+<h2>我应该选用哪个区域?</h2>
+<p>例如，公共的 WIFI 连接应该主要为不受信任的，家庭的有线网络应该是相当可信任的。根据与你使用的网络最符合的区域进行选择。</p>
+<h2>如何配置或者增加区域?</h2>
+<p>你可以使用任何一种 firewalld 配置工具来配置或者增加区域，以及修改配置。工具有例如 firewall-config 这样的图形界面工具， firewall-cmd 这样的命令行工具，以及D-BUS接口。或者你也可以在配置文件目录中创建或者拷贝区域文件。 @PREFIX@/lib/firewalld/zones 被用于默认和备用配置，/etc/firewalld/zones 被用于用户创建和自定义配置文件。</p>
+<h2>如何为网络连接设置或者修改区域</h2>
+<p>区域设置以 ZONE= 选项 存储在网络连接的ifcfg文件中。如果这个选项缺失或者为空，firewalld 将使用配置的默认区域。</p>
+<p>如果这个连接受到 NetworkManager 控制，你也可以使用 nm-connection-editor 来修改区域。</p>
+<h2>由 NetworkManager 控制的网络连接</h2>
+<p>防火墙不能够通过 NetworkManager 显示的名称来配置网络连接，只能配置网络接口。因此在网络连接之前 NetworkManager 将配置文件所述连接对应的网络接口告诉 firewalld 。如果在配置文件中没有配置区域，接口将配置到 firewalld 的默认区域。如果网络连接使用了不止一个接口，所有的接口都会应用到 fiwewalld。接口名称的改变也将由 NetworkManager 控制并应用到firewalld。</p>
+<p>为了简化，自此，网络连接将被用作与区域的关系。</p>
+<p>如果一个接口断开了， NetworkManager 也将告诉 firewalld 从区域中删除该接口。</p>
+<p>当 firewalld 由 systemd 或者 init 脚本启动或者重启后，firewalld 将通知 NetworkManager 把网络连接增加到区域。</p>
+<h2>由脚本控制的网络</h2>
+<p>对于由网络脚本控制的连接有一条限制：没有守护进程通知 firewalld 将连接增加到区域。这项工作仅在 ifcfg-post 脚本进行。因此，此后对网络连接的重命名将不能被应用到firewalld。同样，在连接活动时重启 firewalld 将导致与其失去关联。现在有意修复此情况。最简单的是将全部未配置连接加入默认区域。</p>
+<p>区域定义了本区域中防火墙的特性：</p>
+<h2>使用 firewalld</h2>
+<p>你可以通过图形界面工具 <strong>firewall-config</strong> 或者命令行客户端 <strong>firewall-cmd</strong> 启用或者关闭防火墙特性。</p>
+<h3>使用 firewall-cmd</h3>
+<p>命令行工具 <strong>firewall-cmd</strong> 支持全部防火墙特性。对于状态和查询模式，命令只返回状态，没有其他输出。</p>
+<h4>一般应用</h4>
+<ul>
+<li>获取 firewalld 状态
+<p><code>firewall-cmd --state</code></p>
+</li>
+</ul>
+<p>此举返回 firewalld 的状态，没有任何输出。可以使用以下方式获得状态输出：</p>
+<p><code>firewall-cmd --state &amp;&amp; echo "Running" || echo "Not running"</code></p>
+<p>在 Fedora 19 中, 状态输出比此前直观:</p>
+<pre><code class="line-numbers"> # rpm -qf $( which firewall-cmd )
+ firewalld-0.3.3-2.fc19.noarch
+ # firewall-cmd --state
+ not running
+</code></pre>
+<ul>
+<li>在不改变状态的条件下重新加载防火墙：</li>
+</ul>
+<p><code>firewall-cmd --reload</code></p>
+<p>如果你使用 <strong>&#8211;complete-reload</strong> ，状态信息将会丢失。这个选项应当仅用于处理防火墙问题时，例如，状态信息和防火墙规则都正常，但是不能建立任何连接的情况。</p>
+<ul>
+<li>获取支持的区域列表</li>
+</ul>
+<p><code>firewall-cmd --get-zones</code></p>
+<p>这条命令输出用空格分隔的列表。</p>
+<ul>
+<li>获取所有支持的服务</li>
+</ul>
+<p><code>firewall-cmd --get-services</code></p>
+<p>这条命令输出用空格分隔的列表。</p>
+<ul>
+<li>获取所有支持的ICMP类型</li>
+</ul>
+<p><code>firewall-cmd --get-icmptypes</code></p>
+<p>这条命令输出用空格分隔的列表。</p>
+<ul>
+<li>列出全部启用的区域的特性</li>
+</ul>
+<p><code>firewall-cmd --list-all-zones</code></p>
+<p>输出格式是：</p>
+<pre><code class="language-shell line-numbers"> &lt;zone&gt;
+   interfaces: &lt;interface1&gt; ..
+   services: &lt;service1&gt; ..
+   ports: &lt;port1&gt; ..
+   forward-ports: &lt;forward port1&gt; ..
+   icmp-blocks: &lt;icmp type1&gt; ..
+
+   ..
+
+</code></pre>
+<ul>
+<li>输出区域 <zone> 全部启用的特性。如果生略区域，将显示默认区域的信息。</zone>
+</li>
+</ul>
+<p><code>firewall-cmd \[--zone=&lt;zone&gt;\] --list-all</code></p>
+<ul>
+<li>获取默认区域的网络设置</li>
+</ul>
+<p><code>firewall-cmd --get-default-zone</code></p>
+<ul>
+<li>设置默认区域</li>
+</ul>
+<p><code>firewall-cmd --set-default-zone=&lt;zone&gt;</code></p>
+<p>流入默认区域中配置的接口的新访问请求将被置入新的默认区域。当前活动的连接将不受影响。</p>
+<ul>
+<li>获取活动的区域</li>
+</ul>
+<p><code>firewall-cmd --get-active-zones</code></p>
+<p>这条命令将用以下格式输出每个区域所含接口：</p>
+<p><zone1>: <interface1> <interface2> ..<br>
+ <zone2>: <interface3> ..</interface3></zone2></interface2></interface1></zone1></p>
+<ul>
+<li>根据接口获取区域</li>
+</ul>
+<p><code>firewall-cmd --get-zone-of-interface=&lt;interface&gt;</code></p>
+<p>这条命令将输出接口所属的区域名称。</p>
+<ul>
+<li>将接口增加到区域</li>
+</ul>
+<p><code>firewall-cmd \[--zone=&lt;zone&gt;\] --add-interface=&lt;interface&gt;</code></p>
+<p>如果接口不属于区域，接口将被增加到区域。如果区域被省略了，将使用默认区域。接口在重新加载后将重新应用。</p>
+<ul>
+<li>修改接口所属区域</li>
+</ul>
+<p><code>firewall-cmd \[--zone=&lt;zone&gt;\] --change-interface=&lt;interface&gt;</code></p>
+<p>这个选项与 &#8211;add-interface 选项相似，但是当接口已经存在于另一个区域的时候，该接口将被添加到新的区域。</p>
+<ul>
+<li>从区域中删除一个接口</li>
+</ul>
+<p><code>firewall-cmd \[--zone=&lt;zone&gt;\] --remove-interface=&lt;interface&gt;</code></p>
+<ul>
+<li>查询区域中是否包含某接口</li>
+</ul>
+<p><code>firewall-cmd \[--zone=&lt;zone&gt;\] --query-interface=&lt;interface&gt;</code></p>
+<p>返回接口是否存在于该区域。没有输出。</p>
+<ul>
+<li>列举区域中启用的服务</li>
+</ul>
+<p><code>firewall-cmd \[ --zone=&lt;zone&gt; \] --list-services</code></p>
+<ul>
+<li>启用应急模式阻断所有网络连接，以防出现紧急状况
+<p>firewall-cmd &#8211;panic-on</p>
+</li>
+<li>
+<p>禁用应急模式</p>
+</li>
+</ul>
+<p><code>firewall-cmd --panic-off</code></p>
+<p><strong>应急模式在 0.3.0 版本中发生了变化</strong><br>
+在 0.3.0 之前的 FirewallD版本中, panic 选项是 <code>--enable-panic</code> 与 <code>--disable-panic</code>.</p>
+<ul>
+<li>查询应急模式</li>
+</ul>
+<p><code>firewall-cmd --query-panic</code></p>
+<p>此命令返回应急模式的状态，没有输出。可以使用以下方式获得状态输出：</p>
+<p><code>firewall-cmd --query-panic &amp;&amp; echo "On" || echo "Off"</code></p>
+<h4>处理运行时区域</h4>
+<p>运行时模式下对区域进行的修改不是永久有效的。重新加载或者重启后修改将失效。</p>
+<ul>
+<li>启用区域中的一种服务</li>
+</ul>
+<p><code>firewall-cmd \[--zone=&lt;zone&gt;\] --add-service=&lt;service&gt; \[--timeout=&lt;seconds&gt;\]</code></p>
+<p>此举启用区域中的一种服务。如果未指定区域，将使用默认区域。如果设定了超时时间，服务将只启用特定秒数。如果服务已经活跃，将不会有任何警告信息。</p>
+<ul>
+<li>
+<strong>例:</strong> 使区域中的 ipp-client 服务生效60秒:</li>
+</ul>
+<p><code>firewall-cmd --zone=home --add-service=ipp-client --timeout=60</code></p>
+<ul>
+<li>
+<strong>例:</strong> 启用默认区域中的http服务:</li>
+</ul>
+<p><code>firewall-cmd --add-service=http</code></p>
+<ul>
+<li>禁用区域中的某种服务</li>
+</ul>
+<p><code>firewall-cmd \[--zone=&lt;zone&gt;\] --remove-service=&lt;service&gt;</code></p>
+<p>此举禁用区域中的某种服务。如果未指定区域，将使用默认区域。</p>
+<ul>
+<li>
+<strong>例:</strong> 禁止 home 区域中的 http 服务:</li>
+</ul>
+<p><code>firewall-cmd --zone=home --remove-service=http</code></p>
+<p>区域种的服务将被禁用。如果服务没有启用，将不会有任何警告信息。</p>
+<ul>
+<li>查询区域中是否启用了特定服务</li>
+</ul>
+<p><code>firewall-cmd \[--zone=&lt;zone&gt;\] --query-service=&lt;service&gt;</code></p>
+<p>如果服务启用，将返回1,否则返回0。没有输出信息。</p>
+<ul>
+<li>启用区域端口和协议组合</li>
+</ul>
+<p><code>firewall-cmd \[--zone=&lt;zone&gt;\] --add-port=&lt;port&gt;\[-&lt;port&gt;\]/&lt;protocol&gt; \[--timeout=&lt;seconds&gt;\]</code></p>
+<p>此举将启用端口和协议的组合。端口可以是一个单独的端口 <port> 或者是一个端口范围 <port>&#8211;<port> 。协议可以是 <strong>tcp</strong> 或 <strong>udp</strong>。</port></port></port></p>
+<ul>
+<li>禁用端口和协议组合</li>
+</ul>
+<p><code>firewall-cmd \[--zone=&lt;zone&gt;\] --remove-port=&lt;port&gt;\[-&lt;port&gt;\]/&lt;protocol&gt;</code></p>
+<ul>
+<li>查询区域中是否启用了端口和协议组合</li>
+</ul>
+<p><code>firewall-cmd \[--zone=&lt;zone&gt;\] --query-port=&lt;port&gt;\[-&lt;port&gt;\]/&lt;protocol&gt;</code></p>
+<p>如果启用，此命令将有返回值。没有输出信息。</p>
+<ul>
+<li>启用区域中的 IP 伪装功能</li>
+</ul>
+<p><code>firewall-cmd \[--zone=&lt;zone&gt;\] --add-masquerade</code></p>
+<p>此举启用区域的伪装功能。私有网络的地址将被隐藏并映射到一个公有IP。这是地址转换的一种形式，常用于路由。由于内核的限制，伪装功能仅可用于IPv4。</p>
+<ul>
+<li>禁用区域中的 IP 伪装</li>
+</ul>
+<p><code>firewall-cmd \[--zone=&lt;zone&gt;\] --remove-masquerade</code></p>
+<ul>
+<li>查询区域的伪装状态</li>
+</ul>
+<p><code>firewall-cmd \[--zone=&lt;zone&gt;\] --query-masquerade</code></p>
+<p>如果启用，此命令将有返回值。没有输出信息。</p>
+<ul>
+<li>启用区域的 ICMP 阻塞功能</li>
+</ul>
+<p><code>firewall-cmd \[--zone=&lt;zone&gt;\] --add-icmp-block=&lt;icmptype&gt;</code></p>
+<p>此举将启用选中的 Internet 控制报文协议 （ICMP） 报文进行阻塞。 ICMP 报文可以是请求信息或者创建的应答报文，以及错误应答。</p>
+<ul>
+<li>禁止区域的 ICMP 阻塞功能
+<p><code>firewall-cmd \[--zone=&lt;zone&gt;\] --remove-icmp-block=&lt;icmptype&gt;</code></p>
+</li>
+<li>
+<p>查询区域的 ICMP 阻塞功能</p>
+</li>
+</ul>
+<p><code>firewall-cmd \[--zone=&lt;zone&gt;\] --query-icmp-block=&lt;icmptype&gt;</code></p>
+<p>如果启用，此命令将有返回值。没有输出信息。</p>
+<ul>
+<li>
+<strong>例:</strong> 阻塞区域的响应应答报文:</li>
+</ul>
+<p><code>firewall-cmd --zone=public --add-icmp-block=echo-reply</code></p>
+<ul>
+<li>在区域中启用端口转发或映射</li>
+</ul>
+<p><code>firewall-cmd \[--zone=&lt;zone&gt;\] --add-forward-port=port=&lt;port&gt;\[-&lt;port&gt;\]:proto=&lt;protocol&gt; { :toport=&lt;port&gt;\[-&lt;port&gt;\] | :toaddr=&lt;address&gt; | :toport=&lt;port&gt;\[-&lt;port&gt;\]:toaddr=&lt;address&gt; }</code></p>
+<p>端口可以映射到另一台主机的同一端口，也可以是同一主机或另一主机的不同端口。端口号可以是一个单独的端口 <port> 或者是端口范围 <port>&#8211;<port> 。协议可以为 <strong>tcp</strong> 或<strong>udp</strong> 。目标端口可以是端口号 <port> 或者是端口范围 <port>&#8211;<port> 。目标地址可以是 IPv4 地址。受内核限制，端口转发功能仅可用于IPv4。</port></port></port></port></port></port></p>
+<ul>
+<li>禁止区域的端口转发或者端口映射</li>
+</ul>
+<pre><code class="language-shell line-numbers"> firewall-cmd \[--zone=&lt;zone&gt;\] --remove-forward-port=port=&lt;port&gt;\[-&lt;port&gt;\]:proto=&lt;protocol&gt; { :toport=&lt;port&gt;\[-&lt;port&gt;\] | :toaddr=&lt;address&gt; | :toport=&lt;port&gt;\[-&lt;port&gt;\]:toaddr=&lt;address&gt; }
+</code></pre>
+<ul>
+<li>查询区域的端口转发或者端口映射</li>
+</ul>
+<pre><code class="language-shell line-numbers"> firewall-cmd \[--zone=&lt;zone&gt;\] --query-forward-port=port=&lt;port&gt;\[-&lt;port&gt;\]:proto=&lt;protocol&gt; { :toport=&lt;port&gt;\[-&lt;port&gt;\] | :toaddr=&lt;address&gt; | :toport=&lt;port&gt;\[-&lt;port&gt;\]:toaddr=&lt;address&gt; }
+
+</code></pre>
+<p>如果启用，此命令将有返回值。没有输出信息。</p>
+<ul>
+<li>
+<strong>例:</strong> 将区域 home 的 ssh 转发到 127.0.0.2</li>
+</ul>
+<pre><code class="language-shell line-numbers"> firewall-cmd --zone=home --add-forward-port=port=22:proto=tcp:toaddr=127.0.0.2
+</code></pre>
+<h4>处理永久区域</h4>
+<p>永久选项不直接影响运行时的状态。这些选项仅在重载或者重启服务时可用。为了使用运行时和永久设置，需要分别设置两者。 选项 <strong>&#8211;permanent</strong> 需要是永久设置的第一个参数。</p>
+<ul>
+<li>获取永久选项所支持的服务</li>
+</ul>
+<p><code>firewall-cmd --permanent --get-services</code></p>
+<ul>
+<li>获取永久选项所支持的ICMP类型列表</li>
+</ul>
+<p><code>firewall-cmd --permanent --get-icmptypes</code></p>
+<ul>
+<li>获取支持的永久区域</li>
+</ul>
+<p><code>firewall-cmd --permanent --get-zones</code></p>
+<ul>
+<li>启用区域中的服务</li>
+</ul>
+<p><code>firewall-cmd --permanent \[--zone=&lt;zone&gt;\] --add-service=&lt;service&gt;</code></p>
+<p>此举将永久启用区域中的服务。如果未指定区域，将使用默认区域。</p>
+<ul>
+<li>禁用区域中的一种服务</li>
+</ul>
+<p><code>firewall-cmd --permanent \[--zone=&lt;zone&gt;\] --remove-service=&lt;service&gt;</code></p>
+<ul>
+<li>查询区域中的服务是否启用</li>
+</ul>
+<p><code>firewall-cmd --permanent \[--zone=&lt;zone&gt;\] --query-service=&lt;service&gt;</code></p>
+<p>如果服务启用，此命令将有返回值。此命令没有输出信息。</p>
+<ul>
+<li>
+<strong>例:</strong> 永久启用 home 区域中的 ipp-client 服务</li>
+</ul>
+<p><code>firewall-cmd --permanent --zone=home --add-service=ipp-client</code></p>
+<ul>
+<li>永久启用区域中的一个端口-协议组合</li>
+</ul>
+<p><code>firewall-cmd --permanent \[--zone=&lt;zone&gt;\] --add-port=&lt;port&gt;\[-&lt;port&gt;\]/&lt;protocol&gt;</code></p>
+<ul>
+<li>永久禁用区域中的一个端口-协议组合</li>
+</ul>
+<p><code>firewall-cmd --permanent \[--zone=&lt;zone&gt;\] --remove-port=&lt;port&gt;\[-&lt;port&gt;\]/&lt;protocol&gt;</code></p>
+<ul>
+<li>查询区域中的端口-协议组合是否永久启用</li>
+</ul>
+<p><code>firewall-cmd --permanent \[--zone=&lt;zone&gt;\] --query-port=&lt;port&gt;\[-&lt;port&gt;\]/&lt;protocol&gt;</code></p>
+<p>如果服务启用，此命令将有返回值。此命令没有输出信息。</p>
+<ul>
+<li>
+<strong>例:</strong> 永久启用 home 区域中的 https (tcp 443) 端口</li>
+</ul>
+<p><code>firewall-cmd --permanent --zone=home --add-port=443/tcp</code></p>
+<ul>
+<li>永久启用区域中的伪装</li>
+</ul>
+<p><code>firewall-cmd --permanent \[--zone=&lt;zone&gt;\] --add-masquerade</code></p>
+<p>此举启用区域的伪装功能。私有网络的地址将被隐藏并映射到一个公有IP。这是地址转换的一种形式，常用于路由。由于内核的限制，伪装功能仅可用于IPv4。</p>
+<ul>
+<li>永久禁用区域中的伪装</li>
+</ul>
+<p><code>firewall-cmd --permanent \[--zone=&lt;zone&gt;\] --remove-masquerade</code></p>
+<ul>
+<li>查询区域中的伪装的永久状态</li>
+</ul>
+<p><code>firewall-cmd --permanent \[--zone=&lt;zone&gt;\] --query-masquerade</code></p>
+<p>如果服务启用，此命令将有返回值。此命令没有输出信息。</p>
+<ul>
+<li>永久启用区域中的ICMP阻塞</li>
+</ul>
+<p><code>firewall-cmd --permanent \[--zone=&lt;zone&gt;\] --add-icmp-block=&lt;icmptype&gt;</code></p>
+<p>此举将启用选中的 Internet 控制报文协议 （ICMP） 报文进行阻塞。 ICMP 报文可以是请求信息或者创建的应答报文或错误应答报文。</p>
+<ul>
+<li>永久禁用区域中的ICMP阻塞</li>
+</ul>
+<p><code>firewall-cmd --permanent \[--zone=&lt;zone&gt;\] --remove-icmp-block=&lt;icmptype&gt;</code></p>
+<ul>
+<li>查询区域中的ICMP永久状态</li>
+</ul>
+<p><code>firewall-cmd --permanent \[--zone=&lt;zone&gt;\] --query-icmp-block=&lt;icmptype&gt;</code></p>
+<p>如果服务启用，此命令将有返回值。此命令没有输出信息。</p>
+<ul>
+<li>
+<strong>例:</strong> 阻塞公共区域中的响应应答报文:</li>
+</ul>
+<p><code>firewall-cmd --permanent --zone=public --add-icmp-block=echo-reply</code></p>
+<ul>
+<li>在区域中永久启用端口转发或映射</li>
+</ul>
+<pre><code class="language-shell line-numbers"> firewall-cmd --permanent \[--zone=&lt;zone&gt;\] --add-forward-port=port=&lt;port&gt;\[-&lt;port&gt;\]:proto=&lt;protocol&gt; { :toport=&lt;port&gt;\[-&lt;port&gt;\] | :toaddr=&lt;address&gt; | :toport=&lt;port&gt;\[-&lt;port&gt;\]:toaddr=&lt;address&gt; }
+</code></pre>
+<p>端口可以映射到另一台主机的同一端口，也可以是同一主机或另一主机的不同端口。端口号可以是一个单独的端口 <port> 或者是端口范围 <port>&#8211;<port> 。协议可以为 tcp 或udp 。目标端口可以是端口号 <port> 或者是端口范围 <port>&#8211;<port> 。目标地址可以是 IPv4 地址。受内核限制，端口转发功能仅可用于IPv4。</port></port></port></port></port></port></p>
+<ul>
+<li>永久禁止区域的端口转发或者端口映射</li>
+</ul>
+<pre><code class="language-shell line-numbers"> firewall-cmd --permanent \[--zone=&lt;zone&gt;\] --remove-forward-port=port=&lt;port&gt;\[-&lt;port&gt;\]:proto=&lt;protocol&gt; { :toport=&lt;port&gt;\[-&lt;port&gt;\] | :toaddr=&lt;address&gt; | :toport=&lt;port&gt;\[-&lt;port&gt;\]:toaddr=&lt;address&gt; }
+</code></pre>
+<ul>
+<li>查询区域的端口转发或者端口映射状态</li>
+</ul>
+<pre><code class="line-numbers"> firewall-cmd --permanent \[--zone=&lt;zone&gt;\] --query-forward-port=port=&lt;port&gt;\[-&lt;port&gt;\]:proto=&lt;protocol&gt; { :toport=&lt;port&gt;\[-&lt;port&gt;\] | :toaddr=&lt;address&gt; | :toport=&lt;port&gt;\[-&lt;port&gt;\]:toaddr=&lt;address&gt; }
+</code></pre>
+<p>如果服务启用，此命令将有返回值。此命令没有输出信息。</p>
+<ul>
+<li>
+<strong>例:</strong> 将 home 区域的 ssh 服务转发到 127.0.0.2</li>
+</ul>
+<p><code>firewall-cmd --permanent --zone=home --add-forward-port=port=22:proto=tcp:toaddr=127.0.0.2</code></p>
+<h4>直接选项</h4>
+<p>直接选项主要用于使服务和应用程序能够增加规则。 规则不会被保存，在重新加载或者重启之后必须再次提交。传递的参数 <args> 与 iptables, ip6tables 以及 ebtables 一致。</args></p>
+<p>选项 <strong>&#8211;direct</strong> 需要是直接选项的第一个参数。</p>
+<ul>
+<li>将命令传递给防火墙。参数 <args> 可以是 iptables, ip6tables 以及 ebtables 命令行参数。</args>
+</li>
+</ul>
+<p><code>firewall-cmd --direct --passthrough { ipv4 | ipv6 | eb } &lt;args&gt;</code></p>
+<ul>
+<li>为表</li>
+</ul>
+<p>&lt;</p>
+<p>table> 增加一个新链 <chain> 。</chain></p>
+<p><code>firewall-cmd --direct --add-chain { ipv4 | ipv6 | eb } &lt;table&gt; &lt;chain&gt;</code></p>
+<ul>
+<li>从表</li>
+</ul>
+<p>&lt;</p>
+<p>table> 中删除链 <chain> 。</chain></p>
+<p><code>firewall-cmd --direct --remove-chain { ipv4 | ipv6 | eb } &lt;table&gt; &lt;chain&gt;</code></p>
+<ul>
+<li>查询 <chain> 链是否存在与表</chain>
+</li>
+</ul>
+<p>&lt;</p>
+<p>table>. 如果是，返回0,否则返回1.</p>
+<p><code>firewall-cmd --direct --query-chain { ipv4 | ipv6 | eb } &lt;table&gt; &lt;chain&gt;</code></p>
+<p>如果启用，此命令将有返回值。此命令没有输出信息。</p>
+<ul>
+<li>获取用空格分隔的表</li>
+</ul>
+<p>&lt;</p>
+<p>table> 中链的列表。</p>
+<p><code>firewall-cmd --direct --get-chains { ipv4 | ipv6 | eb } &lt;table&gt;</code></p>
+<ul>
+<li>为表</li>
+</ul>
+<p>&lt;</p>
+<p>table> 增加一条参数为 <args> 的链 <chain> ，优先级设定为 <priority>。</priority></chain></args></p>
+<p><code>firewall-cmd --direct --add-rule { ipv4 | ipv6 | eb } &lt;table&gt; &lt;chain&gt; &lt;priority&gt; &lt;args&gt;</code></p>
+<ul>
+<li>从表</li>
+</ul>
+<p>&lt;</p>
+<p>table> 中删除带参数 <args> 的链 <chain>。</chain></args></p>
+<p><code>firewall-cmd --direct --remove-rule { ipv4 | ipv6 | eb } &lt;table&gt; &lt;chain&gt; &lt;args&gt;</code></p>
+<ul>
+<li>查询 带参数 <args> 的链 <chain> 是否存在表</chain></args>
+</li>
+</ul>
+<p>&lt;</p>
+<p>table> 中. 如果是，返回0,否则返回1.</p>
+<p><code>firewall-cmd --direct --query-rule { ipv4 | ipv6 | eb } &lt;table&gt; &lt;chain&gt; &lt;args&gt;</code></p>
+<p>如果启用，此命令将有返回值。此命令没有输出信息。</p>
+<ul>
+<li>获取表</li>
+</ul>
+<p>&lt;</p>
+<p>table> 中所有增加到链 <chain> 的规则，并用换行分隔。</chain></p>
+<p>firewall-cmd &#8211;direct &#8211;get-rules { ipv4 | ipv6 | eb }</p>
+<p>&lt;</p>
+<p>table> <chain></chain></p>
+<h2>当前的 firewalld 特性</h2>
+<h3>D-BUS 接口</h3>
+<p>D-BUS 接口提供防火墙状态的信息，使防火墙的启用、停用或查询设置成为可能。</p>
+<h3>区域</h3>
+<p>网络或者防火墙区域定义了连接的可信程度。firewalld 提供了几种预定义的区域。区域配置选项和通用配置信息可以在firewall.zone(5)的手册里查到。</p>
+<h3>服务</h3>
+<p>服务可以是一系列本读端口、目的以及附加信息，也可以是服务启动时自动增加的防火墙助手模块。预定义服务的使用使启用和禁用对服务的访问变得更加简单。服务配置选项和通用文件信息在 firewalld.service(5) 手册里有描述。</p>
+<h3>ICMP 类型</h3>
+<p>Internet 控制报文协议 (ICMP) 被用以交换报文和互联网协议 (IP) 的错误报文。在 firewalld 中可以使用 ICMP 类型来限制报文交换。 ICMP 类型配置选项和通用文件信息可以参阅 firewalld.icmptype(5) 手册。</p>
+<h3>直接接口</h3>
+<p>直接接口主要用于服务或者应用程序增加特定的防火墙规则。这些规则并非永久有效，并且在收到 firewalld 通过 D-Bus 传递的启动、重启、重载信号后需要重新应用。</p>
+<h3>运行时配置</h3>
+<p>运行时配置并非永久有效，在重新加载时可以被恢复，而系统或者服务重启、停止时，这些选项将会丢失。</p>
+<h3>永久配置</h3>
+<p>永久配置存储在配置文件种，每次机器重启或者服务重启、重新加载时将自动恢复。</p>
+<h3>托盘小程序</h3>
+<p>托盘小程序 <strong>firewall-applet</strong> 为用户显示防火墙状态和存在的问题。它也可以用来配置用户允许修改的设置。</p>
+<h3>图形化配置工具</h3>
+<p>firewall daemon 主要的配置工具是 <strong>firewall-config</strong> 。它支持防火墙的所有特性（除了由服务/应用程序增加规则使用的直接接口）。 管理员也可以用它来改变系统或用户策略。</p>
+<h3>命令行客户端</h3>
+<p><strong>firewall-cmd</strong> 是命令行下提供大部分图形工具配置特性的工具。</p>
+<h3>对于 ebtables 的支持</h3>
+<p>要满足 libvirt daemon 的全部需求，在内核 netfilter 级上防止 ip*tables 和 ebtables 间访问问题，ebtables 支持是需要的。由于这些命令是访问相同结构的，因而不能同时使用。</p>
+<h3>/usr/lib/firewalld 中的默认/备用配置</h3>
+<p>该目录包含了由 firewalld 提供的默认以及备用的 ICMP 类型、服务、区域配置。由 firewalld 软件包提供的这些文件不能被修改，即使修改也会随着 firewalld 软件包的更新被重置。 其他的 ICMP 类型、服务、区域配置可以通过软件包或者创建文件的方式提供。</p>
+<h3>/etc/firewalld 中的系统配置设置</h3>
+<p>存储在此的系统或者用户配置文件可以是系统管理员通过配置接口定制的，也可以是手动定制的。这些文件将重载默认配置文件。</p>
+<p>为了手动修改预定义的 icmp 类型，区域或者服务，从默认配置目录将配置拷贝到相应的系统配置目录，然后根据需求进行修改。</p>
+<p>如果你加载了有默认和备用配置的区域，在 /etc/firewalld 下的对应文件将被重命名为 <file>.old 然后启用备用配置。</file></p>
+<h2>正在开发的特性</h2>
+<h3>富语言</h3>
+<p>富语言特性提供了一种不需要了解iptables语法的通过高级语言配置复杂 IPv4 和 IPv6 防火墙规则的机制。</p>
+<p>Fedora 19 提供了带有 D-Bus 和命令行支持的富语言特性第2个里程碑版本。第3个里程碑版本也将提供对于图形界面 firewall-config 的支持。</p>
+<p>对于此特性的更多信息，请参阅： <a class="wp-editor-md-post-content-link" href="https://fedoraproject.org/wiki/Features/FirewalldRichLanguage/zh-cn">firewalld Rich Language</a></p>
+<h3>锁定</h3>
+<p>锁定特性为 firewalld 增加了锁定本地应用或者服务配置的简单配置方式。它是一种轻量级的应用程序策略。</p>
+<p>Fedora 19 提供了锁定特性的第二个里程碑版本，带有 D-Bus 和命令行支持。第3个里程碑版本也将提供图形界面 firewall-config 下的支持。</p>
+<p>更多信息请参阅： <a class="wp-editor-md-post-content-link" href="https://fedoraproject.org/wiki/Features/FirewalldLockdown">firewalld Lockdown</a></p>
+<h3>永久直接规则</h3>
+<p>这项特性处于早期状态。它将能够提供保存直接规则和直接链的功能。通过规则不属于该特性。更多关于直接规则的信息请参阅<a class="wp-editor-md-post-content-link" href="https://fedoraproject.org/w/index.php?title=Direct_options&amp;action=edit&amp;redlink=1" title="Direct options (page does not exist)">Direct options</a>。</p>
+<h3>从 ip*tables 和 ebtables 服务迁移</h3>
+<p>这项特性处于早期状态。它将尽可能提供由iptables,ip6tables 和 ebtables 服务配置转换为永久直接规则的脚本。此特性在由firewalld提供的直接链集成方面可能存在局限性。</p>
+<p>此特性将需要大量复杂防火墙配置的迁移测试。</p>
+<h2>计划和提议功能</h2>
+<h3>防火墙抽象模型</h3>
+<p>在 ip*tables 和 ebtables 防火墙规则之上添加抽象层使添加规则更简单和直观。要抽象层功能强大，但同时又不能复杂，并不是一项简单的任务。为此，不得不开发一种防火墙语言。使防火墙规则拥有固定的位置，可以查询端口的访问状态、访问策略等普通信息和一些其他可能的防火墙特性。</p>
+<h3>对于 conntrack 的支持</h3>
+<p>要终止禁用特性已确立的连接需要 conntrack 。不过，一些情况下终止连接可能是不好的，如：为建立有限时间内的连续性外部连接而启用的防火墙服务。</p>
+<h3>用户交互模型</h3>
+<p>这是防火墙中用户或者管理员可以启用的一种特殊模式。应用程序所有要更改防火墙的请求将定向给用户知晓，以便确认和否认。为一个连接的授权设置一个时间限制并限制其所连主机、网络或连接是可行的。配置可以保存以便将来不需通知便可应用相同行为。 该模式的另一个特性是管理和应用程序发起的请求具有相同功能的预选服务和端口的外部链接尝试。服务和端口的限制也会限制发送给用户的请求数量。</p>
+<h3>用户策略支持</h3>
+<p>管理员可以规定哪些用户可以使用用户交互模式和限制防火墙可用特性。</p>
+<h3>端口元数据信息(由 Lennart Poettering 提议)</h3>
+<p>拥有一个端口独立的元数据信息是很好的。当前对 /etc/services 的端口和协议静态分配模型不是个好的解决方案，也没有反映当前使用情况。应用程序或服务的端口是动态的，因而端口本身并不能描述使用情况。</p>
+<p>元数据信息可以用来为防火墙制定简单的规则。下面是一些例子：</p>
+<p>允许外部访问文件共享应用程序或服务<br>
+ 允许外部访问音乐共享应用程序或服务<br>
+ 允许外部访问全部共享应用程序或服务<br>
+ 允许外部访问 torrent 文件共享应用程序或服务<br>
+ 允许外部访问 http 网络服务</p>
+<p>这里的元数据信息不只有特定应用程序，还可以是一组使用情况。例如：组“全部共享”或者组“文件共享”可以对应于全部共享或文件共享程序(如：torrent 文件共享)。这些只是例子，因而，可能并没有实际用处。</p>
+<p>这里是在防火墙中获取元数据信息的两种可能途径：</p>
+<p>第一种是添加到 netfilter (内核空间)。好处是每个人都可以使用它，但也有一定使用限制。还要考虑用户或系统空间的具体信息，所有这些都需要在内核层面实现。</p>
+<p>第二种是添加到 firewall daemon 中。这些抽象的规则可以和具体信息(如：网络连接可信级、作为具体个人/主机要分享的用户描述、管理员禁止完全共享的应归则等)一起使用。</p>
+<p>第二种解决方案的好处是不需要为有新的元数据组和纳入改变(可信级、用户偏好或管理员规则等等)重新编译内核。这些抽象规则的添加使得 firewall daemon 更加自由。即使是新的安全级也不需要更新内核即可轻松添加。</p>
+<h3>sysctld</h3>
+<p>现在仍有 sysctl 设置没有正确应用。一个例子是，在 rc.sysinit 正运行时，而提供设置的模块在启动时没有装载或者重新装载该模块时会发生问题。</p>
+<p>另一个例子是 net.ipv4.ip&#95;forward ，防火墙设置、libvirt 和用户/管理员更改都需要它。如果有两个应用程序或守护进程只在需要时开启 ip&#95;forwarding ，之后可能其中一个在不知道的情况下关掉服务，而另一个正需要它，此时就不得不重启它。</p>
+<p>sysctl daemon 可以通过对设置使用内部计数来解决上面的问题。此时，当之前请求者不再需要时，它就会再次回到之前的设置状态或者是直接关闭它。</p>
+<h2>防火墙规则</h2>
+<p>netfilter 防火墙总是容易受到规则顺序的影响，因为一条规则在链中没有固定的位置。在一条规则之前添加或者删除规则都会改变此规则的位置。 在静态防火墙模型中，改变防火墙就是重建一个干净和完善的防火墙设置，且受限于 system-config-firewall / lokkit 直接支持的功能。也没有整合其他应用程序创建防火墙规则，且如果自定义规则文件功能没在使用<code>s-c-fw / lokkit</code>就不知道它们。默认链通常也没有安全的方式添加或删除规则而不影响其他规则。</p>
+<p>动态防火墙有附加的防火墙功能链。这些特殊的链按照已定义的顺序进行调用，因而向链中添加规则将不会干扰先前调用的拒绝和丢弃规则。从而利于创建更为合理完善的防火墙配置。</p>
+<p>下面是一些由守护进程创建的规则，过滤列表中启用了在公共区域对 ssh , mdns 和 ipp-client 的支持：</p>
+<pre><code class="language-shell line-numbers"> *filter
+ :INPUT ACCEPT \[0:0\]
+ :FORWARD ACCEPT \[0:0\]
+ :OUTPUT ACCEPT \[0:0\]
+ :FORWARD_ZONES - \[0:0\]
+ :FORWARD_direct - \[0:0\]
+ :INPUT_ZONES - \[0:0\]
+ :INPUT_direct - \[0:0\]
+ :IN\_ZONE\_public - \[0:0\]
+ :IN\_ZONE\_public_allow - \[0:0\]
+ :IN\_ZONE\_public_deny - \[0:0\]
+ :OUTPUT_direct - \[0:0\]
+ -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+ -A INPUT -i lo -j ACCEPT
+ -A INPUT -j INPUT_direct
+ -A INPUT -j INPUT_ZONES
+ -A INPUT -p icmp -j ACCEPT
+ -A INPUT -j REJECT --reject-with icmp-host-prohibited
+ -A FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+ -A FORWARD -i lo -j ACCEPT
+ -A FORWARD -j FORWARD_direct
+ -A FORWARD -j FORWARD_ZONES
+ -A FORWARD -p icmp -j ACCEPT
+ -A FORWARD -j REJECT --reject-with icmp-host-prohibited
+ -A OUTPUT -j OUTPUT_direct
+ -A IN\_ZONE\_public -j IN\_ZONE\_public_deny
+ -A IN\_ZONE\_public -j IN\_ZONE\_public_allow
+ -A IN\_ZONE\_public_allow -p tcp -m tcp --dport 22 -m conntrack --ctstate NEW -j ACCEPT
+ -A IN\_ZONE\_public_allow -d 224.0.0.251/32 -p udp -m udp --dport 5353 -m conntrack --ctstate NEW -j ACCEPT
+ -A IN\_ZONE\_public_allow -p udp -m udp --dport 631 -m conntrack --ctstate NEW -j ACCEPT
+
+</code></pre>
+<p>使用 <code>deny/allow</code> 模型来构建一个清晰行为(最好没有冲突规则)。例如： ICMP 块将进入 IN&#95;ZONE&#95;public&#95;deny 链(如果为公共区域设置了的话)，并将在 <code>IN\_ZONE\_public\_allow 链</code>之前处理。</p>
+<p>该模型使得在不干扰其他块的情况下向一个具体块添加或删除规则而变得更加容易。</p>
+      </div>
+      <div id="pay-single-box"></div>
+          <div class="entry-tags">
+          <a href="https://blog.lixypro.com/tag/centos" rel="tag">
+        Centos      </a>
+          <a href="https://blog.lixypro.com/tag/firewalld" rel="tag">
+        FirewallD      </a>
+          <a href="https://blog.lixypro.com/tag/iptables" rel="tag">
+        iptables      </a>
+          <a href="https://blog.lixypro.com/tag/%e5%ae%89%e5%85%a8" rel="tag">
+        安全      </a>
+      </div>
+<div class="article-copyright">RIPRO主题是一个优秀的主题，极致后台体验，无插件，集成会员系统<br><a href="https://blog.lixypro.com/">Lixypro博客</a> &raquo; <a href="https://blog.lixypro.com/houduanyunwei/use-firewalld-to-build-a-dynamic-firewall.html">Linux的FirewallD详细基础说明</a>
+</div>
+
+<div class="article-footer">
+    <div class="author-box">
+    <div class="author-image">
+      <img alt="administrator" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/avatar/1.png" class="lazyload avatar avatar-140 photo " height="140" width="140">    </div>
+    <div class="author-info">
+      <h4 class="author-name">
+        <a target="_blank" href="javascript:;">administrator</a>
+        <span class="label label-default"><i class="fa fa-diamond"></i> 普通</span>      </h4>
+    </div>
+  </div>
+      <div class="xshare">
+      <span class="xshare-title">分享到：</span>
+            <a etap="share" data-share="qq" class="share-qq"><i class="fa fa-qq"></i></a>
+      <a etap="share" data-share="weibo" class="share-weibo"><i class="fa fa-weibo"></i></a>
+              <a href="javascript:;" class="btn-bigger-cover share-weixin" data-nonce="60c099bcbf" data-id="50" data-action="create-bigger-image" id="bigger-cover"><i class="fa fa-paper-plane"></i></a>
+        </div>
+   
+</div>    </div>
+  </div>
+</article>
+
+
+  <div class="entry-navigation">
+    <nav class="article-nav">
+        <span class="article-nav-prev">上一篇<br><a href="https://blog.lixypro.com/houduanyunwei/linux-centos-install-nginx1-8-1-through-source-package.html" rel="prev">Linux(centos)通过源码包方式安装nginx1.8.1</a></span>
+        <span class="article-nav-next">下一篇<br><a href="https://blog.lixypro.com/houduanyunwei/detailed-explanation-of-linux-environment-variable-configuration-method.html" rel="next">Linux环境变量配置方法详解</a></span>
+    </nav>
+    
+  </div>
+
+      <!-- # 标准网格模式... -->
+      <div class="related-posts-grid">
+        <h4 class="u-border-title">相关推荐</h4>
+        <div class="row">
+                     <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
+              <article class="post">
+                  <div class="entry-media">
+    <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/the_role_of_configure_make_make_install.html">
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/themes/ripro/assets/images/thumb/1.jpg&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="configure,make,make install的作用">  
+      </a>
+            <div class="cao-cover">
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" width="50" height="50px"></noscript>
+</noscript>
+</noscript>
+</noscript>
+</div>
+          </div>
+      </div>
+                  <div class="entry-wrapper">
+                  
+  <header class="entry-header">    
+    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/the_role_of_configure_make_make_install.html" title="configure,make,make install的作用" rel="bookmark">configure,make,make install的作用</a></h4>  </header>                </div>
+              </article>
+            </div>
+                      <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
+              <article class="post">
+                  <div class="entry-media">
+    <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/dns-server-construction-and-configuration.html">
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/uploads/2021/04/1618139491-b3bf60b851ebaeb.png&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="DNS服务器搭建与配置">  
+      </a>
+            <div class="cao-cover">
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" width="50" height="50px"></noscript>
+</noscript>
+</noscript>
+</noscript>
+</div>
+          </div>
+      </div>
+                  <div class="entry-wrapper">
+                  
+  <header class="entry-header">    
+    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/dns-server-construction-and-configuration.html" title="DNS服务器搭建与配置" rel="bookmark">DNS服务器搭建与配置</a></h4>  </header>                </div>
+              </article>
+            </div>
+                      <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
+              <article class="post">
+                  <div class="entry-media">
+    <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/explanation-dns-cache-poisoning-is-also-called-dns-spoofing.html">
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/themes/ripro/assets/images/thumb/1.jpg&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="解释:DNS缓存中毒也称为DNS欺骗">  
+      </a>
+            <div class="cao-cover">
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" width="50" height="50px"></noscript>
+</noscript>
+</noscript>
+</noscript>
+</div>
+          </div>
+      </div>
+                  <div class="entry-wrapper">
+                  
+  <header class="entry-header">    
+    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/explanation-dns-cache-poisoning-is-also-called-dns-spoofing.html" title="解释:DNS缓存中毒也称为DNS欺骗" rel="bookmark">解释:DNS缓存中毒也称为DNS欺骗</a></h4>  </header>                </div>
+              </article>
+            </div>
+                      <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
+              <article class="post">
+                  <div class="entry-media">
+    <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/linux-centos-install-nginx1-8-1-through-source-package.html">
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/uploads/2021/04/1618139383-73898d7f1ddbfbf.jpg&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Linux(centos)通过源码包方式安装nginx1.8.1">  
+      </a>
+            <div class="cao-cover">
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" width="50" height="50px"></noscript>
+</noscript>
+</noscript>
+</noscript>
+</div>
+          </div>
+      </div>
+                  <div class="entry-wrapper">
+                  
+  <header class="entry-header">    
+    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/linux-centos-install-nginx1-8-1-through-source-package.html" title="Linux(centos)通过源码包方式安装nginx1.8.1" rel="bookmark">Linux(centos)通过源码包方式安装nginx1.8.1</a></h4>  </header>                </div>
+              </article>
+            </div>
+                  </div>
+      </div>
+    
+  
+
+<div class="bottom-area">
+    <div id="comments" class="comments-area">
+        
+        
+        
+        	<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">发表评论 <small><a rel="nofollow" id="cancel-comment-reply-link" href="https://blog.lixypro.com/houduanyunwei/use-firewalld-to-build-a-dynamic-firewall.html#respond" style="display:none;">取消回复</a></small>
+</h3>
+<form action="https://blog.lixypro.com/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate>
+<p class="comment-form-comment"><textarea id="comment" name="comment" rows="8" aria-required="true"></textarea></p>
+<div class="row comment-author-inputs">
+<div class="col-md-4 input"><p class="comment-form-author"><label for="author">昵称*</label><input id="author" name="author" type="text" value="" size="30" aria-required="true"></p></div>
+<div class="col-md-4 input"><p class="comment-form-email"><label for="email">E-mail*</label><input id="email" name="email" type="text" value="" size="30" aria-required="true"></p></div>
+<div class="col-md-4 input"><p class="comment-form-url"><label for="url">网站</label><input id="url" name="url" type="text" value="" size="30"></p></div>
+</div>
+<p class="comment-form-cookies-consent"><input id="wp-comment-cookies-consent" name="wp-comment-cookies-consent" type="checkbox" value="yes"> <label for="wp-comment-cookies-consent">下次发表评论时，请在此浏览器中保存我的姓名、电子邮件和网站</label></p>
+<p class="form-submit"><input name="submit" type="submit" id="submit" class="button" value="发表评论"> <input type="hidden" name="comment_post_ID" value="50" id="comment_post_ID">
+<input type="hidden" name="comment_parent" id="comment_parent" value="0">
+</p>
+</form>	</div>
+<!-- #respond -->
+	    </div>
+</div>				</main>
+			</div>
+		</div>
+			</div>
+</div>
+
+
+</div>
+<!-- end sitecoent --> 
+
+	
+	<div class="module parallax">
+		<img class="jarallax-img lazyload" data-srcset="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/background/bg-1.jpg" data-sizes="auto" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="">
+		<div class="container">
+			<h4 class="entry-title">
+				提供最优质的资源集合			</h4>
+							<a target="_blank" class="button" href="https://blog.lixypro.com/">立即查看</a>
+										<a target="_blank" class="button transparent" href="https://blog.lixypro.com/">了解详情</a>
+					</div>
+	</div>
+	
+	<footer class="site-footer">
+		<div class="container">
+			
+			<div class="footer-widget">
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-3 widget--about">
+            <div class="widget--content">
+                <div class="footer--logo mb-20">
+                    <img data-dark="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" alt="Lixypro博客" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" class="tap-logo lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img class="tap-logo" src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" data-dark="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" alt="Lixypro博客"></noscript>
+                </div>
+                <p class="mb-10">Lixypro博客网站,专注于各种技术类.</p>
+            </div>
+        </div>
+        <!-- .col-md-2 end -->
+        <div class="col-xs-12 col-sm-3 col-md-2 col-md-offset-1 widget--links">
+            <div class="widget--title">
+                <h5>本站导航</h5>
+            </div>
+            <div class="widget--content">
+                <ul class="list-unstyled mb-0">
+                                    </ul>
+            </div>
+        </div>
+        <!-- .col-md-2 end -->
+        <div class="col-xs-12 col-sm-3 col-md-2 widget--links">
+            <div class="widget--title">
+                <h5>友情链接</h5>
+            </div>
+            <div class="widget--content">
+                <ul class="list-unstyled mb-0">
+                    <li><a target="_blank" href="https://www.baidu.com/">百度一下</a></li>
+<li><a target="_blank" href="https://www.zhihu.com/">知乎官网</a></li>                </ul>
+            </div>
+        </div>
+        <!-- .col-md-2 end -->
+        <div class="col-xs-12 col-sm-12 col-md-4 widget--newsletter">
+            <div class="widget--title">
+                <h5>快速搜索</h5>
+            </div>
+            <div class="widget--content">
+                <form class="newsletter--form mb-30" action="https://blog.lixypro.com/" method="get">
+                    <input type="text" class="form-control" name="s" placeholder="关键词">
+                    <button type="submit"><i class="fa fa-arrow-right"></i></button>
+                </form>
+                <h6>本站由WordPress程序强力驱动</h6>
+            </div>
+        </div>
+
+    </div>
+</div>						  <div class="site-info">
+			    © 2021 Lixypro博客 & WordPress Theme. All rights reserved			    			  </div>
+					</div>
+	</footer>
+	
+<div class="rollbar">
+	
+	<div class="rollbar-item" etap="to_full" title="全屏页面"><i class="fa fa-arrows-alt"></i></div>
+
+	
+		<div class="rollbar-item" etap="to_top" title="返回顶部"><i class="fa fa-angle-up"></i></div>
+</div>
+
+<div class="dimmer"></div>
+
+
+
+<div class="off-canvas">
+  <div class="canvas-close"><i class="mdi mdi-close"></i></div>
+  <div class="logo-wrapper">
+      <a href="https://blog.lixypro.com/">
+      <img alt="Lixypro博客" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" class="logo regular lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img class="logo regular" src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" alt="Lixypro博客"></noscript>
+    </a>
+    </div>
+  <div class="mobile-menu hidden-lg hidden-xl"></div>
+  <aside class="widget-area">
+      </aside>
+</div>
+<script>
+    console.log("\n %c RiPro V7.1.0 %c https://blog.lixypro.com \n\n", "color: #fadfa3; background: #030307; padding:5px 0;", "background: #fadfa3; padding:5px 0;");
+    console.log("SQL 请求数：69");
+    console.log("页面生成耗时： 0.32817");
+</script>
+
+
+
+<script type="text/javascript" id="toc-front-js-extra">
+/* <![CDATA[ */
+var tocplus = {"visibility_show":"show","visibility_hide":"hide","width":"Auto"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/plugins/table-of-contents-plus/front.min.js?ver=2002" id="toc-front-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/jQuery/jquery.min.js?ver=10.2.1" id="jQuery-CDN-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/KaTeX/katex.min.js?ver=10.2.1" id="Katex-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/ClipBoard/clipboard.min.js?ver=2.0.1" id="copy-clipboard-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/components/prism-core.min.js?ver=1.15.0" id="prism-core-js-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/autoloader/prism-autoloader.min.js?ver=1.15.0" id="prism-plugin-autoloader-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/toolbar/prism-toolbar.min.js?ver=1.15.0" id="prism-plugin-toolbar-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/line-numbers/prism-line-numbers.min.js?ver=1.15.0" id="prism-plugin-line-numbers-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/show-language/prism-show-language.min.js?ver=1.15.0" id="prism-plugin-show-language-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js?ver=1.15.0" id="prism-plugin-copy-to-clipboard-js"></script>
+<script type="text/javascript" id="Front_Style-js-extra">
+/* <![CDATA[ */
+var FrontStyle = {"openLinkInNewTab":"on"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/FrontStyle/frontstyle.min.js?ver=10.2.1" id="Front_Style-js"></script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/plugins/wp-smushit/app/assets/js/smush-lazy-load.min.js?ver=3.8.4" id="smush-lazy-load-js"></script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/plugins.js?ver=7.1.0" id="plugins-js"></script>
+<script type="text/javascript" id="app-js-extra">
+/* <![CDATA[ */
+var caozhuti = {"site_name":"Lixypro博客","home_url":"https:\/\/blog.lixypro.com","ajaxurl":"https:\/\/blog.lixypro.com\/wp-admin\/admin-ajax.php","is_singular":"1","tencent_captcha":{"is":"","appid":""},"infinite_load":"加载更多","infinite_loading":"<i class=\"fa fa-spinner fa-spin\"><\/i> 加载中...","site_notice":{"is":"0","color":"rgb(33, 150, 243)","html":"<div class=\"notify-content\"><h3>Lixypro欢迎你!<\/h3><div>这是一条网站公告，可在后台开启或关闭，可自定义背景颜色，标题，内容，用户首次打开关闭后不再重复弹出，此处可使用html标签...<\/div><\/div>"},"pay_type_html":{"html":"<div class=\"pay-button-box\"><\/div><p style=\"font-size: 13px; padding: 0; margin: 0;\">免费或钻石免费资源仅限余额支付<\/p>","alipay":0,"weixinpay":0}};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/app.js?ver=7.1.0" id="app-js"></script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/plugins/jquery.fancybox.min.js?ver=7.1.0" id="fancybox-js"></script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-includes/js/comment-reply.min.js?ver=5.7" id="comment-reply-js"></script>
+        <script type="text/javascript">
+            (function ($) {
+                $(document).ready(function () {
+                    $(".katex.math.inline").each(function () {
+                        var parent = $(this).parent()[0];
+                        if (parent.localName !== "code") {
+                            var texTxt = $(this).text();
+                            var el = $(this).get(0);
+                            try {
+                                katex.render(texTxt, el);
+                            } catch (err) {
+                                $(this).html("<span class=\"err\">" + err);
+                            }
+                        } else {
+                            $(this).parent().text($(this).parent().text());
+                        }
+                    });
+                    $(".katex.math.multi-line").each(function () {
+                        var texTxt = $(this).text();
+                        var el = $(this).get(0);
+                        try {
+                            katex.render(texTxt, el, {displayMode: true})
+                        } catch (err) {
+                            $(this).html("<span class=\"err\">" + err)
+                        }
+                    });
+                })
+            })(jQuery);
+        </script>
+                <script type="text/javascript">
+            Prism.plugins.autoloader.languages_path = "https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/components/";
+        </script>
+        
+</div>
+</body>
+</html>

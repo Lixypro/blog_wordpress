@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="profile" href="https://gmpg.org/xfn/11">
+	<link href="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/favicon/favicon.png" rel="icon">
+  <title>DNS服务器搭建与配置 - Lixypro博客</title>
+
+	<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+
+	<!-- This site is optimized with the Yoast SEO plugin v16.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+	<title>DNS服务器搭建与配置 - Lixypro博客</title>
+	<meta name="description" content="DNS服务器搭建与配置">
+	<link rel="canonical" href="https://blog.lixypro.com/houduanyunwei/dns-server-construction-and-configuration.html">
+	<meta property="og:locale" content="zh_CN">
+	<meta property="og:type" content="article">
+	<meta property="og:title" content="DNS服务器搭建与配置 - Lixypro博客">
+	<meta property="og:description" content="DNS服务器搭建与配置">
+	<meta property="og:url" content="https://blog.lixypro.com/houduanyunwei/dns-server-construction-and-configuration.html">
+	<meta property="og:site_name" content="Lixypro博客">
+	<meta property="article:published_time" content="2021-04-10T10:01:06+00:00">
+	<meta property="article:modified_time" content="2021-04-11T11:12:56+00:00">
+	<meta property="og:image" content="https://blog.lixypro.com/wp-content/uploads/2021/04/1618139491-b3bf60b851ebaeb.png">
+	<meta property="og:image:width" content="1920">
+	<meta property="og:image:height" content="720">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:label1" content="作者">
+	<meta name="twitter:data1" content="administrator">
+	<meta name="twitter:label2" content="预计阅读时间">
+	<meta name="twitter:data2" content="5分">
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://blog.lixypro.com/#website","url":"https://blog.lixypro.com/","name":"Lixypro博客","description":"技术分享|网页前端|后端运维|网络安全|日常记事","potentialAction":[{"@type":"SearchAction","target":"https://blog.lixypro.com/?s={search_term_string}","query-input":"required name=search_term_string"}],"inLanguage":"zh-CN"},{"@type":"ImageObject","@id":"https://blog.lixypro.com/houduanyunwei/dns-server-construction-and-configuration.html#primaryimage","inLanguage":"zh-CN","url":"https://blog.lixypro.com/wp-content/uploads/2021/04/1618139491-b3bf60b851ebaeb.png","contentUrl":"https://blog.lixypro.com/wp-content/uploads/2021/04/1618139491-b3bf60b851ebaeb.png","width":1920,"height":720},{"@type":"WebPage","@id":"https://blog.lixypro.com/houduanyunwei/dns-server-construction-and-configuration.html#webpage","url":"https://blog.lixypro.com/houduanyunwei/dns-server-construction-and-configuration.html","name":"DNS服务器搭建与配置 - Lixypro博客","isPartOf":{"@id":"https://blog.lixypro.com/#website"},"primaryImageOfPage":{"@id":"https://blog.lixypro.com/houduanyunwei/dns-server-construction-and-configuration.html#primaryimage"},"datePublished":"2021-04-10T10:01:06+00:00","dateModified":"2021-04-11T11:12:56+00:00","author":{"@id":"https://blog.lixypro.com/#/schema/person/504c3e2a3d8a31f292936e7a2241373b"},"description":"DNS服务器搭建与配置","breadcrumb":{"@id":"https://blog.lixypro.com/houduanyunwei/dns-server-construction-and-configuration.html#breadcrumb"},"inLanguage":"zh-CN","potentialAction":[{"@type":"ReadAction","target":["https://blog.lixypro.com/houduanyunwei/dns-server-construction-and-configuration.html"]}]},{"@type":"BreadcrumbList","@id":"https://blog.lixypro.com/houduanyunwei/dns-server-construction-and-configuration.html#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"item":{"@type":"WebPage","@id":"https://blog.lixypro.com/","url":"https://blog.lixypro.com/","name":"首页"}},{"@type":"ListItem","position":2,"item":{"@type":"WebPage","@id":"https://blog.lixypro.com/houduanyunwei/dns-server-construction-and-configuration.html","url":"https://blog.lixypro.com/houduanyunwei/dns-server-construction-and-configuration.html","name":"DNS服务器搭建与配置"}}]},{"@type":"Person","@id":"https://blog.lixypro.com/#/schema/person/504c3e2a3d8a31f292936e7a2241373b","name":"administrator","image":{"@type":"ImageObject","@id":"https://blog.lixypro.com/#personlogo","inLanguage":"zh-CN","url":"https://secure.gravatar.com/avatar/957d4bcaf62a121072d884ad505a9b2a?s=96&d=mm&r=g","contentUrl":"https://secure.gravatar.com/avatar/957d4bcaf62a121072d884ad505a9b2a?s=96&d=mm&r=g","caption":"administrator"},"sameAs":["https://blog.lixypro.com"]}]}</script>
+	<!-- / Yoast SEO plugin. -->
+
+
+<link rel="stylesheet" id="toc-screen-css" href="https://blog.lixypro.com/wp-content/plugins/table-of-contents-plus/screen.min.css?ver=2002" type="text/css" media="all">
+<link rel="stylesheet" id="Katex-css" href="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/KaTeX/katex.min.css?ver=10.2.1" type="text/css" media="all">
+<link rel="stylesheet" id="prism-theme-style-css" href="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/themes/prism-okaidia.css?ver=1.15.0" type="text/css" media="all">
+<link rel="stylesheet" id="prism-plugin-toolbar-css" href="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/toolbar/prism-toolbar.css?ver=1.15.0" type="text/css" media="all">
+<link rel="stylesheet" id="prism-plugin-line-numbers-css" href="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/line-numbers/prism-line-numbers.css?ver=1.15.0" type="text/css" media="all">
+<link rel="stylesheet" id="external-css" href="https://blog.lixypro.com/wp-content/themes/ripro/assets/css/external.css?ver=7.1.0" type="text/css" media="all">
+<link rel="stylesheet" id="sweetalert2-css" href="https://blog.lixypro.com/wp-content/themes/ripro/assets/css/sweetalert2.min.css?ver=7.1.0" type="text/css" media="all">
+<link rel="stylesheet" id="app-css" href="https://blog.lixypro.com/wp-content/themes/ripro/assets/css/app.css?ver=7.1.0" type="text/css" media="all">
+<link rel="stylesheet" id="diy-css" href="https://blog.lixypro.com/wp-content/themes/ripro/assets/css/diy.css?ver=7.1.0" type="text/css" media="all">
+<link rel="stylesheet" id="fancybox-css" href="https://blog.lixypro.com/wp-content/themes/ripro/assets/css/jquery.fancybox.min.css?ver=7.1.0" type="text/css" media="all">
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/jquery-2.2.4.min.js?ver=2.2.4" id="jquery-js"></script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/plugins/sweetalert2.min.js?ver=7.1.0" id="sweetalert2-js"></script>
+		<script>
+			document.documentElement.className = document.documentElement.className.replace( 'no-js', 'js' );
+		</script>
+				<style>.no-js img.lazyload { display: none; }
+			figure.wp-block-image img.lazyloading { min-width: 150px; }
+							.lazyload, .lazyloading { opacity: 0; }
+				.lazyloaded {
+					opacity: 1;
+					transition: opacity 400ms;
+					transition-delay: 0ms;
+				}</style>
+			<!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+      <script src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/html5shiv.js"></script>
+      <script src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/respond.min.js"></script>
+    <![endif]-->
+          <script> $(document).ready(function() { NProgress.start(); $(window).load(function() { NProgress.done(); }); });</script>
+    </head>
+
+<body class="post-template-default single single-post postid-36 single-format-standard  max_width navbar-sticky navbar-full navbar-slide no-search sidebar-none pagination-numeric no-off-canvas">
+
+<div class="site">
+    
+<header class="site-header">
+      <div class="navbar">
+      <div class="logo-wrapper">
+              <a href="https://blog.lixypro.com/">
+          <img data-dark="" alt="Lixypro博客" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" class="logo regular tap-logo lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img class="logo regular tap-logo" src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" data-dark="" alt="Lixypro博客"></noscript>
+        </a>
+            </div>
+      <div class="sep"></div>
+      
+      <nav class="main-menu hidden-xs hidden-sm hidden-md">
+        <ul id="menu-menu-1" class="nav-list u-plain-list">
+<li id="menu-item-12" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-12"><a href="https://blog.lixypro.com/">本站首页</a></li>
+<li id="menu-item-15" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-15"><a href="https://blog.lixypro.com/tags">标签集合</a></li>
+<li id="menu-item-18" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-18"><a href="https://blog.lixypro.com/qianduansixiang">前端思想</a></li>
+<li id="menu-item-19" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-19"><a href="https://blog.lixypro.com/houduanyunwei">后端运维</a></li>
+<li id="menu-item-20" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-20"><a href="https://blog.lixypro.com/zaixianfuwu">在线服务</a></li>
+<li id="menu-item-21" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-21"><a href="https://blog.lixypro.com/diannaojichu">电脑基础</a></li>
+<li id="menu-item-22" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-22"><a href="https://blog.lixypro.com/kejizixun">科技资讯</a></li>
+<li id="menu-item-23" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-23"><a href="https://blog.lixypro.com/wangluoanquan">网络安全</a></li>
+</ul>      </nav>
+      
+      <div class="main-search">
+        <form method="get" class="search-form inline" action="https://blog.lixypro.com/">
+  <input type="search" class="search-field inline-field" placeholder="输入关键词，回车..." autocomplete="off" value="" name="s" required="required">
+  <button type="submit" class="search-submit"><i class="mdi mdi-magnify"></i></button>
+</form>        <div class="search-close navbar-button"><i class="mdi mdi-close"></i></div>
+      </div>
+
+      <div class="actions">
+                <!-- user end -->
+        <div class="search-open navbar-button"><i class="mdi mdi-magnify"></i></div>
+                <div class="burger"></div>
+      </div>
+    </div>
+  </header>
+
+<div class="header-gap"></div>    
+    <div class="site-content">
+    
+
+<div class="container">
+	<div class="breadcrumbs">
+	当前位置：<a href="https://blog.lixypro.com/">Lixypro博客</a> <small>></small> <a href="https://blog.lixypro.com/houduanyunwei">后端运维</a> <small>></small> DNS服务器搭建与配置	</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="content-area">
+				<main class="site-main">
+					<article id="post-36" class="article-content">
+    <div class="container">
+  
+<div class="cao_entry_header">
+
+  <header class="entry-header">    
+    <h1 class="entry-title">DNS服务器搭建与配置</h1>  </header>
+</div>
+</div>  <div class="container">
+    <div class="entry-wrapper">
+            <div class="entry-content u-text-format u-clearfix">
+        <h2>1. DNS服务</h2>
+<p>DNS服务简介：DNS(Domain Name System–域名系统),是因特网的一项服务。它作为将域名和IP地址相互映射的一个分布式数据库，能够使人更方便地访问互联网。是一个应用层的协议DNS使用TCP和UDP端口53。<br>
+DNS是一个分布式数据库,命名系统采用层次的逻辑结构,如同一颗倒置的树,这个逻辑的树形结构称为域名空间,由于DNS划分了域名空间,所以各机构可以使用自己的域名空间创建DNS信息.<br>
+<em>注:DNS域名空间中,树的最大深度不得超过127层,树中每个节点最长可以存储63个字符.</em></p>
+<p><img class="lazyload " src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="https://blog.lixypro.com/wp-content/uploads/2021/04/1618139491-b3bf60b851ebaeb.png" alt="DNS服务器搭建与配置"><noscript>
+<img alt="DNS服务器搭建与配置" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618139491-b3bf60b851ebaeb.png" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618139491-b3bf60b851ebaeb.png" alt="DNS服务器搭建与配置"></noscript>
+</noscript></p>
+<h2>2. DNS名词</h2>
+<p>关于DNS的专业术语名词的详细解释：</p>
+<ol>
+<li>域和域名</li>
+</ol>
+<p>DNS树的每个节点代表一个域.通过这些节点,对整个域名空间进行划分,成为一个层次结构.</p>
+<p>域名空间的每个域的名字,通过域名进行表示.</p>
+<p>域名:通常由一个完全合格域名（FQDN）标识.FQDN能准确表示出其相对于DNS 域树根的位置,也就是节点到DNS 树根的完整表述方式,从节点到树根采用反向书写,并将每个节点用“.”分隔,对于DNS 域google 来说,其完全正式域名（FQDN）为google.com.<br>
+<em>例如：google为com域的子域,其表示方法为google.com，而www为google域中的子域,可以使用www.google.com表示<br>
+注意:通常,FQDN 有严格的命名限制,长度不能超过256 字节,只允许使用字符a-z,0-9,A-Z和减号（-）.点号（.）只允许在域名标志之间（例如“google.com”）或者FQDN 的结尾使用.</em></p>
+<p>域名不区分大小.</p>
+<p>由最顶层到下层,可以分成:根域、顶级域、二级域、子域.</p>
+<p>Internet 域名空间的最顶层是根域（root）,其记录着Internet 的重要DNS 信息,由Internet域名注册授权机构管理,该机构把域名空间各部分的管理责任分配给连接到Internet 的各个组织.<br>
+“.”全球有13个根(root)服务器</p>
+<p>DNS 根域下面是顶级域,也由Internet 域名注册授权机构管理.共有3 种类型的顶级域.</p>
+<p>组织域:采用3 个字符的代号,表示DNS 域中所包含的组织的主要功能或活动.比如com 为商业机构组织,edu 为教育机构组织,gov 为政府机构组织,mil 为军事机构组织,net 为网络机构组织,org 为非营利机构组织,int 为国际机构组织.</p>
+<p>地址域:采用两个字符的国家或地区代号.如cn 为中国,kr 为韩国,us 为美国.</p>
+<p>反向域:这是个特殊域,名字为in-addr.arpa,用于将IP 地址映射到名字（反向查询）.</p>
+<p>对于顶级域的下级域,Internet 域名注册授权机构授权给Internet 的各种组织.当一个组织获得了对域名空间某一部分的授权后,该组织就负责命名所分配的域及其子域,包括域中的计算机和其他设备,并管理分配域中主机名与IP 地址的映射信息.</p>
+<ol start="2">
+<li>区（Zone）：</li>
+</ol>
+<p>区是DNS 名称空间的一部分,其包含了一组存储在DNS 服务器上的资源记录.</p>
+<p>使用区的概念,DNS 服务器回答关于自己区中主机的查询,每个区都有自己的授权服务器.</p>
+<ol start="3">
+<li>主域名服务器和辅助域名服务器：</li>
+</ol>
+<p>当区的辅助服务器启动时,它与该区的主控服务器进行连接并启动一次区传输,区辅助服务器定期与区主控服务器通信,查看区数据是否改变.如果改变了,它就启动一次数据更新传输.每个区必须有主服务器,另外每个区至少要有一台辅助服务器,否则如果该区的主服务器崩溃了,就无法解析该区的名称.</p>
+<p>辅助服务器的优点:<br>
+容错能力<br>
+配置辅助服务器后,在该区主服务器崩溃的情况下,客户机仍能解析该区的名称.一般把区的主服务器和区的辅助服务器安装在不同子网上,这样如果到一个子网的连接中断,DNS 客户机还能直接查询另一个子网上的名称服务器.</p>
+<p>减少广域链路的通信量<br>
+如果某个区在远程有大量客户机,用户就可以在远程添加该区的辅助服务器,并把远程的客户机配置成先查询这些服务器,这样就能防止远程客户机通过慢速链路通信来进行DNS 查询.</p>
+<p>减轻主服务器的负载<br>
+辅助服务器能回答该区的查询,从而减少该区主服务器必须回答的查询数.</p>
+<ol start="4">
+<li>DNS相关概念：</li>
+</ol>
+<p>DNS服务器：<br>
+运行DNS 服务器程序的计算机,储存DNS 数据库信息.DNS 服务器会尝试解析客户机的查询请求.<br>
+在解答查询时,如果DNS 服务器能提供所请求的信息,就直接回应解析结果,如果该DNS 服务器没有相应的域名信息,则为客户机提供另一个能帮助解析查询的服务器地址,如果以上两种方法均失败,则回应客户机没有所请求的信息或请求的信息不存在.</p>
+<p>DNS缓存：<br>
+运行DNS 服务器程序的计算机,储存DNS 数据库信息.DNS 服务器会尝试解析客户机的查询请求.<br>
+在解答查询时,如果DNS 服务器能提供所请求的信息,就直接回应解析结果,如果该DNS 服务器没有相应的域名信息,则为客户机提供另一个能帮助解析查询的服务器地址,如果以上两种方法均失败,则回应客户机没有所请求的信息或请求的信息不存在.</p>
+<ol start="5">
+<li>DNS两种查询方式：<br>
+递归查询：<br>
+递归查询是一种DNS 服务器的查询模式,在该模式下DNS 服务器接收到客户机请求,必须使用一个准确的查询结果回复客户机.如果DNS 服务器本地没有存储查询DNS 信息,那么该服务器会询问其他服务器,并将返回的查询结果提交给客户机.</li>
+</ol>
+<p>迭代查询：<br>
+DNS 服务器另外一种查询方式为迭代查询,当客户机发送查询请求时,DNS 服务器并不直接回复查询结果,而是告诉客户机另一台DNS 服务器地址,客户机再向这台DNS 服务器提交请求,依次循环直到返回查询的结果为止.</p>
+<ol start="6">
+<li>正向解析和方向解析：<br>
+正向解析：是指域名到IP地址的解析过程。<br>
+反向解析：是指IP地址到域名的解析过程。
+</li>
+<li>
+<p>DNS资源记录：</p>
+</li>
+</ol>
+<p><strong>SOA 资源记录(全区唯一)</strong><br>
+每个区在区的开始处都包含了一个起始授权记录（Start of Authority Record）,简称SOA 记录.<br>
+SOA 定义了域的全局参数,进行整个域的管理设置.一个区域文件只允许存在唯一的SOA 记录.</p>
+<p><strong>NS 资源记录</strong>:<br>
+NS（Name Server）记录是域名服务器记录,用来指定该域名由哪个DNS服务器来进行解析.每个区在区根处至少包含一个NS 记录.</p>
+<p><strong>A 资源记录</strong><br>
+地址（A）资源记录把FQDN 映射到IP 地址. 因为有此记录,所以DNS服务器能解析FQDN域名对应的IP 地址.<br>
+A ：是IPv4地址。 AAAA是IPv6主机地址。</p>
+<p><strong>PTR 资源记录</strong><br>
+相对于A 资源记录,指针（PTR）记录把IP地址映射到FQDN. 用于反向查询,通过IP地址,找到域名.</p>
+<p><strong>CNAME 资源记录</strong><br>
+别名记录（CNAME）资源记录创建特定FQDN 的别名.用户可以使用CNAME 记录来隐藏用户网络的实现细节,使连接的客户机无法知道真正的域名.<br>
+<em>例:ping百度时,解析到了百度的别名服务器.百度有个cname=www.a.shifen.com.的别名</em></p>
+<p><strong>MX 资源记录</strong><br>
+邮件交换（MX）资源记录,为DNS 域名指定邮件交换服务器.<br>
+邮件交换服务器是为DNS 域名处理或转发邮件的主机.处理邮件指把邮件投递到目的地或转交另一不同类型的邮件传送者.转发邮件指把邮件发送到最终目的服务器,用简单邮件传输协议SMTP 把邮件发送给离最终目的地最近的邮件交换服务器,或使邮件经过一定时间的排队.</p>
+<p><strong>DNS工作原理：查询过程</strong></p>
+<p>假设www.abc.com的主机要查询www.xyz.abc.com的服务器ip地址。</p>
+<p>递归查询：</p>
+<pre><code class="language-shell line-numbers">第一步：在hosts静态文件、DNS解析器缓存中查找某主机的ip地址
+hosts文件：以静态映射的方式提供IP地址与主机名的对照表，类似ARP表
+域：abc.com是一个域，它可以划分为多个区域，如abc.com和xyz.abc.com
+
+第二步：上一步无法找到，去DNS本地服务器（即域服务器）查找，其本质是去区域服务器、服务器缓存中查找
+
+第三步：本地DNS服务器查不到就根据‘根提示文件’向负责顶级域‘.com’的DNS服务器查询
+
+第四步：‘根DNS服务器’根据查询域名中的‘xyz.com’，再向xyz.com的区域服务器查询
+
+第五步：www.xyz.abc.com的DNS服务器直接解析该域名，将查询到的ip再原路返回给请求查询的主机
+</code></pre>
+<p>迭代查询:</p>
+<pre><code class="language-shell line-numbers">第一步：在hosts静态文件、DNS解析器缓存中查找某主机的ip地址
+
+第二步：上一步无法找到，在DNS本地服务器（即域服务器）查找所有本层次的区域服务器
+
+第三步：本地DNS服务器查不到就查询上一层次的所有区域服务器，以此类推直至根域名DNS服务器‘.’
+
+第四步：到达根域名服务器后又向下查询，直至查到结果为止。
+</code></pre>
+<p>迭代查询与递归查询结合<br>
+递归查询需要经过逐层查询才能获得查询结果，当查询具有许多层次的DNS结构时效率很低，所以一般采用两者相结合的查询方式。</p>
+<pre><code class="language-shell line-numbers">第一步：在hosts静态文件、DNS解析器缓存中查找某主机的ip地址
+
+第二步：上一步无法找到，去DNS本地服务器（即域服务器）查找，其本质是去区域服务器、服务器缓存中查找
+
+第三步：本地DNS服务器查不到就根据‘根提示文件’向负责顶级域‘.com’的根DNS服务器查询
+
+第四步：根DNS服务器直接将其区域DNS服务器的ip地址返回给本地服务器，而不用再向xyz.com的区域服务器查询。
+
+第五步：本地DNS服务器将结果返回给请求的主机
+</code></pre>
+<h2>3. Linux下DNS服务器安装</h2>
+<h3>3.1. BIND简介</h3>
+<p>BIND（Berkeley Internet Name Domain，伯克利因特网名称域）服务是全球范围内使用最广泛、最安全可靠且高效的域名解析服务程序。DNS域名解析服务作为互联网基础设施服务，其责任之重可想而知，因此建议大家在生产环境中安装部署bind服务程序时加上chroot（俗称牢笼机制）扩展包，以便有效地限制bind服务程序仅能对自身的配置文件进行操作，以确保整个服务器的安全。<br>
+Linux下架设DNS服务器通常是使用Bind程序来实现的。Bind是一款实现DNS服务器的开放源码的软件。DNS即域名系统，主要功能是将人们易于记忆的Domain Name(域名)与不易记忆的IP地址进行转换。下面由我给大家简单介绍一下Linux下架设DNS服务器.</p>
+<h3>3.2. 安装bind服务和启动步骤</h3>
+<pre><code class="language-shell line-numbers">[root@localhost ~]# yum install -y bind*
+#安装bind组件
+[root@localhost ~]# systemctl start named
+#启动dns服务
+[root@localhost ~]# systemctl enable named
+#设置dns服务开机启动
+Created symlink from /etc/systemd/system/multi-user.target.wants/named.service to /usr/lib/systemd/system/named.service.
+</code></pre>
+<h3>3.3. DNS配置的主要文件组</h3>
+<pre><code class="language-shell line-numbers">/etc/hosts　　主机的一个文件列表 　　添加记录如:111.13.100.92 www.baidu.com
+
+对于简单的主机名解析（点分表示法），默认在请求DNS或NIS网络域名服务器前，/etc/named.conf 通常会告诉程序先查看此文件。
+
+/etc/resolv.conf　　转换程序配置文件
+
+在配置程序请求BIND域名查询服务查询主机名时，必须告诉程序使用哪个域名服务器和IP地址来完成这个任务
+
+/etc/named.conf　　BIND主文件
+
+设置一般的name参数，指向该服务器使用的域数据库的信息源
+
+/var/named/named.ca　　根域名配置服务器指向文件
+
+指向根域名配置服务器，用于告诉缓存服务器初始化
+
+/var/named/localhost.zone　 localhost区正向域名解析文件
+
+用于将本地IP地址（127.0.0.1）转换为本地回送IP地址（127.0.0.1）
+
+/var/named/name.local　　localhost区反向域名解析文件
+
+用于将localhost名字转换为本地回送IP地址（127.0.0.1）
+
+/etc/named.rfc1912.zones　　区块设置文件
+</code></pre>
+<p><strong>name.conf文件的主要配置信息</strong></p>
+<pre><code class="language-shell line-numbers">acl　　定义ip地址的访问控制清单
+control　　定义rndc使用的控制通道
+include　　把其他的文件包含到配置文件中
+key　　定义授权的安全密钥
+logging　　定义日志内容和位置
+options　　定义全局配置选项和默认值
+server　　定义远程服务的特征
+zone　　定义一个区
+
+</code></pre>
+<h3>3.4. DNS的资源记录（Resource Record, RR）格式</h3>
+<pre><code class="language-shell line-numbers">DNS域名数据库有资源记录和区文件指令组成，由SOA（Start Of Authority起始授权机构记录，SOA 记录说明了在众多NS记录里那一台才是主名称服务器。
+RR开始，同时包括NS RR；
+正向解析文件包括A internet Address，作用，FQDN --&gt; IP） 
+MX （Mail eXchanger，邮件交换器）
+CNAME（Canonical NAME 别名） 
+反向解析文件包括PTR（PTR: PoinTeR，IP --&gt; FQDN）
+
+RR 语法：name　　[TTL]　　IN　　type　　value （字段之间由空格和制表符隔开）
+
+注意： (1) TTL可从全局继承　　(2) @可用于引用当前区域的名字 　　(3) 同一个名字可以通过多条记录定义多个不同的值；此时 DNS服务器会以轮询方式响应 　　(4) 同一个值也可能有多个不同的定义名字；通过多个不同的 名字指向同一个值进行定义；此仅表示通过多个不同的名字 可以找到同一个主机
+
+SOA记录：name: 当前区域的名字，例如“heiye.com.” 　　value: 有多部分组成 (1) 当前区域的主DNS服务器的FQDN，也可以使用当前区域的名字；  
+
+(2) 当前区域管理员的邮箱地址；地址中不能使用@符号，一般用.替换 如linuxedu.heiye.com  (3) 主从服务区域传输相关定义以及否定的答案的统一的TTL 
+
+例如： heiye.com.　　86400 　　IN 　　SOA 　　ns.heiye.com.
+
+　　　 nsadmin.heiye.com. 　　(
+　　　 　　　　2015042201 ;
+　　　　　　　 序列号 2H ;
+　　　　　　　 刷新时间 10M ;
+　　　　　　　 重试时间 1W ;
+　　　　　　　 过期时间 1D ;
+　　　　　　　 否定答案的TTL值
+　　　)
+
+NS记录：name: 当前区域的名字 　　value: 当前区域的某DNS服务器的名字，例如 ns.heiye.com. 注意：一个区域可以有多个NS记录
+
+例如：heiye.com. 　　IN 　　NS　　ns1.heiye.com.  
+
+　　　heiye.com. 　　IN 　　NS 　   ns2.heiye.com.
+
+注意： (1) 相邻的两个资源记录的name相同时，后续的可省略 
+(2) 对NS记录而言，任何一个ns记录后面的服务器名字 ，都应该在后续有一个A记录
+
+MX记录（Mail eXchanger）：name: 当前区域的名字 　　value: 当前区域的某邮件服务器(smtp服务器)的主机名 ， 一个区域内，MX记录可有多个；
+
+但每个记录的value之前应 该有一个数字(0-99)，表示此服务器的优先级；数字越小优 先级越高  例如：
+heiye.com. 　　IN 　　MX 　　10 　　mx1.heiye.com.
+       　　　　 IN 　　MX 　　20 　　mx2.heiye.com.
+
+注意： (1) 对MX记录而言，任何一个MX记录后面的服务器名字 ，都应该在后续有一个A记录
+
+A记录（Addrss）:name: 某主机的FQDN，例如www.heiye.com. 　　value: 主机名对应主机的IP地址
+
+例如： www.heiye.com. 　　IN 　　A 　　1.1.1.1 　　
+　　　 www.heiye.com.　　 IN 　　A 　　2.2.2.2 　　
+　　　 mx1.heiye.com. 　　IN 　　A 　　3.3.3.3
+　　　 mx2.heiye.com.    　 IN 　　A 　　4.4.4.4
+　　　 *.heiye.com. 　　　  IN 　　A 　　5.5.5.5
+　　　 heiye.com. 　　　　IN 　　A 　　 6.6.6.6 　　
+避免用户写错名称时给错误答案，可通过泛域名解析进行解 析至某特定地址
+
+其他记录：AAAA: name: FQDN 　　value: IPv6 　　　　
+
+　　　　　PTR: name: IP，有特定格式，把IP地址反过来写，1.2.3.4，要写 作4.3.2.1；而有特定后缀：in-addr.arpa.，所以完整写法为 ：
+
+4.3.2.1.in-addr.arpa. 　　value: FQDN
+
+例如： 4.3.2.1.　　in-addr.arpa. 　　IN 　　PTR 　　www.heiye.com.
+
+如1.2.3为网络地址，可简写成： 4 　　IN 　　PTR 　　www.heiye.com.
+
+注意：网络地址及后缀可省略；主机地址依然需要反着写
+
+别名记录:name: 别名的FQDN 　　value: 真正名字的FQDN
+
+例如： www.heiye.com. 　　IN 　　CNAME 　　websrv.heiye.com.
+
+named字段：
+
+    （1）根域以” . “结束，并且只有一个，没有上级域。而在Internet中，根域一般不需要表现出来。
+
+    （2）@：默认域，文件使用$ORIGIN domain 来说明默认域。
+
+    （3）ttl 全称”Time to Live “，以秒为单位记录该资源记录中存放高速缓存中的时间长度。通常此处设为空，表示采用SOA的最小ttl值。
+
+    （4）IN：将该记录标志为一个Internet DNS资源记录。
+
+type字段:
+
+    (1)A记录：主机名对应的IP地址记录，用户可将该域名下网站服务器指向自己的Web服务器，同时也可设置域名的二级域名。
+
+    (2)MX记录：邮件交换记录可将该域下所有邮件服务器 指向自己的邮件服务器，只需在线填写服务器的IP地址。
+
+    (3)CNAME记录：别名记录，可允许多个名字映射到同一计算机，通常用于同时提供Web和邮件服务器的计算机。
+
+    (4)SOA记录：一个授权区的开始，配置文件的第一个记录必须是SOA的开始。
+
+    (5)PTR记录：用于地址到主机名的映射。
+
+    (6)HINFO记录：由一组描述主机的信息文件组成，通常包括硬件名称和操作系统名称。
+
+value字段：
+
+    （1）A :存放IP地址。
+
+    （2）CNAME：设置主机别名。
+
+    （3）HINFO：通常为两行，分别对应Hareware（计算机硬件名称）和OS-type（操作系统名称）。
+
+    （4）NS：域名服务器的名称。
+
+    （5）PTR:主机真实名称。
+
+测试检查配置文件错误的工具：nslookup、dig、named-checkzone、host、named-checkconf及dlint。
+</code></pre>
+<h2>4. Linux下DNS服务器配置实验</h2>
+<h3>4.1. 配置DNS正向解析</h3>
+<p>在配置Bind服务时，主要用到以下三个配置文件：</p>
+<pre><code class="language-shell line-numbers">主配置文件（/etc/named.conf）：用来定义bind服务程序的运行。
+
+区域配置文件（/etc/named.rfc1912.zones）：用来保存域名和IP地址对应关系的所在位置。类似于图书的目录，对应着每个域和相应IP地址所在的具体位置，当需要查看或修改时，可根据这个位置找到相关文件。
+
+数据配置文件目录（/var/named）：该目录用来保存域名和IP地址真实对应关系的数据配置文件。
+</code></pre>
+<p>第一步：修改主配置文件/etc/named.conf。将监听地址和运行查询的地址都改为 any，分别表示服务器上的所有IP地址均可提供DNS域名解析服务，以及允许所有人对本服务器发送DNS查询请求。但是在正式的服务中，希望大家不要这样子设置，原因你懂的，危险啊！<br>
+<strong>name.conf文件详解</strong></p>
+<pre><code class="language-shell line-numbers">options {
+listen-on port 53 { 127.0.0.1; };      //设置named服务器监听端口及IP地址
+listen-on-v6 port 53 { ::1; };
+directory       "/var/named";    //设置区域数据库文件的默认存放地址
+dump-file       "/var/named/data/cache_dump.db";
+statistics-file "/var/named/data/named_stats.txt";
+memstatistics-file "/var/named/data/named_mem_stats.txt";
+
+allow-query     { localhost; };   //允许DNS查询客户端
+allow-query-cache { any; };
+};
+logging {
+channel default_debug {
+file "data/named.run";
+severity dynamic;
+};
+};
+view localhost_resolver {
+match-clients      { any; };
+match-destinations { any; };
+recursion yes;                  //设置允许递归查询
+include "/etc/named.rfc1912.zones";
+};
+</code></pre>
+<p>第二步：修改区域配置文件（/etc/named.rfc1912.zones）。用来保存域名和IP地址对应关系的所在位置。在这个文件中，定义了域名与IP地址解析规则保存的文件位置以及服务类型等内容，而没有包含具体的域名、IP地址对应关系等信息。服务类型有三种，分别为hint（根区域）、master（主区域）、slave（辅助区域），其中常用的master和slave指的就是主服务器和从服务器。</p>
+<pre><code class="language-shell line-numbers">zone "example.com" IN {
+        type master;
+        file "example.com.zone";
+</code></pre>
+<p>例子：</p>
+<pre><code class="language-shell line-numbers">zone "." IN {    //定义了根域
+type hint;       //定义服务器类型为hint
+file "named.ca";  //定义根域的配置文件名
+};
+
+zone "localdomain" IN {   //定义正向DNS区域
+type master;              //定义区域类型
+file "localdomain.zone";  //设置对应的正向区域地址数据库文件
+allow-update { none; };   //设置允许动态更新的客户端地址（none为禁止）
+};
+
+zone "localhost" IN {
+type master;
+file "localhost.zone";
+allow-update { none; };
+};
+
+zone "0.0.127.in-addr.arpa" IN {   //设置反向DNS区域
+type master;
+file "named.local";
+allow-update { none; };
+};
+</code></pre>
+<p>DNS默认端口是53的TCP和UPD,UDP是供用户查询的，主从复制用TCP和UDP的53端口都用。</p>
+<pre><code class="language-shell line-numbers">BIND的ACL：bind有四个内置的acl:
+　　 none: 没有一个主机
+　　 any: 任意主机
+　　 localhost: 本机
+　　 localnet: 本机的IP同掩码运算后得到的网络地址段
+　　 注意：只能先定义，后使用；因此一般定义在配置文件中， 处于options的前面，当然也可自定义如下
+　　 acl lan｛
+​ 　　192.168.25.0/24
+　　 } ;
+
+访问控制：
+
+　　访问控制的指令： allow-query {}： 允许查询的主机；白名单
+　　　　　　　　　　 allow-transfer {}：允许区域传送的主机；（白名单，一般用于主从）
+　　　　　　　　　　 allow-recursion {}: 允许递归的主机,建议全局使用
+　　　　　　　　　　 allow-update {}: 允许更新区域数据库中的内容
+</code></pre>
+<p>第三步：编辑数据配置文件。**从/var/named目录中复制一份正向解析的模板文件（named.localhost），然后把域名和IP地址的对应数据填写数据配置文件中并保存。在复制时记得加上-a参数，这可以保留原始文件的所有者、所属组、权限属性等信息，以便让bind服务程序顺利读取文件内容。</p>
+<p><strong>记住下面这个代码块，内容以及解释，以后会用得到，相信我</strong></p>
+<pre><code class="language-shell line-numbers">[root@localhost named]# cp -a named.localhost example.com
+[root@localhost named]# vim example.com.zone 
+<span class="katex math inline">TTL 1D
+@       IN SOA  @ example.com.   (
+     #授权信息开始:   #DNS区域的地址,在域地址后面还可以加管理员邮箱，不能加@，用.代替。
+              20181001        ; serial  #更新序列号
+                      1D      ; refresh #更新时间
+                      1H      ; retry   #重试时间
+                      1W      ; expire   #失效时间
+                      3H )    ; minimum  #无效解析记录的缓存时间
+        NS      ns.example.com.  #DNS区域的地址
+ns      A       192.168.245.128  #地址记录
+www     A       192.168.245.128  #www站点记录
+mail    A       192.168.245.129  #地址记录
+        MX 10   mail.example.com. #邮箱交换记录
+example.com.    A 192.168.245.200
+# 2. 即使不写主机名，DNS也能解析到另外一个指定的地址</span>GENERATE 1-245 server<span class="katex math inline">A 1.1.1.</span>
+#如果服务器过多，对应主机名也很多，则可以这样写.例如：
+#server1.example.com对应地址为：1.1.1.1
+#server100.exmaple.com对应地址为：1.1.1.50
+bbs     CNAME   www           #别名记录
+*       A       192.168.245.128
+#“*”代表所有，即便主机www写错，DNS也能正确解析出来。这就是泛域名解析
+</code></pre>
+<p>例子2：</p>
+<pre><code class="language-shell line-numbers">$TTL 600
+@        IN   SOA    dns.cwlinux.com   dnsadmin.cwlinux.com. (//SOA字段
+                          2015031288   //版本号    同步一次  +1
+                             1H        //更新时间
+                             2M        // 更新失败，重试更新时间
+                             2D        // 更新失败多长时间后此DNS失效时间
+                             1D        //解析不到请求不予回复时间
+)
+         IN    NS   dns            //有两域名服务器
+         IN    NS   ns2
+         IN    MX  10 mial        // 定义邮件服务器，10指优先级  0-99 数字越小优先级越高
+ns2      IN    A    192.168.1.113  //ns2域名服务器的ip地址
+dns      IN    A    192.168.1.10   //dns域名服务器的ip地址
+mail     IN    A    192.168.1.111   //邮件服务器的ip地址
+www      IN    A    192.168.1.112   //www.cwlinux.com的ip地址
+pop      IN   CNAME  mail         //pop的正式名字是mail
+ftp      IN   CNAME  www         //ftp的正式名字是www
+</code></pre>
+<p>第四步：检查配置,重启服务和测试。<br>
+检查和重启服务：</p>
+<pre><code class="language-shell line-numbers">[root@localhost ~]# named-checkconf   #检查主配置文件语法
+[root@localhost ~]# named-checkzone eample.com /var/named/example.com.zone 
+#检查区域配置文件语法
+/var/named/example.com.zone:13: ignoring out-of-zone data (example.com)
+zone eample.com/IN: loaded serial 20181001
+[root@localhost ~]# vi /etc/resolv.conf
+#进入该配置文件，指定使用的域名解析服务器。
+    # Generated by NetworkManager
+    nameserver 192.168.245.128
+    search 192.168.245.128
+[root@localhost ~]# systemctl restart named  #重启服务
+</code></pre>
+<h3>4.2. 配置DNS反向解析</h3>
+<p>在DNS域名解析服务中，反向解析的作用是将用户提交的IP地址解析为对应的域名信息，它一般用于对某个IP地址上绑定的所有域名进行整体屏蔽，屏蔽由某些域名发送的垃圾邮件。它也可以针对某个IP地址进行反向解析，大致判断出有多少个网站运行在上面。当购买虚拟主机时，可以使用这一功能验证虚拟主机提供商是否有严重的超售问题。</p>
+<h4>4.2.1. 第一步：配置区域文件。</h4>
+<p>反向解析是把IP地址解析成域名格式，因此在定义zone（区域）时应该要把IP地址反写，比如原来是192.168.10.0，反写后应该就是10.168.192，而且只需写出IP地址的网络位即可。</p>
+<pre><code class="language-shell line-numbers">[root@localhost ~]# vim /etc/named.rfc1912.zones
+#在中添加反向数据文件的记录
+zone "245.168.192.in-addr.arpa" IN {
+        type master;
+        file "245.168.192.arpa";
+};
+</code></pre>
+<h4>4.2.2. 第二步：编辑数据配置文件。</h4>
+<p>反向解析是把IP地址解析成域名格式，因此在定义zone（区域）时应该要把IP地址反写，比如原来是192.168.10.0，反写后应该就是10.168.192，而且只需写出IP地址的网络位即可。</p>
+<pre><code class="language-shell line-numbers">[root@localhost ~]# cp -a /var/named/named.loopback /var/named/245.168.192.arpa 
+[root@localhost ~]# vi /var/named/245.168.192.arpa
+#编辑反正配置文件即可，和正向解析格式类似
+#PTR为指针记录，仅用于反向解析中。
+</code></pre>
+<p>例子：</p>
+<pre><code class="language-shell line-numbers">$TTL 600
+@         IN   SOA    dns.cwlinux.com.   dnsadmin.cwlinux.com. (
+                             2014031224
+                             1H
+                             2M
+                             2D
+                             1D
+)
+         IN   NS      dns.cwlinux.com.
+10       IN   PTR     dns.cwlinux.com.     //反向解析PTR格式
+111       IN   PTR     mail.cwlinux.com.
+112       IN   PTR     www.cwlinux.com.
+// 声明域的时候已经有了，192.168.1 所以我们只需要输入10既代表192.168.1.10jc
+</code></pre>
+<h4>4.2.3. 第三步：检查配置文件，重启服务，测试。</h4>
+<pre><code class="language-shell line-numbers">[root@localhost ~]# named-checkconf 
+[root@localhost ~]# named-checkzone 245.168.192 /var/named/245.168.192.arpa 
+zone 245.168.192/IN: loaded serial 20181001
+OK
+[root@localhost ~]# systemctl restart named
+</code></pre>
+      </div>
+      <div id="pay-single-box"></div>
+          <div class="entry-tags">
+          <a href="https://blog.lixypro.com/tag/centos" rel="tag">
+        Centos      </a>
+          <a href="https://blog.lixypro.com/tag/dns" rel="tag">
+        dns      </a>
+          <a href="https://blog.lixypro.com/tag/dns-over-tls" rel="tag">
+        DNS-over-TLS      </a>
+      </div>
+<div class="article-copyright">RIPRO主题是一个优秀的主题，极致后台体验，无插件，集成会员系统<br><a href="https://blog.lixypro.com/">Lixypro博客</a> &raquo; <a href="https://blog.lixypro.com/houduanyunwei/dns-server-construction-and-configuration.html">DNS服务器搭建与配置</a>
+</div>
+
+<div class="article-footer">
+    <div class="author-box">
+    <div class="author-image">
+      <img alt="administrator" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/avatar/1.png" class="lazyload avatar avatar-140 photo " height="140" width="140">    </div>
+    <div class="author-info">
+      <h4 class="author-name">
+        <a target="_blank" href="javascript:;">administrator</a>
+        <span class="label label-default"><i class="fa fa-diamond"></i> 普通</span>      </h4>
+    </div>
+  </div>
+      <div class="xshare">
+      <span class="xshare-title">分享到：</span>
+            <a etap="share" data-share="qq" class="share-qq"><i class="fa fa-qq"></i></a>
+      <a etap="share" data-share="weibo" class="share-weibo"><i class="fa fa-weibo"></i></a>
+              <a href="javascript:;" class="btn-bigger-cover share-weixin" data-nonce="1cf6584183" data-id="36" data-action="create-bigger-image" id="bigger-cover"><i class="fa fa-paper-plane"></i></a>
+        </div>
+   
+</div>    </div>
+  </div>
+</article>
+
+
+  <div class="entry-navigation">
+    <nav class="article-nav">
+        <span class="article-nav-prev">上一篇<br><a href="https://blog.lixypro.com/diannaojichu/dns-over-tls-collection-how-to-set-up-a-more-secure-dns.html" rel="prev">DNS-over-TLS 收集，如何设置一个更安全的 DNS？</a></span>
+        <span class="article-nav-next">下一篇<br><a href="https://blog.lixypro.com/houduanyunwei/explanation-dns-cache-poisoning-is-also-called-dns-spoofing.html" rel="next">解释:DNS缓存中毒也称为DNS欺骗</a></span>
+    </nav>
+    
+  </div>
+
+      <!-- # 标准网格模式... -->
+      <div class="related-posts-grid">
+        <h4 class="u-border-title">相关推荐</h4>
+        <div class="row">
+                     <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
+              <article class="post">
+                  <div class="entry-media">
+    <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/explanation-dns-cache-poisoning-is-also-called-dns-spoofing.html">
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/themes/ripro/assets/images/thumb/1.jpg&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="解释:DNS缓存中毒也称为DNS欺骗">  
+      </a>
+            <div class="cao-cover">
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" width="50" height="50px"></noscript>
+</noscript>
+</noscript>
+</noscript>
+</div>
+          </div>
+      </div>
+                  <div class="entry-wrapper">
+                  
+  <header class="entry-header">    
+    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/explanation-dns-cache-poisoning-is-also-called-dns-spoofing.html" title="解释:DNS缓存中毒也称为DNS欺骗" rel="bookmark">解释:DNS缓存中毒也称为DNS欺骗</a></h4>  </header>                </div>
+              </article>
+            </div>
+                      <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
+              <article class="post">
+                  <div class="entry-media">
+    <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+      <a target="_blank" href="https://blog.lixypro.com/diannaojichu/dns-over-tls-collection-how-to-set-up-a-more-secure-dns.html">
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/uploads/2021/04/1618048229-9b8d05929b6de56.jpg&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="DNS-over-TLS 收集，如何设置一个更安全的 DNS？">  
+      </a>
+            <div class="cao-cover">
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" width="50" height="50px"></noscript>
+</noscript>
+</noscript>
+</noscript>
+</div>
+          </div>
+      </div>
+                  <div class="entry-wrapper">
+                  
+  <header class="entry-header">    
+    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/diannaojichu/dns-over-tls-collection-how-to-set-up-a-more-secure-dns.html" title="DNS-over-TLS 收集，如何设置一个更安全的 DNS？" rel="bookmark">DNS-over-TLS 收集，如何设置一个更安全的 DNS？</a></h4>  </header>                </div>
+              </article>
+            </div>
+                      <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
+              <article class="post">
+                  <div class="entry-media">
+    <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/iptables-for-linux-detailed-explanation-and-examples.html">
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/uploads/2021/04/1618049585-9d70a7e2c2e0fdb.png&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="IPtables for Linux详解以及实例">  
+      </a>
+            <div class="cao-cover">
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" width="50" height="50px"></noscript>
+</noscript>
+</noscript>
+</noscript>
+</div>
+          </div>
+      </div>
+                  <div class="entry-wrapper">
+                  
+  <header class="entry-header">    
+    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/iptables-for-linux-detailed-explanation-and-examples.html" title="IPtables for Linux详解以及实例" rel="bookmark">IPtables for Linux详解以及实例</a></h4>  </header>                </div>
+              </article>
+            </div>
+                      <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
+              <article class="post">
+                  <div class="entry-media">
+    <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/detailed_explanation_of_the_process_of_compiling_and_installing_apache_on_centos_server_source_package.html">
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/themes/ripro/assets/images/thumb/1.jpg&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Centos服务器源码包编译安装Apache过程详解">  
+      </a>
+            <div class="cao-cover">
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" width="50" height="50px"></noscript>
+</noscript>
+</noscript>
+</noscript>
+</div>
+          </div>
+      </div>
+                  <div class="entry-wrapper">
+                  
+  <header class="entry-header">    
+    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/detailed_explanation_of_the_process_of_compiling_and_installing_apache_on_centos_server_source_package.html" title="Centos服务器源码包编译安装Apache过程详解" rel="bookmark">Centos服务器源码包编译安装Apache过程详解</a></h4>  </header>                </div>
+              </article>
+            </div>
+                  </div>
+      </div>
+    
+  
+
+<div class="bottom-area">
+    <div id="comments" class="comments-area">
+        
+        
+        
+        	<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">发表评论 <small><a rel="nofollow" id="cancel-comment-reply-link" href="https://blog.lixypro.com/houduanyunwei/dns-server-construction-and-configuration.html#respond" style="display:none;">取消回复</a></small>
+</h3>
+<form action="https://blog.lixypro.com/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate>
+<p class="comment-form-comment"><textarea id="comment" name="comment" rows="8" aria-required="true"></textarea></p>
+<div class="row comment-author-inputs">
+<div class="col-md-4 input"><p class="comment-form-author"><label for="author">昵称*</label><input id="author" name="author" type="text" value="" size="30" aria-required="true"></p></div>
+<div class="col-md-4 input"><p class="comment-form-email"><label for="email">E-mail*</label><input id="email" name="email" type="text" value="" size="30" aria-required="true"></p></div>
+<div class="col-md-4 input"><p class="comment-form-url"><label for="url">网站</label><input id="url" name="url" type="text" value="" size="30"></p></div>
+</div>
+<p class="comment-form-cookies-consent"><input id="wp-comment-cookies-consent" name="wp-comment-cookies-consent" type="checkbox" value="yes"> <label for="wp-comment-cookies-consent">下次发表评论时，请在此浏览器中保存我的姓名、电子邮件和网站</label></p>
+<p class="form-submit"><input name="submit" type="submit" id="submit" class="button" value="发表评论"> <input type="hidden" name="comment_post_ID" value="36" id="comment_post_ID">
+<input type="hidden" name="comment_parent" id="comment_parent" value="0">
+</p>
+</form>	</div>
+<!-- #respond -->
+	    </div>
+</div>				</main>
+			</div>
+		</div>
+			</div>
+</div>
+
+
+</div>
+<!-- end sitecoent --> 
+
+	
+	<div class="module parallax">
+		<img class="jarallax-img lazyload" data-srcset="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/background/bg-1.jpg" data-sizes="auto" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="">
+		<div class="container">
+			<h4 class="entry-title">
+				提供最优质的资源集合			</h4>
+							<a target="_blank" class="button" href="https://blog.lixypro.com/">立即查看</a>
+										<a target="_blank" class="button transparent" href="https://blog.lixypro.com/">了解详情</a>
+					</div>
+	</div>
+	
+	<footer class="site-footer">
+		<div class="container">
+			
+			<div class="footer-widget">
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-3 widget--about">
+            <div class="widget--content">
+                <div class="footer--logo mb-20">
+                    <img data-dark="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" alt="Lixypro博客" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" class="tap-logo lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img class="tap-logo" src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" data-dark="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" alt="Lixypro博客"></noscript>
+                </div>
+                <p class="mb-10">Lixypro博客网站,专注于各种技术类.</p>
+            </div>
+        </div>
+        <!-- .col-md-2 end -->
+        <div class="col-xs-12 col-sm-3 col-md-2 col-md-offset-1 widget--links">
+            <div class="widget--title">
+                <h5>本站导航</h5>
+            </div>
+            <div class="widget--content">
+                <ul class="list-unstyled mb-0">
+                                    </ul>
+            </div>
+        </div>
+        <!-- .col-md-2 end -->
+        <div class="col-xs-12 col-sm-3 col-md-2 widget--links">
+            <div class="widget--title">
+                <h5>友情链接</h5>
+            </div>
+            <div class="widget--content">
+                <ul class="list-unstyled mb-0">
+                    <li><a target="_blank" href="https://www.baidu.com/">百度一下</a></li>
+<li><a target="_blank" href="https://www.zhihu.com/">知乎官网</a></li>                </ul>
+            </div>
+        </div>
+        <!-- .col-md-2 end -->
+        <div class="col-xs-12 col-sm-12 col-md-4 widget--newsletter">
+            <div class="widget--title">
+                <h5>快速搜索</h5>
+            </div>
+            <div class="widget--content">
+                <form class="newsletter--form mb-30" action="https://blog.lixypro.com/" method="get">
+                    <input type="text" class="form-control" name="s" placeholder="关键词">
+                    <button type="submit"><i class="fa fa-arrow-right"></i></button>
+                </form>
+                <h6>本站由WordPress程序强力驱动</h6>
+            </div>
+        </div>
+
+    </div>
+</div>						  <div class="site-info">
+			    © 2021 Lixypro博客 & WordPress Theme. All rights reserved			    			  </div>
+					</div>
+	</footer>
+	
+<div class="rollbar">
+	
+	<div class="rollbar-item" etap="to_full" title="全屏页面"><i class="fa fa-arrows-alt"></i></div>
+
+	
+		<div class="rollbar-item" etap="to_top" title="返回顶部"><i class="fa fa-angle-up"></i></div>
+</div>
+
+<div class="dimmer"></div>
+
+
+
+<div class="off-canvas">
+  <div class="canvas-close"><i class="mdi mdi-close"></i></div>
+  <div class="logo-wrapper">
+      <a href="https://blog.lixypro.com/">
+      <img alt="Lixypro博客" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" class="logo regular lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img class="logo regular" src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618068529-96d6f2e7e1f705a.png" alt="Lixypro博客"></noscript>
+    </a>
+    </div>
+  <div class="mobile-menu hidden-lg hidden-xl"></div>
+  <aside class="widget-area">
+      </aside>
+</div>
+<script>
+    console.log("\n %c RiPro V7.1.0 %c https://blog.lixypro.com \n\n", "color: #fadfa3; background: #030307; padding:5px 0;", "background: #fadfa3; padding:5px 0;");
+    console.log("SQL 请求数：69");
+    console.log("页面生成耗时： 0.32550");
+</script>
+
+
+
+<script type="text/javascript" id="toc-front-js-extra">
+/* <![CDATA[ */
+var tocplus = {"visibility_show":"show","visibility_hide":"hide","width":"Auto"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/plugins/table-of-contents-plus/front.min.js?ver=2002" id="toc-front-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/jQuery/jquery.min.js?ver=10.2.1" id="jQuery-CDN-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/KaTeX/katex.min.js?ver=10.2.1" id="Katex-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/ClipBoard/clipboard.min.js?ver=2.0.1" id="copy-clipboard-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/components/prism-core.min.js?ver=1.15.0" id="prism-core-js-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/autoloader/prism-autoloader.min.js?ver=1.15.0" id="prism-plugin-autoloader-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/toolbar/prism-toolbar.min.js?ver=1.15.0" id="prism-plugin-toolbar-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/line-numbers/prism-line-numbers.min.js?ver=1.15.0" id="prism-plugin-line-numbers-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/show-language/prism-show-language.min.js?ver=1.15.0" id="prism-plugin-show-language-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js?ver=1.15.0" id="prism-plugin-copy-to-clipboard-js"></script>
+<script type="text/javascript" id="Front_Style-js-extra">
+/* <![CDATA[ */
+var FrontStyle = {"openLinkInNewTab":"on"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/FrontStyle/frontstyle.min.js?ver=10.2.1" id="Front_Style-js"></script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/plugins/wp-smushit/app/assets/js/smush-lazy-load.min.js?ver=3.8.4" id="smush-lazy-load-js"></script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/plugins.js?ver=7.1.0" id="plugins-js"></script>
+<script type="text/javascript" id="app-js-extra">
+/* <![CDATA[ */
+var caozhuti = {"site_name":"Lixypro博客","home_url":"https:\/\/blog.lixypro.com","ajaxurl":"https:\/\/blog.lixypro.com\/wp-admin\/admin-ajax.php","is_singular":"1","tencent_captcha":{"is":"","appid":""},"infinite_load":"加载更多","infinite_loading":"<i class=\"fa fa-spinner fa-spin\"><\/i> 加载中...","site_notice":{"is":"0","color":"rgb(33, 150, 243)","html":"<div class=\"notify-content\"><h3>Lixypro欢迎你!<\/h3><div>这是一条网站公告，可在后台开启或关闭，可自定义背景颜色，标题，内容，用户首次打开关闭后不再重复弹出，此处可使用html标签...<\/div><\/div>"},"pay_type_html":{"html":"<div class=\"pay-button-box\"><\/div><p style=\"font-size: 13px; padding: 0; margin: 0;\">免费或钻石免费资源仅限余额支付<\/p>","alipay":0,"weixinpay":0}};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/app.js?ver=7.1.0" id="app-js"></script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-content/themes/ripro/assets/js/plugins/jquery.fancybox.min.js?ver=7.1.0" id="fancybox-js"></script>
+<script type="text/javascript" src="https://blog.lixypro.com/wp-includes/js/comment-reply.min.js?ver=5.7" id="comment-reply-js"></script>
+        <script type="text/javascript">
+            (function ($) {
+                $(document).ready(function () {
+                    $(".katex.math.inline").each(function () {
+                        var parent = $(this).parent()[0];
+                        if (parent.localName !== "code") {
+                            var texTxt = $(this).text();
+                            var el = $(this).get(0);
+                            try {
+                                katex.render(texTxt, el);
+                            } catch (err) {
+                                $(this).html("<span class=\"err\">" + err);
+                            }
+                        } else {
+                            $(this).parent().text($(this).parent().text());
+                        }
+                    });
+                    $(".katex.math.multi-line").each(function () {
+                        var texTxt = $(this).text();
+                        var el = $(this).get(0);
+                        try {
+                            katex.render(texTxt, el, {displayMode: true})
+                        } catch (err) {
+                            $(this).html("<span class=\"err\">" + err)
+                        }
+                    });
+                })
+            })(jQuery);
+        </script>
+                <script type="text/javascript">
+            Prism.plugins.autoloader.languages_path = "https://cdn.jsdelivr.net/wp/wp-editormd/tags/10.2.1/assets/Prism.js/components/";
+        </script>
+        
+</div>
+</body>
+</html>
