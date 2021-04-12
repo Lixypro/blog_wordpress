@@ -127,14 +127,41 @@
 </div>  <div class="container">
     <div class="entry-wrapper">
             <div class="entry-content u-text-format u-clearfix">
-        <h2>1. DNS服务</h2>
+        <div id="toc_container" class="no_bullets">
+<p class="toc_title">Contents</p>
+<ul class="toc_list">
+<li><a href="#1_DNS"><span class="toc_number toc_depth_1">1</span> 1. DNS服务</a></li>
+<li><a href="#2_DNS"><span class="toc_number toc_depth_1">2</span> 2. DNS名词</a></li>
+<li>
+<a href="#3_LinuxDNS"><span class="toc_number toc_depth_1">3</span> 3. Linux下DNS服务器安装</a><ul>
+<li><a href="#31_BIND"><span class="toc_number toc_depth_2">3.1</span> 3.1. BIND简介</a></li>
+<li><a href="#32_bind"><span class="toc_number toc_depth_2">3.2</span> 3.2. 安装bind服务和启动步骤</a></li>
+<li><a href="#33_DNS"><span class="toc_number toc_depth_2">3.3</span> 3.3. DNS配置的主要文件组</a></li>
+<li><a href="#34_DNSResource_Record_RR"><span class="toc_number toc_depth_2">3.4</span> 3.4. DNS的资源记录（Resource Record, RR）格式</a></li>
+</ul>
+</li>
+<li>
+<a href="#4_LinuxDNS"><span class="toc_number toc_depth_1">4</span> 4. Linux下DNS服务器配置实验</a><ul>
+<li><a href="#41_DNS"><span class="toc_number toc_depth_2">4.1</span> 4.1. 配置DNS正向解析</a></li>
+<li>
+<a href="#42_DNS"><span class="toc_number toc_depth_2">4.2</span> 4.2. 配置DNS反向解析</a><ul>
+<li><a href="#421"><span class="toc_number toc_depth_3">4.2.1</span> 4.2.1. 第一步：配置区域文件。</a></li>
+<li><a href="#422"><span class="toc_number toc_depth_3">4.2.2</span> 4.2.2. 第二步：编辑数据配置文件。</a></li>
+<li><a href="#423"><span class="toc_number toc_depth_3">4.2.3</span> 4.2.3. 第三步：检查配置文件，重启服务，测试。</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<h2><span id="1_DNS">1. DNS服务</span></h2>
 <p>DNS服务简介：DNS(Domain Name System–域名系统),是因特网的一项服务。它作为将域名和IP地址相互映射的一个分布式数据库，能够使人更方便地访问互联网。是一个应用层的协议DNS使用TCP和UDP端口53。<br>
 DNS是一个分布式数据库,命名系统采用层次的逻辑结构,如同一颗倒置的树,这个逻辑的树形结构称为域名空间,由于DNS划分了域名空间,所以各机构可以使用自己的域名空间创建DNS信息.<br>
 <em>注:DNS域名空间中,树的最大深度不得超过127层,树中每个节点最长可以存储63个字符.</em></p>
 <p><img class="lazyload " src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="https://blog.lixypro.com/wp-content/uploads/2021/04/1618139491-b3bf60b851ebaeb.png" alt="DNS服务器搭建与配置"><noscript>
 <img alt="DNS服务器搭建与配置" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618139491-b3bf60b851ebaeb.png" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618139491-b3bf60b851ebaeb.png" alt="DNS服务器搭建与配置"></noscript>
 </noscript></p>
-<h2>2. DNS名词</h2>
+<h2><span id="2_DNS">2. DNS名词</span></h2>
 <p>关于DNS的专业术语名词的详细解释：</p>
 <ol>
 <li>域和域名</li>
@@ -246,11 +273,11 @@ hosts文件：以静态映射的方式提供IP地址与主机名的对照表，�
 
 第五步：本地DNS服务器将结果返回给请求的主机
 </code></pre>
-<h2>3. Linux下DNS服务器安装</h2>
-<h3>3.1. BIND简介</h3>
+<h2><span id="3_LinuxDNS">3. Linux下DNS服务器安装</span></h2>
+<h3><span id="31_BIND">3.1. BIND简介</span></h3>
 <p>BIND（Berkeley Internet Name Domain，伯克利因特网名称域）服务是全球范围内使用最广泛、最安全可靠且高效的域名解析服务程序。DNS域名解析服务作为互联网基础设施服务，其责任之重可想而知，因此建议大家在生产环境中安装部署bind服务程序时加上chroot（俗称牢笼机制）扩展包，以便有效地限制bind服务程序仅能对自身的配置文件进行操作，以确保整个服务器的安全。<br>
 Linux下架设DNS服务器通常是使用Bind程序来实现的。Bind是一款实现DNS服务器的开放源码的软件。DNS即域名系统，主要功能是将人们易于记忆的Domain Name(域名)与不易记忆的IP地址进行转换。下面由我给大家简单介绍一下Linux下架设DNS服务器.</p>
-<h3>3.2. 安装bind服务和启动步骤</h3>
+<h3><span id="32_bind">3.2. 安装bind服务和启动步骤</span></h3>
 <pre><code class="language-shell line-numbers">[root@localhost ~]# yum install -y bind*
 #安装bind组件
 [root@localhost ~]# systemctl start named
@@ -259,7 +286,7 @@ Linux下架设DNS服务器通常是使用Bind程序来实现的。Bind是一款�
 #设置dns服务开机启动
 Created symlink from /etc/systemd/system/multi-user.target.wants/named.service to /usr/lib/systemd/system/named.service.
 </code></pre>
-<h3>3.3. DNS配置的主要文件组</h3>
+<h3><span id="33_DNS">3.3. DNS配置的主要文件组</span></h3>
 <pre><code class="language-shell line-numbers">/etc/hosts　　主机的一个文件列表 　　添加记录如:111.13.100.92 www.baidu.com
 
 对于简单的主机名解析（点分表示法），默认在请求DNS或NIS网络域名服务器前，/etc/named.conf 通常会告诉程序先查看此文件。
@@ -297,7 +324,7 @@ server　　定义远程服务的特征
 zone　　定义一个区
 
 </code></pre>
-<h3>3.4. DNS的资源记录（Resource Record, RR）格式</h3>
+<h3><span id="34_DNSResource_Record_RR">3.4. DNS的资源记录（Resource Record, RR）格式</span></h3>
 <pre><code class="language-shell line-numbers">DNS域名数据库有资源记录和区文件指令组成，由SOA（Start Of Authority起始授权机构记录，SOA 记录说明了在众多NS记录里那一台才是主名称服务器。
 RR开始，同时包括NS RR；
 正向解析文件包括A internet Address，作用，FQDN --&gt; IP） 
@@ -405,8 +432,8 @@ value字段：
 
 测试检查配置文件错误的工具：nslookup、dig、named-checkzone、host、named-checkconf及dlint。
 </code></pre>
-<h2>4. Linux下DNS服务器配置实验</h2>
-<h3>4.1. 配置DNS正向解析</h3>
+<h2><span id="4_LinuxDNS">4. Linux下DNS服务器配置实验</span></h2>
+<h3><span id="41_DNS">4.1. 配置DNS正向解析</span></h3>
 <p>在配置Bind服务时，主要用到以下三个配置文件：</p>
 <pre><code class="language-shell line-numbers">主配置文件（/etc/named.conf）：用来定义bind服务程序的运行。
 
@@ -546,9 +573,9 @@ zone eample.com/IN: loaded serial 20181001
     search 192.168.245.128
 [root@localhost ~]# systemctl restart named  #重启服务
 </code></pre>
-<h3>4.2. 配置DNS反向解析</h3>
+<h3><span id="42_DNS">4.2. 配置DNS反向解析</span></h3>
 <p>在DNS域名解析服务中，反向解析的作用是将用户提交的IP地址解析为对应的域名信息，它一般用于对某个IP地址上绑定的所有域名进行整体屏蔽，屏蔽由某些域名发送的垃圾邮件。它也可以针对某个IP地址进行反向解析，大致判断出有多少个网站运行在上面。当购买虚拟主机时，可以使用这一功能验证虚拟主机提供商是否有严重的超售问题。</p>
-<h4>4.2.1. 第一步：配置区域文件。</h4>
+<h4><span id="421">4.2.1. 第一步：配置区域文件。</span></h4>
 <p>反向解析是把IP地址解析成域名格式，因此在定义zone（区域）时应该要把IP地址反写，比如原来是192.168.10.0，反写后应该就是10.168.192，而且只需写出IP地址的网络位即可。</p>
 <pre><code class="language-shell line-numbers">[root@localhost ~]# vim /etc/named.rfc1912.zones
 #在中添加反向数据文件的记录
@@ -557,7 +584,7 @@ zone "245.168.192.in-addr.arpa" IN {
         file "245.168.192.arpa";
 };
 </code></pre>
-<h4>4.2.2. 第二步：编辑数据配置文件。</h4>
+<h4><span id="422">4.2.2. 第二步：编辑数据配置文件。</span></h4>
 <p>反向解析是把IP地址解析成域名格式，因此在定义zone（区域）时应该要把IP地址反写，比如原来是192.168.10.0，反写后应该就是10.168.192，而且只需写出IP地址的网络位即可。</p>
 <pre><code class="language-shell line-numbers">[root@localhost ~]# cp -a /var/named/named.loopback /var/named/245.168.192.arpa 
 [root@localhost ~]# vi /var/named/245.168.192.arpa
@@ -579,7 +606,7 @@ zone "245.168.192.in-addr.arpa" IN {
 112       IN   PTR     www.cwlinux.com.
 // 声明域的时候已经有了，192.168.1 所以我们只需要输入10既代表192.168.1.10jc
 </code></pre>
-<h4>4.2.3. 第三步：检查配置文件，重启服务，测试。</h4>
+<h4><span id="423">4.2.3. 第三步：检查配置文件，重启服务，测试。</span></h4>
 <pre><code class="language-shell line-numbers">[root@localhost ~]# named-checkconf 
 [root@localhost ~]# named-checkzone 245.168.192 /var/named/245.168.192.arpa 
 zone 245.168.192/IN: loaded serial 20181001
@@ -613,7 +640,7 @@ OK
       <span class="xshare-title">分享到：</span>
             <a etap="share" data-share="qq" class="share-qq"><i class="fa fa-qq"></i></a>
       <a etap="share" data-share="weibo" class="share-weibo"><i class="fa fa-weibo"></i></a>
-              <a href="javascript:;" class="btn-bigger-cover share-weixin" data-nonce="1cf6584183" data-id="36" data-action="create-bigger-image" id="bigger-cover"><i class="fa fa-paper-plane"></i></a>
+              <a href="javascript:;" class="btn-bigger-cover share-weixin" data-nonce="f4805cfd6b" data-id="36" data-action="create-bigger-image" id="bigger-cover"><i class="fa fa-paper-plane"></i></a>
         </div>
    
 </div>    </div>
@@ -637,8 +664,8 @@ OK
               <article class="post">
                   <div class="entry-media">
     <div class="placeholder" style="padding-bottom: 66.666666666667%;">
-      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/explanation-dns-cache-poisoning-is-also-called-dns-spoofing.html">
-        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/themes/ripro/assets/images/thumb/1.jpg&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="解释:DNS缓存中毒也称为DNS欺骗">  
+      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/use-firewalld-to-build-a-dynamic-firewall.html">
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618139043-b6db0c73a979ae8.png" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Linux的FirewallD详细基础说明">  
       </a>
             <div class="cao-cover">
 <img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
@@ -654,31 +681,7 @@ OK
                   <div class="entry-wrapper">
                   
   <header class="entry-header">    
-    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/explanation-dns-cache-poisoning-is-also-called-dns-spoofing.html" title="解释:DNS缓存中毒也称为DNS欺骗" rel="bookmark">解释:DNS缓存中毒也称为DNS欺骗</a></h4>  </header>                </div>
-              </article>
-            </div>
-                      <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
-              <article class="post">
-                  <div class="entry-media">
-    <div class="placeholder" style="padding-bottom: 66.666666666667%;">
-      <a target="_blank" href="https://blog.lixypro.com/diannaojichu/dns-over-tls-collection-how-to-set-up-a-more-secure-dns.html">
-        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/uploads/2021/04/1618048229-9b8d05929b6de56.jpg&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="DNS-over-TLS 收集，如何设置一个更安全的 DNS？">  
-      </a>
-            <div class="cao-cover">
-<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
-<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
-<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
-<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" width="50" height="50px"></noscript>
-</noscript>
-</noscript>
-</noscript>
-</div>
-          </div>
-      </div>
-                  <div class="entry-wrapper">
-                  
-  <header class="entry-header">    
-    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/diannaojichu/dns-over-tls-collection-how-to-set-up-a-more-secure-dns.html" title="DNS-over-TLS 收集，如何设置一个更安全的 DNS？" rel="bookmark">DNS-over-TLS 收集，如何设置一个更安全的 DNS？</a></h4>  </header>                </div>
+    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/use-firewalld-to-build-a-dynamic-firewall.html" title="Linux的FirewallD详细基础说明" rel="bookmark">Linux的FirewallD详细基础说明</a></h4>  </header>                </div>
               </article>
             </div>
                       <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
@@ -686,7 +689,7 @@ OK
                   <div class="entry-media">
     <div class="placeholder" style="padding-bottom: 66.666666666667%;">
       <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/iptables-for-linux-detailed-explanation-and-examples.html">
-        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/uploads/2021/04/1618049585-9d70a7e2c2e0fdb.png&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="IPtables for Linux详解以及实例">  
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618049585-9d70a7e2c2e0fdb.png" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="IPtables for Linux详解以及实例">  
       </a>
             <div class="cao-cover">
 <img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
@@ -709,8 +712,8 @@ OK
               <article class="post">
                   <div class="entry-media">
     <div class="placeholder" style="padding-bottom: 66.666666666667%;">
-      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/detailed_explanation_of_the_process_of_compiling_and_installing_apache_on_centos_server_source_package.html">
-        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/themes/ripro/assets/images/thumb/1.jpg&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Centos服务器源码包编译安装Apache过程详解">  
+      <a target="_blank" href="https://blog.lixypro.com/diannaojichu/dns-over-tls-collection-how-to-set-up-a-more-secure-dns.html">
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618048229-9b8d05929b6de56.jpg" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="DNS-over-TLS 收集，如何设置一个更安全的 DNS？">  
       </a>
             <div class="cao-cover">
 <img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
@@ -726,7 +729,31 @@ OK
                   <div class="entry-wrapper">
                   
   <header class="entry-header">    
-    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/detailed_explanation_of_the_process_of_compiling_and_installing_apache_on_centos_server_source_package.html" title="Centos服务器源码包编译安装Apache过程详解" rel="bookmark">Centos服务器源码包编译安装Apache过程详解</a></h4>  </header>                </div>
+    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/diannaojichu/dns-over-tls-collection-how-to-set-up-a-more-secure-dns.html" title="DNS-over-TLS 收集，如何设置一个更安全的 DNS？" rel="bookmark">DNS-over-TLS 收集，如何设置一个更安全的 DNS？</a></h4>  </header>                </div>
+              </article>
+            </div>
+                      <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
+              <article class="post">
+                  <div class="entry-media">
+    <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/explanation-dns-cache-poisoning-is-also-called-dns-spoofing.html">
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618230220-c4ca4238a0b9238.jpg" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="解释:DNS缓存中毒也称为DNS欺骗">  
+      </a>
+            <div class="cao-cover">
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" width="50" height="50px"></noscript>
+</noscript>
+</noscript>
+</noscript>
+</div>
+          </div>
+      </div>
+                  <div class="entry-wrapper">
+                  
+  <header class="entry-header">    
+    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/explanation-dns-cache-poisoning-is-also-called-dns-spoofing.html" title="解释:DNS缓存中毒也称为DNS欺骗" rel="bookmark">解释:DNS缓存中毒也称为DNS欺骗</a></h4>  </header>                </div>
               </article>
             </div>
                   </div>
@@ -856,8 +883,8 @@ OK
 </div>
 <script>
     console.log("\n %c RiPro V7.1.0 %c https://blog.lixypro.com \n\n", "color: #fadfa3; background: #030307; padding:5px 0;", "background: #fadfa3; padding:5px 0;");
-    console.log("SQL 请求数：69");
-    console.log("页面生成耗时： 0.32550");
+    console.log("SQL 请求数：70");
+    console.log("页面生成耗时： 0.34819");
 </script>
 
 

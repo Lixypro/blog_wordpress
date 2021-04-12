@@ -130,7 +130,33 @@
 <li>用户名：uusama</li>
 <li>需要配置MySQL环境变量路径：/home/uusama/mysql/bin</li>
 </ul>
-<h2>环境变量：定义每个用户的操作环境</h2>
+<div id="toc_container" class="no_bullets">
+<p class="toc_title">Contents</p>
+<ul class="toc_list">
+<li>
+<a href="#i"><span class="toc_number toc_depth_1">1</span> 环境变量：定义每个用户的操作环境</a><ul>
+<li><a href="#Linux"><span class="toc_number toc_depth_2">1.1</span> Linux读取环境变量</a></li>
+<li><a href="#Linuxexport_PATH"><span class="toc_number toc_depth_2">1.2</span> Linux环境变量配置方法一：export PATH</a></li>
+<li><a href="#Linuxvim_bashrc"><span class="toc_number toc_depth_2">1.3</span> Linux环境变量配置方法二：vim ~/.bashrc</a></li>
+<li><a href="#Linuxvim_bash_profile"><span class="toc_number toc_depth_2">1.4</span> Linux环境变量配置方法三：vim ~/.bash_profile</a></li>
+<li><a href="#Linuxvim_etcbashrc"><span class="toc_number toc_depth_2">1.5</span> Linux环境变量配置方法四：vim /etc/bashrc</a></li>
+<li><a href="#Linuxvim_etcprofile"><span class="toc_number toc_depth_2">1.6</span> Linux环境变量配置方法五：vim /etc/profile</a></li>
+<li><a href="#Linuxvim_etcenvironment"><span class="toc_number toc_depth_2">1.7</span> Linux环境变量配置方法六：vim /etc/environment</a></li>
+<li><a href="#java"><span class="toc_number toc_depth_2">1.8</span> 一、java环境变量</a></li>
+<li><a href="#hadoop"><span class="toc_number toc_depth_2">1.9</span> 二、hadoop环境变量</a></li>
+</ul>
+</li>
+<li>
+<a href="#Linux-2"><span class="toc_number toc_depth_1">2</span> Linux环境变量加载原理解析</a><ul>
+<li><a href="#i-2"><span class="toc_number toc_depth_2">2.1</span> 环境变量的分类</a></li>
+<li><a href="#Linux-3"><span class="toc_number toc_depth_2">2.2</span> 测试Linux环境变量加载顺序的方法</a></li>
+<li><a href="#Linux-4"><span class="toc_number toc_depth_2">2.3</span> Linux环境变量文件加载详解</a></li>
+<li><a href="#i-3"><span class="toc_number toc_depth_2">2.4</span> 一些小技巧</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<h2><span id="i">环境变量：定义每个用户的操作环境</span></h2>
 <ol>
 <li>Source命令：修改配置文件后，必须注销重新登录才能生效，使用source命令后，立即生效环境变量配置文件；</li>
 </ol>
@@ -163,7 +189,7 @@
 </li>
 </ol>
 <p>注：<strong>放在家目录（3,4）下的环境变量配置文件，只会对当前用户起作用；在/etc下的环境变量所有的用户都起作用；</strong></p>
-<h3>Linux读取环境变量</h3>
+<h3><span id="Linux">Linux读取环境变量</span></h3>
 <p>读取环境变量的方法：</p>
 <ul>
 <li>
@@ -189,8 +215,7 @@ uusama@ubuntu:~</span> echo $PATH
 /home/uusama/bin:/home/uusama/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 </code></pre>
 <p>其中<code>PATH</code>变量定义了运行命令的查找路径，以冒号<code>:</code>分割不同的路径，使用<code>export</code>定义的时候可加双引号也可不加。</p>
-<h3>Linux环境变量配置方法一：<code>export PATH</code>
-</h3>
+<h3><span id="Linuxexport_PATH">Linux环境变量配置方法一：<code>export PATH</code></span></h3>
 <p>使用<code>export</code>命令直接修改<code>PATH</code>的值，配置MySQL进入环境变量的方法:</p>
 <pre><code class="language-shell line-numbers">export PATH=/home/uusama/mysql/bin:<span class="katex math inline">PATH
 
@@ -204,8 +229,7 @@ export PATH=</span>PATH:/home/uusama/mysql/bin
 <li>生效范围：仅对当前用户有效</li>
 <li>配置的环境变量中不要忘了加上原来的配置，即<code>$PATH</code>部分，避免覆盖原来配置</li>
 </ul>
-<h3>Linux环境变量配置方法二：<code>vim ~/.bashrc</code>
-</h3>
+<h3><span id="Linuxvim_bashrc">Linux环境变量配置方法二：<code>vim ~/.bashrc</code></span></h3>
 <p>通过修改用户目录下的<code>~/.bashrc</code>文件进行配置：</p>
 <pre><code class="language-shell line-numbers">vim ~/.bashrc
 
@@ -219,8 +243,7 @@ export PATH=$PATH:/home/uusama/mysql/bin
 <li>生效范围：仅对当前用户有效</li>
 <li>如果有后续的环境变量加载文件覆盖了<code>PATH</code>定义，则可能不生效</li>
 </ul>
-<h3>Linux环境变量配置方法三：<code>vim ~/.bash_profile</code>
-</h3>
+<h3><span id="Linuxvim_bash_profile">Linux环境变量配置方法三：<code>vim ~/.bash_profile</code></span></h3>
 <p>和修改<code>~/.bashrc</code>文件类似，也是要在文件最后加上新的路径即可：</p>
 <pre><code class="language-shell line-numbers">vim ~/.bash_profile
 
@@ -234,8 +257,7 @@ export PATH=$PATH:/home/uusama/mysql/bin
 <li>生效范围：仅对当前用户有效</li>
 <li>如果没有<code>~/.bash_profile</code>文件，则可以编辑<code>~/.profile</code>文件或者新建一个</li>
 </ul>
-<h3>Linux环境变量配置方法四：<code>vim /etc/bashrc</code>
-</h3>
+<h3><span id="Linuxvim_etcbashrc">Linux环境变量配置方法四：<code>vim /etc/bashrc</code></span></h3>
 <p>该方法是修改系统配置，需要管理员权限（如root）或者对该文件的写入权限：</p>
 <pre><code class="language-shell line-numbers"># 如果/etc/bashrc文件不可编辑，需要修改为可编辑
 chmod -v u+w /etc/bashrc
@@ -251,8 +273,7 @@ export PATH=$PATH:/home/uusama/mysql/bin
 <li>生效期限：永久有效</li>
 <li>生效范围：对所有用户有效</li>
 </ul>
-<h3>Linux环境变量配置方法五：<code>vim /etc/profile</code>
-</h3>
+<h3><span id="Linuxvim_etcprofile">Linux环境变量配置方法五：<code>vim /etc/profile</code></span></h3>
 <p>该方法修改系统配置，需要管理员权限或者对该文件的写入权限，和<code>vim /etc/bashrc</code>类似：</p>
 <pre><code class="language-shell line-numbers"># 如果/etc/profile文件不可编辑，需要修改为可编辑
 chmod -v u+w /etc/profile
@@ -268,8 +289,7 @@ export PATH=$PATH:/home/uusama/mysql/bin
 <li>生效期限：永久有效</li>
 <li>生效范围：对所有用户有效</li>
 </ul>
-<h3>Linux环境变量配置方法六：<code>vim /etc/environment</code>
-</h3>
+<h3><span id="Linuxvim_etcenvironment">Linux环境变量配置方法六：<code>vim /etc/environment</code></span></h3>
 <p>该方法是修改系统环境配置文件，需要管理员权限或者对该文件的写入权限：</p>
 <pre><code class="language-shell line-numbers"># 如果/etc/bashrc文件不可编辑，需要修改为可编辑
 chmod -v u+w /etc/environment
@@ -285,7 +305,7 @@ export PATH=$PATH:/home/uusama/mysql/bin
 <li>生效期限：永久有效</li>
 <li>生效范围：对所有用户有效</li>
 </ul>
-<h3>一、java环境变量</h3>
+<h3><span id="java">一、java环境变量</span></h3>
 <p><strong>1、解压tar包到指定目录：</strong></p>
 <pre><code class="language-ruby line-numbers">tar -zxvf jdk-8u201-linux-x64.tar.gz -C /opt/module/
 
@@ -302,7 +322,7 @@ export PATH=<span class="katex math inline">PATH:</span>JAVA_HOME/bin
 <pre><code class="language-bash line-numbers">source /etc/profile
 
 </code></pre>
-<h3>二、hadoop环境变量</h3>
+<h3><span id="hadoop">二、hadoop环境变量</span></h3>
 <p><strong>1、解压tar包到指定目录：</strong></p>
 <pre><code class="language-ruby line-numbers">tar -zxvf hadoop-3.2.0.tar.gz -C /opt/module/
 
@@ -325,10 +345,10 @@ export PATH=<span class="katex math inline">PATH:</span>HADOOP_HOME/sbin
 
 export JAVA_HOME=/opt/module/jdk1.8.0_201
 </code></pre>
-<h2>Linux环境变量加载原理解析</h2>
+<h2><span id="Linux-2">Linux环境变量加载原理解析</span></h2>
 <p>上面列出了环境变量的各种配置方法，那么Linux是如何加载这些配置的呢？是以什么样的顺序加载的呢？</p>
 <p>特定的加载顺序会导致相同名称的环境变量定义被覆盖或者不生效。</p>
-<h3>环境变量的分类</h3>
+<h3><span id="i-2">环境变量的分类</span></h3>
 <p>环境变量可以简单的分成用户自定义的环境变量以及系统级别的环境变量。</p>
 <ul>
 <li>用户级别环境变量定义文件：<code>~/.bashrc</code>、<code>~/.profile</code>（部分系统为：<code>~/.bash_profile</code>）</li>
@@ -336,7 +356,7 @@ export JAVA_HOME=/opt/module/jdk1.8.0_201
 </li>
 </ul>
 <p>另外在用户环境变量中，系统会首先读取<code>~/.bash_profile</code>文件，如果没有该文件则读取<code>~/.bash_login</code>，如果也没有该文件，则读取<code>~/.profile</code>，根据这些文件中内容再去读取<code>~/.bashrc</code>。</p>
-<h3>测试Linux环境变量加载顺序的方法</h3>
+<h3><span id="Linux-3">测试Linux环境变量加载顺序的方法</span></h3>
 <p>为了测试各个不同文件的环境变量加载顺序，我们在每个环境变量定义文件中的第一行都定义相同的环境变量<code>UU_ORDER</code>，该变量的值为本身的值连接上当前文件名称。</p>
 <p>需要修改的文件如下：</p>
 <ul>
@@ -362,7 +382,7 @@ $UU_ORDER:/etc/environment:/etc/profile:/etc/bash.bashrc:/etc/profile.d/test.sh:
 <li>~/.profile</li>
 <li>~/.bashrc</li>
 </ol>
-<h3>Linux环境变量文件加载详解</h3>
+<h3><span id="Linux-4">Linux环境变量文件加载详解</span></h3>
 <p>由上面的测试可容易得出Linux加载环境变量的顺序如下，：</p>
 <p>系统环境变量 -&#62; 用户自定义环境变量<br>
 /etc/environment -> /etc/profile -> ~/.profile</p>
@@ -408,7 +428,7 @@ fi
 PATH="</span>HOME/bin:<span class="katex math inline">HOME/.local/bin:</span>PATH"
 </code></pre>
 <p>从<code>~/.profile</code>文件中代码不难发现，<code>/.profile</code>文件<strong>只在用户登录的时候读取一次</strong>，而<code>/.bashrc</code>会在每次运行<code>Shell</code>脚本的时候读取一次。</p>
-<h3>一些小技巧</h3>
+<h3><span id="i-3">一些小技巧</span></h3>
 <p>可以自定义一个环境变量文件，比如在某个项目下定义<code>uusama.profile</code>，在这个文件中使用<code>export</code>定义一系列变量，然后在<code>~/.profile</code>文件后面加上：<code>sourc uusama.profile</code>，这样你每次登陆都可以在Shell脚本中使用自己定义的一系列变量。</p>
 <p>也可以使用<code>alias</code>命令定义一些命令的别名，比如<code>alias rm="rm -i"</code>（双引号必须），并把这个代码加入到<code>~/.profile</code>中，这样你每次使用<code>rm</code>命令的时候，都相当于使用<code>rm -i</code>命令，非常方便。</p>
       </div>
@@ -434,7 +454,7 @@ PATH="</span>HOME/bin:<span class="katex math inline">HOME/.local/bin:</span>PAT
       <span class="xshare-title">分享到：</span>
             <a etap="share" data-share="qq" class="share-qq"><i class="fa fa-qq"></i></a>
       <a etap="share" data-share="weibo" class="share-weibo"><i class="fa fa-weibo"></i></a>
-              <a href="javascript:;" class="btn-bigger-cover share-weixin" data-nonce="57160feb54" data-id="53" data-action="create-bigger-image" id="bigger-cover"><i class="fa fa-paper-plane"></i></a>
+              <a href="javascript:;" class="btn-bigger-cover share-weixin" data-nonce="52fb6d86db" data-id="53" data-action="create-bigger-image" id="bigger-cover"><i class="fa fa-paper-plane"></i></a>
         </div>
    
 </div>    </div>
@@ -458,8 +478,8 @@ PATH="</span>HOME/bin:<span class="katex math inline">HOME/.local/bin:</span>PAT
               <article class="post">
                   <div class="entry-media">
     <div class="placeholder" style="padding-bottom: 66.666666666667%;">
-      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/use-firewalld-to-build-a-dynamic-firewall.html">
-        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/uploads/2021/04/1618139043-b6db0c73a979ae8.png&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Linux的FirewallD详细基础说明">  
+      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/the_role_of_configure_make_make_install.html">
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618230220-c4ca4238a0b9238.jpg" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="configure,make,make install的作用">  
       </a>
             <div class="cao-cover">
 <img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
@@ -475,31 +495,7 @@ PATH="</span>HOME/bin:<span class="katex math inline">HOME/.local/bin:</span>PAT
                   <div class="entry-wrapper">
                   
   <header class="entry-header">    
-    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/use-firewalld-to-build-a-dynamic-firewall.html" title="Linux的FirewallD详细基础说明" rel="bookmark">Linux的FirewallD详细基础说明</a></h4>  </header>                </div>
-              </article>
-            </div>
-                      <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
-              <article class="post">
-                  <div class="entry-media">
-    <div class="placeholder" style="padding-bottom: 66.666666666667%;">
-      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/dns-server-construction-and-configuration.html">
-        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/uploads/2021/04/1618139491-b3bf60b851ebaeb.png&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="DNS服务器搭建与配置">  
-      </a>
-            <div class="cao-cover">
-<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
-<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
-<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
-<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" width="50" height="50px"></noscript>
-</noscript>
-</noscript>
-</noscript>
-</div>
-          </div>
-      </div>
-                  <div class="entry-wrapper">
-                  
-  <header class="entry-header">    
-    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/dns-server-construction-and-configuration.html" title="DNS服务器搭建与配置" rel="bookmark">DNS服务器搭建与配置</a></h4>  </header>                </div>
+    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/the_role_of_configure_make_make_install.html" title="configure,make,make install的作用" rel="bookmark">configure,make,make install的作用</a></h4>  </header>                </div>
               </article>
             </div>
                       <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
@@ -507,7 +503,7 @@ PATH="</span>HOME/bin:<span class="katex math inline">HOME/.local/bin:</span>PAT
                   <div class="entry-media">
     <div class="placeholder" style="padding-bottom: 66.666666666667%;">
       <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/linux-centos-install-nginx1-8-1-through-source-package.html">
-        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/uploads/2021/04/1618139383-73898d7f1ddbfbf.jpg&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Linux(centos)通过源码包方式安装nginx1.8.1">  
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618139383-73898d7f1ddbfbf.jpg" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Linux(centos)通过源码包方式安装nginx1.8.1">  
       </a>
             <div class="cao-cover">
 <img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
@@ -530,8 +526,8 @@ PATH="</span>HOME/bin:<span class="katex math inline">HOME/.local/bin:</span>PAT
               <article class="post">
                   <div class="entry-media">
     <div class="placeholder" style="padding-bottom: 66.666666666667%;">
-      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/centos7_install_fail2ban-0-9-4_and_linkage_iptables.html">
-        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/themes/ripro/assets/images/thumb/1.jpg&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="CentOS7下fail2ban和iptables联动阻止恶意扫描和密码猜测等恶意攻击行为">  
+      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/detailed_explanation_of_the_process_of_compiling_and_installing_apache_on_centos_server_source_package.html">
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618230220-c4ca4238a0b9238.jpg" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Centos服务器源码包编译安装Apache过程详解">  
       </a>
             <div class="cao-cover">
 <img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
@@ -547,7 +543,31 @@ PATH="</span>HOME/bin:<span class="katex math inline">HOME/.local/bin:</span>PAT
                   <div class="entry-wrapper">
                   
   <header class="entry-header">    
-    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/centos7_install_fail2ban-0-9-4_and_linkage_iptables.html" title="CentOS7下fail2ban和iptables联动阻止恶意扫描和密码猜测等恶意攻击行为" rel="bookmark">CentOS7下fail2ban和iptables联动阻止恶意扫描和密码猜测等恶意攻击行为</a></h4>  </header>                </div>
+    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/detailed_explanation_of_the_process_of_compiling_and_installing_apache_on_centos_server_source_package.html" title="Centos服务器源码包编译安装Apache过程详解" rel="bookmark">Centos服务器源码包编译安装Apache过程详解</a></h4>  </header>                </div>
+              </article>
+            </div>
+                      <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
+              <article class="post">
+                  <div class="entry-media">
+    <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/use-firewalld-to-build-a-dynamic-firewall.html">
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618139043-b6db0c73a979ae8.png" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Linux的FirewallD详细基础说明">  
+      </a>
+            <div class="cao-cover">
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" width="50" height="50px"></noscript>
+</noscript>
+</noscript>
+</noscript>
+</div>
+          </div>
+      </div>
+                  <div class="entry-wrapper">
+                  
+  <header class="entry-header">    
+    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/use-firewalld-to-build-a-dynamic-firewall.html" title="Linux的FirewallD详细基础说明" rel="bookmark">Linux的FirewallD详细基础说明</a></h4>  </header>                </div>
               </article>
             </div>
                   </div>
@@ -677,8 +697,8 @@ PATH="</span>HOME/bin:<span class="katex math inline">HOME/.local/bin:</span>PAT
 </div>
 <script>
     console.log("\n %c RiPro V7.1.0 %c https://blog.lixypro.com \n\n", "color: #fadfa3; background: #030307; padding:5px 0;", "background: #fadfa3; padding:5px 0;");
-    console.log("SQL 请求数：69");
-    console.log("页面生成耗时： 0.32298");
+    console.log("SQL 请求数：66");
+    console.log("页面生成耗时： 0.32577");
 </script>
 
 

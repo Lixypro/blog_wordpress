@@ -127,22 +127,105 @@
 </div>  <div class="container">
     <div class="entry-wrapper">
             <div class="entry-content u-text-format u-clearfix">
-        <h1>使用 FirewallD 构建动态防火墙</h1>
+        <div id="toc_container" class="no_bullets">
+<p class="toc_title">Contents</p>
+<ul class="toc_list"><li>
+<a href="#_FirewallD"><span class="toc_number toc_depth_1">1</span> 使用 FirewallD 构建动态防火墙</a><ul>
+<li><a href="#i"><span class="toc_number toc_depth_2">1.1</span> 守护进程</a></li>
+<li><a href="#system-config-firewalllokkit"><span class="toc_number toc_depth_2">1.2</span> 静态防火墙(system-config-firewall/lokkit)</a></li>
+<li><a href="#_iptables_ip6tables"><span class="toc_number toc_depth_2">1.3</span> 使用 iptables 和 ip6tables 的静态防火墙规则</a></li>
+<li>
+<a href="#i-2"><span class="toc_number toc_depth_2">1.4</span> 什么是区域？</a><ul>
+<li><a href="#i-3"><span class="toc_number toc_depth_3">1.4.1</span> 预定义的服务</a></li>
+<li><a href="#i-4"><span class="toc_number toc_depth_3">1.4.2</span> 端口和协议</a></li>
+<li><a href="#ICMP"><span class="toc_number toc_depth_3">1.4.3</span> ICMP 阻塞</a></li>
+<li><a href="#i-5"><span class="toc_number toc_depth_3">1.4.4</span> 伪装</a></li>
+<li><a href="#i-6"><span class="toc_number toc_depth_3">1.4.5</span> 端口转发</a></li>
+</ul>
+</li>
+<li>
+<a href="#i-7"><span class="toc_number toc_depth_2">1.5</span> 哪个区域可用?</a><ul>
+<li><a href="#i-8"><span class="toc_number toc_depth_3">1.5.1</span> 丢弃</a></li>
+<li><a href="#i-9"><span class="toc_number toc_depth_3">1.5.2</span> 阻塞</a></li>
+<li><a href="#i-10"><span class="toc_number toc_depth_3">1.5.3</span> 公开</a></li>
+<li><a href="#i-11"><span class="toc_number toc_depth_3">1.5.4</span> 外部</a></li>
+<li><a href="#dmz"><span class="toc_number toc_depth_3">1.5.5</span> 隔离区（dmz）</a></li>
+<li><a href="#i-12"><span class="toc_number toc_depth_3">1.5.6</span> 工作</a></li>
+<li><a href="#i-13"><span class="toc_number toc_depth_3">1.5.7</span> 家庭</a></li>
+<li><a href="#i-14"><span class="toc_number toc_depth_3">1.5.8</span> 内部</a></li>
+<li><a href="#i-15"><span class="toc_number toc_depth_3">1.5.9</span> 受信任的</a></li>
+</ul>
+</li>
+<li><a href="#i-16"><span class="toc_number toc_depth_2">1.6</span> 我应该选用哪个区域?</a></li>
+<li><a href="#i-17"><span class="toc_number toc_depth_2">1.7</span> 如何配置或者增加区域?</a></li>
+<li><a href="#i-18"><span class="toc_number toc_depth_2">1.8</span> 如何为网络连接设置或者修改区域</a></li>
+<li><a href="#_NetworkManager"><span class="toc_number toc_depth_2">1.9</span> 由 NetworkManager 控制的网络连接</a></li>
+<li><a href="#i-19"><span class="toc_number toc_depth_2">1.10</span> 由脚本控制的网络</a></li>
+<li>
+<a href="#_firewalld"><span class="toc_number toc_depth_2">1.11</span> 使用 firewalld</a><ul><li>
+<a href="#_firewall-cmd"><span class="toc_number toc_depth_3">1.11.1</span> 使用 firewall-cmd</a><ul>
+<li><a href="#i-20"><span class="toc_number toc_depth_4">1.11.1.1</span> 一般应用</a></li>
+<li><a href="#i-21"><span class="toc_number toc_depth_4">1.11.1.2</span> 处理运行时区域</a></li>
+<li><a href="#i-22"><span class="toc_number toc_depth_4">1.11.1.3</span> 处理永久区域</a></li>
+<li><a href="#i-23"><span class="toc_number toc_depth_4">1.11.1.4</span> 直接选项</a></li>
+</ul>
+</li></ul>
+</li>
+<li>
+<a href="#_firewalld-2"><span class="toc_number toc_depth_2">1.12</span> 当前的 firewalld 特性</a><ul>
+<li><a href="#D-BUS"><span class="toc_number toc_depth_3">1.12.1</span> D-BUS 接口</a></li>
+<li><a href="#i-24"><span class="toc_number toc_depth_3">1.12.2</span> 区域</a></li>
+<li><a href="#i-25"><span class="toc_number toc_depth_3">1.12.3</span> 服务</a></li>
+<li><a href="#ICMP-2"><span class="toc_number toc_depth_3">1.12.4</span> ICMP 类型</a></li>
+<li><a href="#i-26"><span class="toc_number toc_depth_3">1.12.5</span> 直接接口</a></li>
+<li><a href="#i-27"><span class="toc_number toc_depth_3">1.12.6</span> 运行时配置</a></li>
+<li><a href="#i-28"><span class="toc_number toc_depth_3">1.12.7</span> 永久配置</a></li>
+<li><a href="#i-29"><span class="toc_number toc_depth_3">1.12.8</span> 托盘小程序</a></li>
+<li><a href="#i-30"><span class="toc_number toc_depth_3">1.12.9</span> 图形化配置工具</a></li>
+<li><a href="#i-31"><span class="toc_number toc_depth_3">1.12.10</span> 命令行客户端</a></li>
+<li><a href="#_ebtables"><span class="toc_number toc_depth_3">1.12.11</span> 对于 ebtables 的支持</a></li>
+<li><a href="#usrlibfirewalld"><span class="toc_number toc_depth_3">1.12.12</span> /usr/lib/firewalld 中的默认/备用配置</a></li>
+<li><a href="#etcfirewalld"><span class="toc_number toc_depth_3">1.12.13</span> /etc/firewalld 中的系统配置设置</a></li>
+</ul>
+</li>
+<li>
+<a href="#i-32"><span class="toc_number toc_depth_2">1.13</span> 正在开发的特性</a><ul>
+<li><a href="#i-33"><span class="toc_number toc_depth_3">1.13.1</span> 富语言</a></li>
+<li><a href="#i-34"><span class="toc_number toc_depth_3">1.13.2</span> 锁定</a></li>
+<li><a href="#i-35"><span class="toc_number toc_depth_3">1.13.3</span> 永久直接规则</a></li>
+<li><a href="#_iptables_ebtables"><span class="toc_number toc_depth_3">1.13.4</span> 从 ip*tables 和 ebtables 服务迁移</a></li>
+</ul>
+</li>
+<li>
+<a href="#i-36"><span class="toc_number toc_depth_2">1.14</span> 计划和提议功能</a><ul>
+<li><a href="#i-37"><span class="toc_number toc_depth_3">1.14.1</span> 防火墙抽象模型</a></li>
+<li><a href="#_conntrack"><span class="toc_number toc_depth_3">1.14.2</span> 对于 conntrack 的支持</a></li>
+<li><a href="#i-38"><span class="toc_number toc_depth_3">1.14.3</span> 用户交互模型</a></li>
+<li><a href="#i-39"><span class="toc_number toc_depth_3">1.14.4</span> 用户策略支持</a></li>
+<li><a href="#_Lennart_Poettering"><span class="toc_number toc_depth_3">1.14.5</span> 端口元数据信息(由 Lennart Poettering 提议)</a></li>
+<li><a href="#sysctld"><span class="toc_number toc_depth_3">1.14.6</span> sysctld</a></li>
+</ul>
+</li>
+<li><a href="#i-40"><span class="toc_number toc_depth_2">1.15</span> 防火墙规则</a></li>
+</ul>
+</li></ul>
+</div>
+<h1><span id="_FirewallD">使用 FirewallD 构建动态防火墙</span></h1>
 <p><img class="lazyload " src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="https://blog.lixypro.com/wp-content/uploads/2021/04/1618139043-b6db0c73a979ae8.png" alt="Linux的FirewallD详细基础说明"><noscript>
 <img alt="Linux的FirewallD详细基础说明" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618139043-b6db0c73a979ae8.png" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618139043-b6db0c73a979ae8.png" alt="Linux的FirewallD详细基础说明"></noscript>
 </noscript></p>
 <p>FirewallD 提供了支持网络/防火墙区域(zone)定义网络链接以及接口安全等级的动态防火墙管理工具。它支持 IPv4, IPv6 防火墙设置以及以太网桥接，并且拥有运行时配置和永久配置选项。它也支持允许服务或者应用程序直接添加防火墙规则的接口。 以前的 system-config-firewall/lokkit 防火墙模型是静态的，每次修改都要求防火墙完全重启。这个过程包括内核 netfilter 防火墙模块的卸载和新配置所需模块的装载等。而模块的卸载将会破坏状态防火墙和确立的连接。</p>
 <p>相反，firewall daemon 动态管理防火墙，不需要重启整个防火墙便可应用更改。因而也就没有必要重载所有内核防火墙模块了。不过，要使用 firewall daemon 就要求防火墙的所有变更都要通过该守护进程来实现，以确保守护进程中的状态和内核里的防火墙是一致的。另外，firewall daemon 无法解析由 ip*tables 和 ebtables 命令行工具添加的防火墙规则。</p>
 <p>守护进程通过 D-BUS 提供当前激活的防火墙设置信息，也通过 D-BUS 接受使用 PolicyKit 认证方式做的更改。</p>
-<h2>守护进程</h2>
+<h2><span id="i">守护进程</span></h2>
 <p>应用程序、守护进程和用户可以通过 D-BUS 请求启用一个防火墙特性。特性可以是预定义的防火墙功能，如：服务、端口和协议的组合、端口/数据报转发、伪装、ICMP 拦截或自定义规则等。该功能可以启用确定的一段时间也可以再次停用。</p>
 <p>通过所谓的直接接口，其他的服务(例如 libvirt )能够通过 iptables 变元(arguments)和参数(parameters)增加自己的规则。</p>
 <p><code>amanda</code> 、<code>ftp</code> 、<code>samba</code> 和<code>tftp</code> 服务的 <code>netfilter</code> 防火墙助手也被“守护进程”解决了,只要它们还作为预定义服务的一部分。附加助手的装载不作为当前接口的一部分。由于一些助手只有在由模块控制的所有连接都关闭后才可装载。因而，跟踪连接信息很重要，需要列入考虑范围。</p>
-<h2>静态防火墙(system-config-firewall/lokkit)</h2>
+<h2><span id="system-config-firewalllokkit">静态防火墙(system-config-firewall/lokkit)</span></h2>
 <p>使用 <code>system-config-firewall</code> 和 <code>lokkit</code> 的静态防火墙模型实际上仍然可用并将继续提供，但却不能与“守护进程”同时使用。用户或者管理员可以决定使用哪一种方案。</p>
 <p>在软件安装，初次启动或者是首次联网时，将会出现一个选择器。通过它你可以选择要使用的防火墙方案。其他的解决方案将保持完整，可以通过更换模式启用。</p>
 <p><code>firewall daemon</code> 独立于 <code>system-config-firewall</code>，但二者不能同时使用。</p>
-<h2>使用 iptables 和 ip6tables 的静态防火墙规则</h2>
+<h2><span id="_iptables_ip6tables">使用 iptables 和 ip6tables 的静态防火墙规则</span></h2>
 <p>如果你想使用自己的 iptables 和 ip6tables 静态防火墙规则, 那么请安装 iptables-services 并且禁用 firewalld ，启用 iptables 和ip6tables:</p>
 <pre><code class="language-shell line-numbers">yum install iptables-services
 systemctl mask firewalld.service
@@ -157,58 +240,58 @@ systemctl enable ip6tables.service
 systemctl start iptables.service
 systemctl start ip6tables.service
 </code></pre>
-<h2>什么是区域？</h2>
+<h2><span id="i-2">什么是区域？</span></h2>
 <p>网络区域定义了网络连接的可信等级。这是一个一对多的关系，这意味着一次连接可以仅仅是一个区域的一部分，而一个区域可以用于很多连接。</p>
-<h3>预定义的服务</h3>
+<h3><span id="i-3">预定义的服务</span></h3>
 <p>服务是端口和/或协议入口的组合。备选内容包括 netfilter 助手模块以及 IPv4、IPv6地址。</p>
-<h3>端口和协议</h3>
+<h3><span id="i-4">端口和协议</span></h3>
 <p>定义了 tcp 或 udp 端口，端口可以是一个端口或者端口范围。</p>
-<h3>ICMP 阻塞</h3>
+<h3><span id="ICMP">ICMP 阻塞</span></h3>
 <p>可以选择 Internet 控制报文协议的报文。这些报文可以是信息请求亦可是对信息请求或错误条件创建的响应。</p>
-<h3>伪装</h3>
+<h3><span id="i-5">伪装</span></h3>
 <p>私有网络地址可以被映射到公开的IP地址。这是一次正规的地址转换。</p>
-<h3>端口转发</h3>
+<h3><span id="i-6">端口转发</span></h3>
 <p>端口可以映射到另一个端口以及/或者其他主机。</p>
-<h2>哪个区域可用?</h2>
+<h2><span id="i-7">哪个区域可用?</span></h2>
 <p>由firewalld 提供的区域按照从不信任到信任的顺序排序。</p>
-<h3>丢弃</h3>
+<h3><span id="i-8">丢弃</span></h3>
 <p>任何流入网络的包都被丢弃，不作出任何响应。只允许流出的网络连接。</p>
-<h3>阻塞</h3>
+<h3><span id="i-9">阻塞</span></h3>
 <p>任何进入的网络连接都被拒绝，并返回 IPv4 的 icmp-host-prohibited 报文或者 IPv6 的 icmp6-adm-prohibited 报文。只允许由该系统初始化的网络连接。</p>
-<h3>公开</h3>
+<h3><span id="i-10">公开</span></h3>
 <p>用以可以公开的部分。你认为网络中其他的计算机不可信并且可能伤害你的计算机。只允许选中的连接接入。（You do not trust the other computers on networks to not harm your computer. Only selected incoming connections are accepted.）</p>
-<h3>外部</h3>
+<h3><span id="i-11">外部</span></h3>
 <p>用在路由器等启用伪装的外部网络。你认为网络中其他的计算机不可信并且可能伤害你的计算机。只允许选中的连接接入。</p>
-<h3>隔离区（dmz）</h3>
+<h3><span id="dmz">隔离区（dmz）</span></h3>
 <p>用以允许隔离区（dmz）中的电脑有限地被外界网络访问。只接受被选中的连接。</p>
-<h3>工作</h3>
+<h3><span id="i-12">工作</span></h3>
 <p>用在工作网络。你信任网络中的大多数计算机不会影响你的计算机。只接受被选中的连接。</p>
-<h3>家庭</h3>
+<h3><span id="i-13">家庭</span></h3>
 <p>用在家庭网络。你信任网络中的大多数计算机不会影响你的计算机。只接受被选中的连接。</p>
-<h3>内部</h3>
+<h3><span id="i-14">内部</span></h3>
 <p>用在内部网络。你信任网络中的大多数计算机不会影响你的计算机。只接受被选中的连接。</p>
-<h3>受信任的</h3>
+<h3><span id="i-15">受信任的</span></h3>
 <p>允许所有网络连接。</p>
-<h2>我应该选用哪个区域?</h2>
+<h2><span id="i-16">我应该选用哪个区域?</span></h2>
 <p>例如，公共的 WIFI 连接应该主要为不受信任的，家庭的有线网络应该是相当可信任的。根据与你使用的网络最符合的区域进行选择。</p>
-<h2>如何配置或者增加区域?</h2>
+<h2><span id="i-17">如何配置或者增加区域?</span></h2>
 <p>你可以使用任何一种 firewalld 配置工具来配置或者增加区域，以及修改配置。工具有例如 firewall-config 这样的图形界面工具， firewall-cmd 这样的命令行工具，以及D-BUS接口。或者你也可以在配置文件目录中创建或者拷贝区域文件。 @PREFIX@/lib/firewalld/zones 被用于默认和备用配置，/etc/firewalld/zones 被用于用户创建和自定义配置文件。</p>
-<h2>如何为网络连接设置或者修改区域</h2>
+<h2><span id="i-18">如何为网络连接设置或者修改区域</span></h2>
 <p>区域设置以 ZONE= 选项 存储在网络连接的ifcfg文件中。如果这个选项缺失或者为空，firewalld 将使用配置的默认区域。</p>
 <p>如果这个连接受到 NetworkManager 控制，你也可以使用 nm-connection-editor 来修改区域。</p>
-<h2>由 NetworkManager 控制的网络连接</h2>
+<h2><span id="_NetworkManager">由 NetworkManager 控制的网络连接</span></h2>
 <p>防火墙不能够通过 NetworkManager 显示的名称来配置网络连接，只能配置网络接口。因此在网络连接之前 NetworkManager 将配置文件所述连接对应的网络接口告诉 firewalld 。如果在配置文件中没有配置区域，接口将配置到 firewalld 的默认区域。如果网络连接使用了不止一个接口，所有的接口都会应用到 fiwewalld。接口名称的改变也将由 NetworkManager 控制并应用到firewalld。</p>
 <p>为了简化，自此，网络连接将被用作与区域的关系。</p>
 <p>如果一个接口断开了， NetworkManager 也将告诉 firewalld 从区域中删除该接口。</p>
 <p>当 firewalld 由 systemd 或者 init 脚本启动或者重启后，firewalld 将通知 NetworkManager 把网络连接增加到区域。</p>
-<h2>由脚本控制的网络</h2>
+<h2><span id="i-19">由脚本控制的网络</span></h2>
 <p>对于由网络脚本控制的连接有一条限制：没有守护进程通知 firewalld 将连接增加到区域。这项工作仅在 ifcfg-post 脚本进行。因此，此后对网络连接的重命名将不能被应用到firewalld。同样，在连接活动时重启 firewalld 将导致与其失去关联。现在有意修复此情况。最简单的是将全部未配置连接加入默认区域。</p>
 <p>区域定义了本区域中防火墙的特性：</p>
-<h2>使用 firewalld</h2>
+<h2><span id="_firewalld">使用 firewalld</span></h2>
 <p>你可以通过图形界面工具 <strong>firewall-config</strong> 或者命令行客户端 <strong>firewall-cmd</strong> 启用或者关闭防火墙特性。</p>
-<h3>使用 firewall-cmd</h3>
+<h3><span id="_firewall-cmd">使用 firewall-cmd</span></h3>
 <p>命令行工具 <strong>firewall-cmd</strong> 支持全部防火墙特性。对于状态和查询模式，命令只返回状态，没有其他输出。</p>
-<h4>一般应用</h4>
+<h4><span id="i-20">一般应用</span></h4>
 <ul>
 <li>获取 firewalld 状态
 <p><code>firewall-cmd --state</code></p>
@@ -323,7 +406,7 @@ systemctl start ip6tables.service
 <p><code>firewall-cmd --query-panic</code></p>
 <p>此命令返回应急模式的状态，没有输出。可以使用以下方式获得状态输出：</p>
 <p><code>firewall-cmd --query-panic &amp;&amp; echo "On" || echo "Off"</code></p>
-<h4>处理运行时区域</h4>
+<h4><span id="i-21">处理运行时区域</span></h4>
 <p>运行时模式下对区域进行的修改不是永久有效的。重新加载或者重启后修改将失效。</p>
 <ul>
 <li>启用区域中的一种服务</li>
@@ -427,7 +510,7 @@ systemctl start ip6tables.service
 </ul>
 <pre><code class="language-shell line-numbers"> firewall-cmd --zone=home --add-forward-port=port=22:proto=tcp:toaddr=127.0.0.2
 </code></pre>
-<h4>处理永久区域</h4>
+<h4><span id="i-22">处理永久区域</span></h4>
 <p>永久选项不直接影响运行时的状态。这些选项仅在重载或者重启服务时可用。为了使用运行时和永久设置，需要分别设置两者。 选项 <strong>&#8211;permanent</strong> 需要是永久设置的第一个参数。</p>
 <ul>
 <li>获取永久选项所支持的服务</li>
@@ -533,7 +616,7 @@ systemctl start ip6tables.service
 <strong>例:</strong> 将 home 区域的 ssh 服务转发到 127.0.0.2</li>
 </ul>
 <p><code>firewall-cmd --permanent --zone=home --add-forward-port=port=22:proto=tcp:toaddr=127.0.0.2</code></p>
-<h4>直接选项</h4>
+<h4><span id="i-23">直接选项</span></h4>
 <p>直接选项主要用于使服务和应用程序能够增加规则。 规则不会被保存，在重新加载或者重启之后必须再次提交。传递的参数 <args> 与 iptables, ip6tables 以及 ebtables 一致。</args></p>
 <p>选项 <strong>&#8211;direct</strong> 需要是直接选项的第一个参数。</p>
 <ul>
@@ -595,59 +678,59 @@ systemctl start ip6tables.service
 <p>firewall-cmd &#8211;direct &#8211;get-rules { ipv4 | ipv6 | eb }</p>
 <p>&lt;</p>
 <p>table> <chain></chain></p>
-<h2>当前的 firewalld 特性</h2>
-<h3>D-BUS 接口</h3>
+<h2><span id="_firewalld-2">当前的 firewalld 特性</span></h2>
+<h3><span id="D-BUS">D-BUS 接口</span></h3>
 <p>D-BUS 接口提供防火墙状态的信息，使防火墙的启用、停用或查询设置成为可能。</p>
-<h3>区域</h3>
+<h3><span id="i-24">区域</span></h3>
 <p>网络或者防火墙区域定义了连接的可信程度。firewalld 提供了几种预定义的区域。区域配置选项和通用配置信息可以在firewall.zone(5)的手册里查到。</p>
-<h3>服务</h3>
+<h3><span id="i-25">服务</span></h3>
 <p>服务可以是一系列本读端口、目的以及附加信息，也可以是服务启动时自动增加的防火墙助手模块。预定义服务的使用使启用和禁用对服务的访问变得更加简单。服务配置选项和通用文件信息在 firewalld.service(5) 手册里有描述。</p>
-<h3>ICMP 类型</h3>
+<h3><span id="ICMP-2">ICMP 类型</span></h3>
 <p>Internet 控制报文协议 (ICMP) 被用以交换报文和互联网协议 (IP) 的错误报文。在 firewalld 中可以使用 ICMP 类型来限制报文交换。 ICMP 类型配置选项和通用文件信息可以参阅 firewalld.icmptype(5) 手册。</p>
-<h3>直接接口</h3>
+<h3><span id="i-26">直接接口</span></h3>
 <p>直接接口主要用于服务或者应用程序增加特定的防火墙规则。这些规则并非永久有效，并且在收到 firewalld 通过 D-Bus 传递的启动、重启、重载信号后需要重新应用。</p>
-<h3>运行时配置</h3>
+<h3><span id="i-27">运行时配置</span></h3>
 <p>运行时配置并非永久有效，在重新加载时可以被恢复，而系统或者服务重启、停止时，这些选项将会丢失。</p>
-<h3>永久配置</h3>
+<h3><span id="i-28">永久配置</span></h3>
 <p>永久配置存储在配置文件种，每次机器重启或者服务重启、重新加载时将自动恢复。</p>
-<h3>托盘小程序</h3>
+<h3><span id="i-29">托盘小程序</span></h3>
 <p>托盘小程序 <strong>firewall-applet</strong> 为用户显示防火墙状态和存在的问题。它也可以用来配置用户允许修改的设置。</p>
-<h3>图形化配置工具</h3>
+<h3><span id="i-30">图形化配置工具</span></h3>
 <p>firewall daemon 主要的配置工具是 <strong>firewall-config</strong> 。它支持防火墙的所有特性（除了由服务/应用程序增加规则使用的直接接口）。 管理员也可以用它来改变系统或用户策略。</p>
-<h3>命令行客户端</h3>
+<h3><span id="i-31">命令行客户端</span></h3>
 <p><strong>firewall-cmd</strong> 是命令行下提供大部分图形工具配置特性的工具。</p>
-<h3>对于 ebtables 的支持</h3>
+<h3><span id="_ebtables">对于 ebtables 的支持</span></h3>
 <p>要满足 libvirt daemon 的全部需求，在内核 netfilter 级上防止 ip*tables 和 ebtables 间访问问题，ebtables 支持是需要的。由于这些命令是访问相同结构的，因而不能同时使用。</p>
-<h3>/usr/lib/firewalld 中的默认/备用配置</h3>
+<h3><span id="usrlibfirewalld">/usr/lib/firewalld 中的默认/备用配置</span></h3>
 <p>该目录包含了由 firewalld 提供的默认以及备用的 ICMP 类型、服务、区域配置。由 firewalld 软件包提供的这些文件不能被修改，即使修改也会随着 firewalld 软件包的更新被重置。 其他的 ICMP 类型、服务、区域配置可以通过软件包或者创建文件的方式提供。</p>
-<h3>/etc/firewalld 中的系统配置设置</h3>
+<h3><span id="etcfirewalld">/etc/firewalld 中的系统配置设置</span></h3>
 <p>存储在此的系统或者用户配置文件可以是系统管理员通过配置接口定制的，也可以是手动定制的。这些文件将重载默认配置文件。</p>
 <p>为了手动修改预定义的 icmp 类型，区域或者服务，从默认配置目录将配置拷贝到相应的系统配置目录，然后根据需求进行修改。</p>
 <p>如果你加载了有默认和备用配置的区域，在 /etc/firewalld 下的对应文件将被重命名为 <file>.old 然后启用备用配置。</file></p>
-<h2>正在开发的特性</h2>
-<h3>富语言</h3>
+<h2><span id="i-32">正在开发的特性</span></h2>
+<h3><span id="i-33">富语言</span></h3>
 <p>富语言特性提供了一种不需要了解iptables语法的通过高级语言配置复杂 IPv4 和 IPv6 防火墙规则的机制。</p>
 <p>Fedora 19 提供了带有 D-Bus 和命令行支持的富语言特性第2个里程碑版本。第3个里程碑版本也将提供对于图形界面 firewall-config 的支持。</p>
 <p>对于此特性的更多信息，请参阅： <a class="wp-editor-md-post-content-link" href="https://fedoraproject.org/wiki/Features/FirewalldRichLanguage/zh-cn">firewalld Rich Language</a></p>
-<h3>锁定</h3>
+<h3><span id="i-34">锁定</span></h3>
 <p>锁定特性为 firewalld 增加了锁定本地应用或者服务配置的简单配置方式。它是一种轻量级的应用程序策略。</p>
 <p>Fedora 19 提供了锁定特性的第二个里程碑版本，带有 D-Bus 和命令行支持。第3个里程碑版本也将提供图形界面 firewall-config 下的支持。</p>
 <p>更多信息请参阅： <a class="wp-editor-md-post-content-link" href="https://fedoraproject.org/wiki/Features/FirewalldLockdown">firewalld Lockdown</a></p>
-<h3>永久直接规则</h3>
+<h3><span id="i-35">永久直接规则</span></h3>
 <p>这项特性处于早期状态。它将能够提供保存直接规则和直接链的功能。通过规则不属于该特性。更多关于直接规则的信息请参阅<a class="wp-editor-md-post-content-link" href="https://fedoraproject.org/w/index.php?title=Direct_options&amp;action=edit&amp;redlink=1" title="Direct options (page does not exist)">Direct options</a>。</p>
-<h3>从 ip*tables 和 ebtables 服务迁移</h3>
+<h3><span id="_iptables_ebtables">从 ip*tables 和 ebtables 服务迁移</span></h3>
 <p>这项特性处于早期状态。它将尽可能提供由iptables,ip6tables 和 ebtables 服务配置转换为永久直接规则的脚本。此特性在由firewalld提供的直接链集成方面可能存在局限性。</p>
 <p>此特性将需要大量复杂防火墙配置的迁移测试。</p>
-<h2>计划和提议功能</h2>
-<h3>防火墙抽象模型</h3>
+<h2><span id="i-36">计划和提议功能</span></h2>
+<h3><span id="i-37">防火墙抽象模型</span></h3>
 <p>在 ip*tables 和 ebtables 防火墙规则之上添加抽象层使添加规则更简单和直观。要抽象层功能强大，但同时又不能复杂，并不是一项简单的任务。为此，不得不开发一种防火墙语言。使防火墙规则拥有固定的位置，可以查询端口的访问状态、访问策略等普通信息和一些其他可能的防火墙特性。</p>
-<h3>对于 conntrack 的支持</h3>
+<h3><span id="_conntrack">对于 conntrack 的支持</span></h3>
 <p>要终止禁用特性已确立的连接需要 conntrack 。不过，一些情况下终止连接可能是不好的，如：为建立有限时间内的连续性外部连接而启用的防火墙服务。</p>
-<h3>用户交互模型</h3>
+<h3><span id="i-38">用户交互模型</span></h3>
 <p>这是防火墙中用户或者管理员可以启用的一种特殊模式。应用程序所有要更改防火墙的请求将定向给用户知晓，以便确认和否认。为一个连接的授权设置一个时间限制并限制其所连主机、网络或连接是可行的。配置可以保存以便将来不需通知便可应用相同行为。 该模式的另一个特性是管理和应用程序发起的请求具有相同功能的预选服务和端口的外部链接尝试。服务和端口的限制也会限制发送给用户的请求数量。</p>
-<h3>用户策略支持</h3>
+<h3><span id="i-39">用户策略支持</span></h3>
 <p>管理员可以规定哪些用户可以使用用户交互模式和限制防火墙可用特性。</p>
-<h3>端口元数据信息(由 Lennart Poettering 提议)</h3>
+<h3><span id="_Lennart_Poettering">端口元数据信息(由 Lennart Poettering 提议)</span></h3>
 <p>拥有一个端口独立的元数据信息是很好的。当前对 /etc/services 的端口和协议静态分配模型不是个好的解决方案，也没有反映当前使用情况。应用程序或服务的端口是动态的，因而端口本身并不能描述使用情况。</p>
 <p>元数据信息可以用来为防火墙制定简单的规则。下面是一些例子：</p>
 <p>允许外部访问文件共享应用程序或服务<br>
@@ -660,11 +743,11 @@ systemctl start ip6tables.service
 <p>第一种是添加到 netfilter (内核空间)。好处是每个人都可以使用它，但也有一定使用限制。还要考虑用户或系统空间的具体信息，所有这些都需要在内核层面实现。</p>
 <p>第二种是添加到 firewall daemon 中。这些抽象的规则可以和具体信息(如：网络连接可信级、作为具体个人/主机要分享的用户描述、管理员禁止完全共享的应归则等)一起使用。</p>
 <p>第二种解决方案的好处是不需要为有新的元数据组和纳入改变(可信级、用户偏好或管理员规则等等)重新编译内核。这些抽象规则的添加使得 firewall daemon 更加自由。即使是新的安全级也不需要更新内核即可轻松添加。</p>
-<h3>sysctld</h3>
+<h3><span id="sysctld">sysctld</span></h3>
 <p>现在仍有 sysctl 设置没有正确应用。一个例子是，在 rc.sysinit 正运行时，而提供设置的模块在启动时没有装载或者重新装载该模块时会发生问题。</p>
 <p>另一个例子是 net.ipv4.ip&#95;forward ，防火墙设置、libvirt 和用户/管理员更改都需要它。如果有两个应用程序或守护进程只在需要时开启 ip&#95;forwarding ，之后可能其中一个在不知道的情况下关掉服务，而另一个正需要它，此时就不得不重启它。</p>
 <p>sysctl daemon 可以通过对设置使用内部计数来解决上面的问题。此时，当之前请求者不再需要时，它就会再次回到之前的设置状态或者是直接关闭它。</p>
-<h2>防火墙规则</h2>
+<h2><span id="i-40">防火墙规则</span></h2>
 <p>netfilter 防火墙总是容易受到规则顺序的影响，因为一条规则在链中没有固定的位置。在一条规则之前添加或者删除规则都会改变此规则的位置。 在静态防火墙模型中，改变防火墙就是重建一个干净和完善的防火墙设置，且受限于 system-config-firewall / lokkit 直接支持的功能。也没有整合其他应用程序创建防火墙规则，且如果自定义规则文件功能没在使用<code>s-c-fw / lokkit</code>就不知道它们。默认链通常也没有安全的方式添加或删除规则而不影响其他规则。</p>
 <p>动态防火墙有附加的防火墙功能链。这些特殊的链按照已定义的顺序进行调用，因而向链中添加规则将不会干扰先前调用的拒绝和丢弃规则。从而利于创建更为合理完善的防火墙配置。</p>
 <p>下面是一些由守护进程创建的规则，过滤列表中启用了在公共区域对 ssh , mdns 和 ipp-client 的支持：</p>
@@ -731,7 +814,7 @@ systemctl start ip6tables.service
       <span class="xshare-title">分享到：</span>
             <a etap="share" data-share="qq" class="share-qq"><i class="fa fa-qq"></i></a>
       <a etap="share" data-share="weibo" class="share-weibo"><i class="fa fa-weibo"></i></a>
-              <a href="javascript:;" class="btn-bigger-cover share-weixin" data-nonce="60c099bcbf" data-id="50" data-action="create-bigger-image" id="bigger-cover"><i class="fa fa-paper-plane"></i></a>
+              <a href="javascript:;" class="btn-bigger-cover share-weixin" data-nonce="cc2f32fe6a" data-id="50" data-action="create-bigger-image" id="bigger-cover"><i class="fa fa-paper-plane"></i></a>
         </div>
    
 </div>    </div>
@@ -755,8 +838,8 @@ systemctl start ip6tables.service
               <article class="post">
                   <div class="entry-media">
     <div class="placeholder" style="padding-bottom: 66.666666666667%;">
-      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/the_role_of_configure_make_make_install.html">
-        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/themes/ripro/assets/images/thumb/1.jpg&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="configure,make,make install的作用">  
+      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/centos7_install_fail2ban-0-9-4_and_linkage_iptables.html">
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618230220-c4ca4238a0b9238.jpg" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="CentOS7下fail2ban和iptables联动阻止恶意扫描和密码猜测等恶意攻击行为">  
       </a>
             <div class="cao-cover">
 <img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
@@ -772,15 +855,15 @@ systemctl start ip6tables.service
                   <div class="entry-wrapper">
                   
   <header class="entry-header">    
-    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/the_role_of_configure_make_make_install.html" title="configure,make,make install的作用" rel="bookmark">configure,make,make install的作用</a></h4>  </header>                </div>
+    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/centos7_install_fail2ban-0-9-4_and_linkage_iptables.html" title="CentOS7下fail2ban和iptables联动阻止恶意扫描和密码猜测等恶意攻击行为" rel="bookmark">CentOS7下fail2ban和iptables联动阻止恶意扫描和密码猜测等恶意攻击行为</a></h4>  </header>                </div>
               </article>
             </div>
                       <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
               <article class="post">
                   <div class="entry-media">
     <div class="placeholder" style="padding-bottom: 66.666666666667%;">
-      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/dns-server-construction-and-configuration.html">
-        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/uploads/2021/04/1618139491-b3bf60b851ebaeb.png&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="DNS服务器搭建与配置">  
+      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/iptables-for-linux-detailed-explanation-and-examples.html">
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618049585-9d70a7e2c2e0fdb.png" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="IPtables for Linux详解以及实例">  
       </a>
             <div class="cao-cover">
 <img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
@@ -796,15 +879,15 @@ systemctl start ip6tables.service
                   <div class="entry-wrapper">
                   
   <header class="entry-header">    
-    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/dns-server-construction-and-configuration.html" title="DNS服务器搭建与配置" rel="bookmark">DNS服务器搭建与配置</a></h4>  </header>                </div>
+    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/iptables-for-linux-detailed-explanation-and-examples.html" title="IPtables for Linux详解以及实例" rel="bookmark">IPtables for Linux详解以及实例</a></h4>  </header>                </div>
               </article>
             </div>
                       <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
               <article class="post">
                   <div class="entry-media">
     <div class="placeholder" style="padding-bottom: 66.666666666667%;">
-      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/explanation-dns-cache-poisoning-is-also-called-dns-spoofing.html">
-        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/themes/ripro/assets/images/thumb/1.jpg&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="解释:DNS缓存中毒也称为DNS欺骗">  
+      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/detailed-explanation-of-linux-environment-variable-configuration-method.html">
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618230220-c4ca4238a0b9238.jpg" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Linux环境变量配置方法详解">  
       </a>
             <div class="cao-cover">
 <img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
@@ -820,7 +903,7 @@ systemctl start ip6tables.service
                   <div class="entry-wrapper">
                   
   <header class="entry-header">    
-    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/explanation-dns-cache-poisoning-is-also-called-dns-spoofing.html" title="解释:DNS缓存中毒也称为DNS欺骗" rel="bookmark">解释:DNS缓存中毒也称为DNS欺骗</a></h4>  </header>                </div>
+    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/detailed-explanation-of-linux-environment-variable-configuration-method.html" title="Linux环境变量配置方法详解" rel="bookmark">Linux环境变量配置方法详解</a></h4>  </header>                </div>
               </article>
             </div>
                       <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
@@ -828,7 +911,7 @@ systemctl start ip6tables.service
                   <div class="entry-media">
     <div class="placeholder" style="padding-bottom: 66.666666666667%;">
       <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/linux-centos-install-nginx1-8-1-through-source-package.html">
-        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/uploads/2021/04/1618139383-73898d7f1ddbfbf.jpg&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Linux(centos)通过源码包方式安装nginx1.8.1">  
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618139383-73898d7f1ddbfbf.jpg" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Linux(centos)通过源码包方式安装nginx1.8.1">  
       </a>
             <div class="cao-cover">
 <img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
@@ -974,8 +1057,8 @@ systemctl start ip6tables.service
 </div>
 <script>
     console.log("\n %c RiPro V7.1.0 %c https://blog.lixypro.com \n\n", "color: #fadfa3; background: #030307; padding:5px 0;", "background: #fadfa3; padding:5px 0;");
-    console.log("SQL 请求数：69");
-    console.log("页面生成耗时： 0.32817");
+    console.log("SQL 请求数：68");
+    console.log("页面生成耗时： 0.34292");
 </script>
 
 

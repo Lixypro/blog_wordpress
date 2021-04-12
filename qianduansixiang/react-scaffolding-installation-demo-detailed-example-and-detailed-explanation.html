@@ -16,7 +16,7 @@
 	<meta property="og:locale" content="zh_CN">
 	<meta property="og:type" content="article">
 	<meta property="og:title" content="React脚手架安装Demo详细示例，以及细节讲解 - Lixypro博客">
-	<meta property="og:description" content="React脚手架安装Demo详细示例，以及细节讲解 基本上，做过工程化项目的前端大哥 [&hellip;]">
+	<meta property="og:description" content="Contents1 React脚手架安装Demo详细示例，以及细节讲解1.1 通过C [&hellip;]">
 	<meta property="og:url" content="https://blog.lixypro.com/qianduansixiang/react-scaffolding-installation-demo-detailed-example-and-detailed-explanation.html">
 	<meta property="og:site_name" content="Lixypro博客">
 	<meta property="article:published_time" content="2021-04-10T14:35:38+00:00">
@@ -122,11 +122,26 @@
 </div>  <div class="container">
     <div class="entry-wrapper">
             <div class="entry-content u-text-format u-clearfix">
-        <h1>React脚手架安装Demo详细示例，以及细节讲解</h1>
+        <div id="toc_container" class="no_bullets">
+<p class="toc_title">Contents</p>
+<ul class="toc_list"><li>
+<a href="#ReactDemo"><span class="toc_number toc_depth_1">1</span> React脚手架安装Demo详细示例，以及细节讲解</a><ul>
+<li>
+<a href="#CnpmReact"><span class="toc_number toc_depth_2">1.1</span> 通过Cnpm安装React</a><ul>
+<li><a href="#CNPM"><span class="toc_number toc_depth_3">1.1.1</span> 淘宝CNPM镜像使用说明</a></li>
+<li><a href="#CNPM-2"><span class="toc_number toc_depth_3">1.1.2</span> 利用淘宝CNPM镜像安装模块</a></li>
+</ul>
+</li>
+<li><a href="#create-react-app"><span class="toc_number toc_depth_2">1.2</span> create-react-app脚手架安装</a></li>
+<li><a href="#create-react-app-2"><span class="toc_number toc_depth_2">1.3</span> 使用create-react-app脚手架进行创建项目</a></li>
+</ul>
+</li></ul>
+</div>
+<h1><span id="ReactDemo">React脚手架安装Demo详细示例，以及细节讲解</span></h1>
 <p>基本上，做过工程化项目的前端大哥都知道，一般自己去搭建一个项目的准备工作是挺多的，关键还容易出错，于是也就有了脚手架的出现。当然啦，在自己学习过程中还是建议自己去搭建项目的准备工作，具体开发的时候采用脚手架会更好。</p>
 <p>vue有vue-cli,angularJS有angular-cli,而做<em>react</em>项目则有<em>create-react-app</em>这个脚手架。<br>
 今天主要来讲下<em>create-react-app</em>的搭建，也是和vue-cli大同小异啦,关于react项目的创建，我们当然可以手动进行搭建，但如果项目不是特别复杂，推荐使用<em>create-react-app</em>进行项目的搭建。由Facebook官方开发。用<em>create-react-app</em>生成的项目的目录结构是比较简洁的。</p>
-<h2>通过Cnpm安装React</h2>
+<h2><span id="CnpmReact">通过Cnpm安装React</span></h2>
 <p><em>淘宝NPM镜像</em>，一个完整 npmjs.org 镜像，你可以用此代替官方版本(只读)，同步频率目前为 10分钟 一次以保证尽量与官方服务同步。</p>
 <p>当前 registry.npm.taobao.org 是从 r.cnpmjs.org 进行全量同步的.</p>
 <p>当前 npm.taobao.org 运行版本是: cnpmjs.org@3.0.0-rc.40</p>
@@ -165,7 +180,7 @@
 <p>node-inspector 镜像: <a class="wp-editor-md-post-content-link" href="https://npm.taobao.org/mirrors/node-inspector/" title="node-inspector 镜像">https://npm.taobao.org/mirrors/node-inspector/</a></p>
 </li>
 </ul>
-<h3>淘宝CNPM镜像使用说明</h3>
+<h3><span id="CNPM">淘宝CNPM镜像使用说明</span></h3>
 <p>你可以使用我们定制的 cnpm (gzip 压缩支持) 命令行工具代替默认的 npm:</p>
 <p>&#8220;` $ npm install -g cnpm &#8211;registry=https://registry.npm.taobao.org &#8220;`</p>
 <p>或者你直接通过添加 npm 参数 alias 一个新命令:</p>
@@ -181,10 +196,10 @@
   --userconfig=$HOME/.cnpmrc"' &gt;&gt; ~/.zshrc &amp;&amp; source ~/.zshrc 
 
 </code></pre>
-<h3>利用淘宝CNPM镜像安装模块</h3>
+<h3><span id="CNPM-2">利用淘宝CNPM镜像安装模块</span></h3>
 <p>从 registry.npm.taobao.org 安装所有模块. 当安装的时候发现安装的模块还没有同步过来, 淘宝 NPM 会自动在后台进行同步, 并且会让你从官方 NPM registry.npmjs.org 进行安装. 下次你再安装这个模块的时候, 就会直接从 淘宝 NPM 安装了.</p>
 <p>&#8220;` $ cnpm install [name] &#8220;`</p>
-<h2>create-react-app脚手架安装</h2>
+<h2><span id="create-react-app">create-react-app脚手架安装</span></h2>
 <p>全局安装脚手架<em>create-react-app</em></p>
 <p>&#8220;` cnpm install -g create-react-app &#8220;`</p>
 <pre><code class="language-cmd line-numbers">C:\Users\lixy&gt;cnpm i -g create-react-app
@@ -215,7 +230,7 @@ All packages installed (66 packages installed from npm registry, used 10m(networ
 4.0.2
 </code></pre>
 <p>证明是安装成功的。也有可能安装败，如果遇到安装失败的情况，可以评论留言一起交流啦~相信你的问题一定可以解决。检测create-react-app是否安装成功,如果出现版本号，则表示安装成功，不过如果你当前安装的node版本不支持你安装的create-react-app版本，这一步会出现红色的报错信息。一点要注意的是，如果采用webpack打包项目的话，webpack已经升级为4.0的 webpack-cli,如果遇到用npm安装失败的话，有可能是webpack没有升级导致的问题。所以可以升级一下啦。</p>
-<h2>使用create-react-app脚手架进行创建项目</h2>
+<h2><span id="create-react-app-2">使用create-react-app脚手架进行创建项目</span></h2>
 <p>&#8220;` create-react-app your-app &#8220;`<br>
 注意命名方式,此时创建是会有一个小小的坑在此处，就是你的目录名不要使用大写，这样作只要是为了严谨性，因为在Linux下是严格区分大小写的。<br>
 然后静待时间就OK。在这个过程中，实际会安装三个东西:</p>
@@ -371,7 +386,7 @@ Happy hacking!
       <span class="xshare-title">分享到：</span>
             <a etap="share" data-share="qq" class="share-qq"><i class="fa fa-qq"></i></a>
       <a etap="share" data-share="weibo" class="share-weibo"><i class="fa fa-weibo"></i></a>
-              <a href="javascript:;" class="btn-bigger-cover share-weixin" data-nonce="b7b1772c3c" data-id="55" data-action="create-bigger-image" id="bigger-cover"><i class="fa fa-paper-plane"></i></a>
+              <a href="javascript:;" class="btn-bigger-cover share-weixin" data-nonce="6965524920" data-id="55" data-action="create-bigger-image" id="bigger-cover"><i class="fa fa-paper-plane"></i></a>
         </div>
    
 </div>    </div>
@@ -395,28 +410,8 @@ Happy hacking!
               <article class="post">
                   <div class="entry-media">
     <div class="placeholder" style="padding-bottom: 66.666666666667%;">
-      <a target="_blank" href="https://blog.lixypro.com/qianduansixiang/ten-thousand-characters-long-text-what-is-react-detailed-documentation-for-self-study-introduction.html">
-        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/uploads/2021/04/1618133300-1e5facf40263759.png&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="万字长文,什么是React,自学入门专用详细文档">  
-      </a>
-            <div class="cao-cover">
-<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
-<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" width="50" height="50px"></noscript>
-</noscript>
-</div>
-          </div>
-      </div>
-                  <div class="entry-wrapper">
-                  
-  <header class="entry-header">    
-    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/qianduansixiang/ten-thousand-characters-long-text-what-is-react-detailed-documentation-for-self-study-introduction.html" title="万字长文,什么是React,自学入门专用详细文档" rel="bookmark">万字长文,什么是React,自学入门专用详细文档</a></h4>  </header>                </div>
-              </article>
-            </div>
-                      <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
-              <article class="post">
-                  <div class="entry-media">
-    <div class="placeholder" style="padding-bottom: 66.666666666667%;">
       <a target="_blank" href="https://blog.lixypro.com/pingmiansheji/recommended-free-material-websites-commonly-used-by-graphic-designers.html">
-        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/uploads/2021/04/1618140510-b7bc2a2f5bb6d52.jpg&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="干货」平面设计师常用的免费素材网站推荐">  
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618140510-b7bc2a2f5bb6d52.jpg" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="干货」平面设计师常用的免费素材网站推荐">  
       </a>
             <div class="cao-cover">
 <img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
@@ -429,6 +424,26 @@ Happy hacking!
                   
   <header class="entry-header">    
     <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/pingmiansheji/recommended-free-material-websites-commonly-used-by-graphic-designers.html" title="干货」平面设计师常用的免费素材网站推荐" rel="bookmark">干货」平面设计师常用的免费素材网站推荐</a></h4>  </header>                </div>
+              </article>
+            </div>
+                      <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
+              <article class="post">
+                  <div class="entry-media">
+    <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+      <a target="_blank" href="https://blog.lixypro.com/qianduansixiang/ten-thousand-characters-long-text-what-is-react-detailed-documentation-for-self-study-introduction.html">
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618133300-1e5facf40263759.png" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="万字长文,什么是React,自学入门专用详细文档">  
+      </a>
+            <div class="cao-cover">
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" width="50" height="50px"></noscript>
+</noscript>
+</div>
+          </div>
+      </div>
+                  <div class="entry-wrapper">
+                  
+  <header class="entry-header">    
+    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/qianduansixiang/ten-thousand-characters-long-text-what-is-react-detailed-documentation-for-self-study-introduction.html" title="万字长文,什么是React,自学入门专用详细文档" rel="bookmark">万字长文,什么是React,自学入门专用详细文档</a></h4>  </header>                </div>
               </article>
             </div>
                   </div>
@@ -558,8 +573,8 @@ Happy hacking!
 </div>
 <script>
     console.log("\n %c RiPro V7.1.0 %c https://blog.lixypro.com \n\n", "color: #fadfa3; background: #030307; padding:5px 0;", "background: #fadfa3; padding:5px 0;");
-    console.log("SQL 请求数：67");
-    console.log("页面生成耗时： 0.31954");
+    console.log("SQL 请求数：66");
+    console.log("页面生成耗时： 0.31408");
 </script>
 
 

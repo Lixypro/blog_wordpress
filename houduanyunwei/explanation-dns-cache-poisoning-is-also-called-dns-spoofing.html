@@ -121,26 +121,37 @@
 </div>  <div class="container">
     <div class="entry-wrapper">
             <div class="entry-content u-text-format u-clearfix">
-        <h1>DNS缓存中毒也称为DNS欺骗</h1>
+        <div id="toc_container" class="no_bullets">
+<p class="toc_title">Contents</p>
+<ul class="toc_list"><li>
+<a href="#DNSDNS"><span class="toc_number toc_depth_1">1</span> DNS缓存中毒也称为DNS欺骗</a><ul>
+<li><a href="#DNS"><span class="toc_number toc_depth_2">1.1</span> DNS缓存中毒如何工作?</a></li>
+<li><a href="#DNS-2"><span class="toc_number toc_depth_2">1.2</span> DNS缓存中毒有何风险?</a></li>
+<li><a href="#DNS-3"><span class="toc_number toc_depth_2">1.3</span> 如何防止DNS缓存中毒</a></li>
+<li><a href="#i"><span class="toc_number toc_depth_2">1.4</span> 总结</a></li>
+</ul>
+</li></ul>
+</div>
+<h1><span id="DNSDNS">DNS缓存中毒也称为DNS欺骗</span></h1>
 <p>我们都知道，dns服务器的作用在于解析域名，将人容易记忆的域名与机器理解的ip地址联系起来。我们用域名访问一个网站的时候，主机首先会访问dns服务器，得到所要访问网站的ip地址，然后主机再根据这个IP地址来访问网站。</p>
 <p>最近，网络上出现了Internet漏洞—— DNS缓存漏洞。此漏洞直接表明我们的应用程序中Internet的脆弱性，而安全性差的根本原因是设计缺陷。使用此漏洞可能使用户无法打开网页，另一个是网络钓鱼和金融欺诈，给受害者造成巨大损失。</p>
 <p><strong>DNS缓存中毒也称为DNS欺骗</strong>，是一种攻击，旨在查找并利用DNS或域名系统中存在的漏洞，以便将有机流量从合法服务器吸引到虚假服务器上。这种攻击往往被归类为域欺骗攻击(pharming attack)，由此它会导致出现很多严重问题。首先，用户往往会以为登陆的是自己熟悉的网站，而它们却并不是。与钓鱼攻击采用非法URL不同的是，这种攻击使用的是合法的URL地址。</p>
-<h2>DNS缓存中毒如何工作?</h2>
+<h2><span id="DNS">DNS缓存中毒如何工作?</span></h2>
 <p>当一个DNS缓存服务器从用户处获得域名请求时，服务器会在缓存中寻找是否有这个地址。如果没有，它就会上级DNS服务器发出请求。在出现这种漏洞之前，攻击者很难攻击DNS服务器：他们必须通过发送伪造查询响应、获得正确的查询参数以进入缓存服务器，进而控制合法DNS服务器。这个过程通常持续不到一秒钟，因此黑客攻击很难获得成功。<br>
 但是，现在有安全人员找到该漏洞，使得这一过程朝向有利于攻击者转变。这是因为攻击者获悉，对缓存服务器进行持续不断的查询请求，服务器不能给与回应。比如，一个黑客可能会发出类似请求：<code>http://1q2w3e.google.com</code>，而且他也知道缓存服务器中不可能有这个域名。这就会引起缓存服务器发出更多查询请求，并且会出现很多欺骗应答的机会。<br>
 当然，这并不是说攻击者拥有很多机会来猜测查询参数的正确值。事实上，是这种开放源DNS服务器漏洞的公布，会让它在10秒钟内受到危险攻击。要知道，即使<code>http://1q2w3e.google.com</code>受到缓存DNS中毒攻击危害也不大，因为没有人会发出这样的域名请求，但是，这正是攻击者发挥威力的地方所在。通过欺骗应答，黑客也可以给缓存服务器指向一个非法的服务器域名地址，该地址一般为黑客所控制。而且通常来说，这两方面的信息缓存服务器都会存储。<br>
 由于攻击者现在可以控制域名服务器，每个查询请求都会被重定向到黑客指定的服务器上。这也就意味着，黑客可以控制所有域名下的子域网址：<code>http://www.bigbank.com</code>，<code>http://mail.bigbank.com</code>，<code>http://ftp.bigbank.com</code>等等。这非常强大，任何涉及到子域网址的查询，都可以引导至由黑客指定的任何服务器上。</p>
-<h2>DNS缓存中毒有何风险?</h2>
+<h2><span id="DNS-2">DNS缓存中毒有何风险?</span></h2>
 <p>DNS缓存中毒的主要风险是窃取数据。DNS缓存中毒攻击的最喜欢的目标是医院，金融机构网站和在线零售商。这些目标容易被欺骗，这意味着任何密码，信用卡或其他个人信息都可能受到损害。此外，在用户设备上安装密钥记录器的风险，可能会导致用户访问其他站点时暴露其用户名和密码。<br>
 另一个重大风险是，如果互联网安全提供商的网站被欺骗，那么用户的计算机可能会受到其他威胁(如：病毒或特洛伊木马)的影响，因为一旦被攻击用户则不会执行合法的安全更新。<br>
 据称，DNS攻击的年平均成本为223.6万美元，其中23%的攻击来自DNS缓存中毒。</p>
-<h2>如何防止DNS缓存中毒</h2>
+<h2><span id="DNS-3">如何防止DNS缓存中毒</span></h2>
 <p>那么，企业究竟该如何防止DNS缓存中毒攻击?要从以下几点出发：</p>
 <p><strong>第一，DNS服务器应该配置为尽可能少地依赖与其他DNS服务器的信任关系。以这种方式配置将使攻击者更难以使用他们自己的DNS服务器来破坏目标服务器。</strong></p>
 <p><strong>第二，企业应该设置DNS服务器，只允许所需的服务运行。因为在DNS服务器上运行不需要的其他服务，只会增加攻击向量大小。</strong></p>
 <p><strong>第三，安全人员还应确保使用最新版本的DNS。较新版本的BIND具有加密安全事务ID和端口随机化等功能，可以帮助防止缓存中毒攻击。</strong></p>
 <p><strong>第四，用户的安全教育对于防止这些攻击也非常重要。用户应接受有关识别可疑网站的培训，用户要学会只访问HTTPS网站，这有助于防止人们成为中毒攻击的受害者，因为他们会确保不将他们的个人信息输入黑客的网站。如果他们在连接到网站之前收到SSL警告，则不会单击“忽略”按钮。 这样就不会受到DNS缓存中毒攻击。</strong></p>
-<h2>总结</h2>
+<h2><span id="i">总结</span></h2>
 <p>HTTPS是现行架构下最安全的解决方案，SSL证书可以很直观的辨别出钓鱼网站，避免网站受到DNS缓存中毒攻击，保护信息安全。部署SSL证书一定要选择一个具有公信力的CA机构，选择CA机构最好是通过国际Webtrust标准的认证，具备了国际电子认证服务能力的CA机构，通过国际Webtrust标准的认证意味着CA机构的运营管理和服务水平符合国际标准，并且有能力、有资质提供全球化认证服务，是可靠电子认证服务的有效证明。</p>
       </div>
       <div id="pay-single-box"></div>
@@ -171,7 +182,7 @@
       <span class="xshare-title">分享到：</span>
             <a etap="share" data-share="qq" class="share-qq"><i class="fa fa-qq"></i></a>
       <a etap="share" data-share="weibo" class="share-weibo"><i class="fa fa-weibo"></i></a>
-              <a href="javascript:;" class="btn-bigger-cover share-weixin" data-nonce="0ff0e41106" data-id="38" data-action="create-bigger-image" id="bigger-cover"><i class="fa fa-paper-plane"></i></a>
+              <a href="javascript:;" class="btn-bigger-cover share-weixin" data-nonce="c17dbd099f" data-id="38" data-action="create-bigger-image" id="bigger-cover"><i class="fa fa-paper-plane"></i></a>
         </div>
    
 </div>    </div>
@@ -195,8 +206,8 @@
               <article class="post">
                   <div class="entry-media">
     <div class="placeholder" style="padding-bottom: 66.666666666667%;">
-      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/centos7_install_fail2ban-0-9-4_and_linkage_iptables.html">
-        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/themes/ripro/assets/images/thumb/1.jpg&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="CentOS7下fail2ban和iptables联动阻止恶意扫描和密码猜测等恶意攻击行为">  
+      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/detailed-explanation-of-linux-environment-variable-configuration-method.html">
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618230220-c4ca4238a0b9238.jpg" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Linux环境变量配置方法详解">  
       </a>
             <div class="cao-cover">
 <img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
@@ -212,31 +223,7 @@
                   <div class="entry-wrapper">
                   
   <header class="entry-header">    
-    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/centos7_install_fail2ban-0-9-4_and_linkage_iptables.html" title="CentOS7下fail2ban和iptables联动阻止恶意扫描和密码猜测等恶意攻击行为" rel="bookmark">CentOS7下fail2ban和iptables联动阻止恶意扫描和密码猜测等恶意攻击行为</a></h4>  </header>                </div>
-              </article>
-            </div>
-                      <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
-              <article class="post">
-                  <div class="entry-media">
-    <div class="placeholder" style="padding-bottom: 66.666666666667%;">
-      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/linux-centos-install-nginx1-8-1-through-source-package.html">
-        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/uploads/2021/04/1618139383-73898d7f1ddbfbf.jpg&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Linux(centos)通过源码包方式安装nginx1.8.1">  
-      </a>
-            <div class="cao-cover">
-<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
-<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
-<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
-<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" width="50" height="50px"></noscript>
-</noscript>
-</noscript>
-</noscript>
-</div>
-          </div>
-      </div>
-                  <div class="entry-wrapper">
-                  
-  <header class="entry-header">    
-    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/linux-centos-install-nginx1-8-1-through-source-package.html" title="Linux(centos)通过源码包方式安装nginx1.8.1" rel="bookmark">Linux(centos)通过源码包方式安装nginx1.8.1</a></h4>  </header>                </div>
+    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/detailed-explanation-of-linux-environment-variable-configuration-method.html" title="Linux环境变量配置方法详解" rel="bookmark">Linux环境变量配置方法详解</a></h4>  </header>                </div>
               </article>
             </div>
                       <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
@@ -244,7 +231,7 @@
                   <div class="entry-media">
     <div class="placeholder" style="padding-bottom: 66.666666666667%;">
       <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/detailed_explanation_of_the_process_of_compiling_and_installing_apache_on_centos_server_source_package.html">
-        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/themes/ripro/assets/images/thumb/1.jpg&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Centos服务器源码包编译安装Apache过程详解">  
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618230220-c4ca4238a0b9238.jpg" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Centos服务器源码包编译安装Apache过程详解">  
       </a>
             <div class="cao-cover">
 <img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
@@ -267,8 +254,8 @@
               <article class="post">
                   <div class="entry-media">
     <div class="placeholder" style="padding-bottom: 66.666666666667%;">
-      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/the_role_of_configure_make_make_install.html">
-        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/themes/ripro/assets/images/thumb/1.jpg&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="configure,make,make install的作用">  
+      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/iptables-for-linux-detailed-explanation-and-examples.html">
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618049585-9d70a7e2c2e0fdb.png" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="IPtables for Linux详解以及实例">  
       </a>
             <div class="cao-cover">
 <img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
@@ -284,7 +271,31 @@
                   <div class="entry-wrapper">
                   
   <header class="entry-header">    
-    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/the_role_of_configure_make_make_install.html" title="configure,make,make install的作用" rel="bookmark">configure,make,make install的作用</a></h4>  </header>                </div>
+    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/iptables-for-linux-detailed-explanation-and-examples.html" title="IPtables for Linux详解以及实例" rel="bookmark">IPtables for Linux详解以及实例</a></h4>  </header>                </div>
+              </article>
+            </div>
+                      <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
+              <article class="post">
+                  <div class="entry-media">
+    <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/use-firewalld-to-build-a-dynamic-firewall.html">
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618139043-b6db0c73a979ae8.png" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Linux的FirewallD详细基础说明">  
+      </a>
+            <div class="cao-cover">
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" width="50" height="50px"></noscript>
+</noscript>
+</noscript>
+</noscript>
+</div>
+          </div>
+      </div>
+                  <div class="entry-wrapper">
+                  
+  <header class="entry-header">    
+    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/use-firewalld-to-build-a-dynamic-firewall.html" title="Linux的FirewallD详细基础说明" rel="bookmark">Linux的FirewallD详细基础说明</a></h4>  </header>                </div>
               </article>
             </div>
                   </div>
@@ -414,8 +425,8 @@
 </div>
 <script>
     console.log("\n %c RiPro V7.1.0 %c https://blog.lixypro.com \n\n", "color: #fadfa3; background: #030307; padding:5px 0;", "background: #fadfa3; padding:5px 0;");
-    console.log("SQL 请求数：64");
-    console.log("页面生成耗时： 0.31944");
+    console.log("SQL 请求数：65");
+    console.log("页面生成耗时： 0.31236");
 </script>
 
 

@@ -127,21 +127,61 @@
 </div>  <div class="container">
     <div class="entry-wrapper">
             <div class="entry-content u-text-format u-clearfix">
-        <h2>1. HTTP与HTTPS介绍</h2>
+        <div id="toc_container" class="no_bullets">
+<p class="toc_title">Contents</p>
+<ul class="toc_list">
+<li><a href="#1_HTTPHTTPS"><span class="toc_number toc_depth_1">1</span> 1. HTTP与HTTPS介绍</a></li>
+<li><a href="#2_HTTPSHTTP"><span class="toc_number toc_depth_1">2</span> 2. HTTPS和HTTP的主要区别</a></li>
+<li><a href="#3_HTTPSWeb"><span class="toc_number toc_depth_1">3</span> 3. 客户端在使用HTTPS方式与Web服务器通信时的步骤</a></li>
+<li><a href="#4"><span class="toc_number toc_depth_1">4</span> 4. 介绍下非对称加密</a></li>
+<li><a href="#5_https"><span class="toc_number toc_depth_1">5</span> 5. https将两种加密结合了起来</a></li>
+<li>
+<a href="#6_SSLTLS"><span class="toc_number toc_depth_1">6</span> 6. SSL与TLS的区别？</a><ul>
+<li><a href="#61_SSLTLS"><span class="toc_number toc_depth_2">6.1</span> 6.1. SSL/TLS历史</a></li>
+<li>
+<a href="#62_SSLTLS"><span class="toc_number toc_depth_2">6.2</span> 6.2. SSL/TLS协议的基本过程</a><ul><li><a href="#621_82218221"><span class="toc_number toc_depth_3">6.2.1</span> 6.2.1. 那么为什么一定要用三个随机数，来生成&#8221;会话密钥&#8221;呢？</a></li></ul>
+</li>
+<li>
+<a href="#63_SSL"><span class="toc_number toc_depth_2">6.3</span> 6.3. SSL的三大误区</a><ul>
+<li><a href="#631"><span class="toc_number toc_depth_3">6.3.1</span> 6.3.1. 误区一:</a></li>
+<li><a href="#632"><span class="toc_number toc_depth_3">6.3.2</span> 6.3.2. 误区二:</a></li>
+<li><a href="#633"><span class="toc_number toc_depth_3">6.3.3</span> 6.3.3. 误区三:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#7_HTTPS66HTTPS"><span class="toc_number toc_depth_1">7</span> 7. HTTPS很安全，很古老也很成熟，为什么一直到今天我们还有66%的网站不支持HTTPS呢？</a><ul>
+<li><a href="#71_HTTPS"><span class="toc_number toc_depth_2">7.1</span> 7.1. HTTPS涉及的计算环节</a></li>
+<li><a href="#72_HTTPS"><span class="toc_number toc_depth_2">7.2</span> 7.2. 如何优化HTTPS的速度?</a></li>
+</ul>
+</li>
+<li><a href="#8_HTTPS"><span class="toc_number toc_depth_1">8</span> 8. 面试常见问题,HTTPS优化总结</a></li>
+<li>
+<a href="#9_https"><span class="toc_number toc_depth_1">9</span> 9. 百度发布公告，对https站点的优先收录</a><ul>
+<li><a href="#91_https"><span class="toc_number toc_depth_2">9.1</span> 9.1. 百度开放收录https站点公告</a></li>
+<li><a href="#92_spiderhttps1116"><span class="toc_number toc_depth_2">9.2</span> 9.2. 百度spider工程师给https站点的技术建议(11月16日更新)</a></li>
+<li><a href="#93_http"><span class="toc_number toc_depth_2">9.3</span> 9.3. http协议逐步被弃用</a></li>
+</ul>
+</li>
+<li><a href="#10_HTTPS"><span class="toc_number toc_depth_1">10</span> 10. 为保护用户隐私安全,谷歌优先索引HTTPS网页</a></li>
+</ul>
+</div>
+<h2><span id="1_HTTPHTTPS">1. HTTP与HTTPS介绍</span></h2>
 <ul>
 <li>超文本传输协议HTTP协议被用于在Web浏览器和网站服务器之间传递信息，HTTP协议以明文方式发送内容，不提供任何方式的数据加密，如果攻击者截取了Web浏览器和网 站服务器之间的传输报文，就可以直接读懂其中的信息，因此，HTTP协议不适合传输一些敏感信息，比如：信用卡号、密码等支付信息。</li>
 <li>为了解决HTTP协议的这一缺陷，需要使用另一种协议：安全套接字层超文本传输协议HTTPS，为了数据传输的安全，HTTPS在HTTP的基础上加入了SSL/TLS协议，SSL/TLS依靠证书来验证服务器的身份，并为浏览器和服务器之间的通信加密。</li>
 <li>HTTPS协议是由SSL/TLS+HTTP协议构建的可进行加密传输、身份认证的网络协议，要比http协议安全.</li>
 <li>HTTPS协议的主要作用可以分为两种：一种是建立一个信息安全通道，来保证数据传输的安全；另一种就是确认网站的真实性。</li>
 </ul>
-<h2>2. HTTPS和HTTP的主要区别</h2>
+<h2><span id="2_HTTPSHTTP">2. HTTPS和HTTP的主要区别</span></h2>
 <ol>
 <li>https协议需要到CA申请证书，一般免费证书较少，因而需要一定费用。</li>
 <li>http是超文本传输协议，信息是明文传输，https则是具有安全性的ssl/tls加密传输协议。</li>
 <li>http和https使用的是完全不同的连接方式，用的端口也不一样，前者是80，后者是443。</li>
 <li>http的连接很简单，是无状态的；HTTPS协议是由SSL/TLS+HTTP协议构建的可进行加密传输、身份认证的网络协议，比http协议安全。</li>
 </ol>
-<h2>3. 客户端在使用HTTPS方式与Web服务器通信时的步骤</h2>
+<h2><span id="3_HTTPSWeb">3. 客户端在使用HTTPS方式与Web服务器通信时的步骤</span></h2>
 <ol>
 <li>客户使用https的URL访问Web服务器，要求与Web服务器建立SSL连接。</li>
 <li>Web服务器收到客户端请求后，会将网站的证书信息（证书中包含公钥）传送一份给客户端。</li>
@@ -153,7 +193,7 @@
 <p><img class="lazyload " src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="https://blog.lixypro.com/wp-content/uploads/2021/04/1618140921-5e056c500a1c4b6.png" alt=""><noscript>
 <img alt="" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618140921-5e056c500a1c4b6.png" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618140921-5e056c500a1c4b6.png" alt=""></noscript>
 </noscript></p>
-<h2>4. 介绍下非对称加密</h2>
+<h2><span id="4">4. 介绍下非对称加密</span></h2>
 <p>客户端使用HTTPS与服务器通信中使用到了CA认证，这里可能大家会问为什么不直接使用非对称加密的形式直接进行?<br>
 首先这里先介绍下非对称加密;</p>
 <ul>
@@ -170,7 +210,7 @@
 <p>非对称加密的性能相对对称加密来说会慢上几倍甚至几百倍，比较消耗系统资源。</p>
 </li>
 </ul>
-<h2>5. https将两种加密结合了起来</h2>
+<h2><span id="5_https">5. https将两种加密结合了起来</span></h2>
 <p>正是因为如此，https将两种加密结合了起来。为了应对上面非对称加密带来的问题，我们就引入了数字证书与数字签名,故CA认证介入我们的HTTPS连接的过程如下：</p>
 <ol>
 <li>服务器拥有自己的私钥与公钥</li>
@@ -188,7 +228,7 @@
 <li>SSL证书通常需要绑定IP，不能在同一IP上绑定多个域名，IPv4资源不可能支撑这个消耗。</li>
 <li>HTTPS协议的加密范围也比较有限，在黑客攻击、拒绝服务攻击、服务器劫持等方面几乎起不到什么作用。最关键的，SSL证书的信用链体系并不安全，特别是在某些国家可以控制CA根证书的情况下，中间人攻击一样可行。</li>
 </ul>
-<h2>6. SSL与TLS的区别？</h2>
+<h2><span id="6_SSLTLS">6. SSL与TLS的区别？</span></h2>
 <ul>
 <li>SSL：（Secure Socket Layer，安全套接字层），位于可靠的面向连接的网络层协议和应用层协议之间的一种协议层。SSL通过互相认证、使用数字签名确保完整性、使用加密确保私密性，以实现客户端和服务器之间的安全通讯。该协议由两层组成：SSL记录协议和SSL握手协议。
 </li>
@@ -196,7 +236,7 @@
 <p>TLS：(Transport Layer Security，传输层安全协议)，用于两个应用程序之间提供保密性和数据完整性。该协议由两层组成：TLS记录协议和TLS握手协议。</p>
 </li>
 </ul>
-<h3>6.1. SSL/TLS历史</h3>
+<h3><span id="61_SSLTLS">6.1. SSL/TLS历史</span></h3>
 <ul>
 <li>1994年，NetScape公司设计了SSL协议（Secure Sockets Layer）的1.0版，但是未发布。</li>
 <li>1995年，NetScape公司发布SSL 2.0版，很快发现有严重漏洞。</li>
@@ -206,7 +246,7 @@
 <li>目前，应用最广泛的是TLS 1.0，接下来是SSL 3.0。但是，主流浏览器都已经实现了TLS 1.2的支持。</li>
 <li>TLS 1.0通常被标示为SSL 3.1，TLS 1.1为SSL 3.2，TLS 1.2为SSL 3.3。</li>
 </ul>
-<h3>6.2. SSL/TLS协议的基本过程</h3>
+<h3><span id="62_SSLTLS">6.2. SSL/TLS协议的基本过程</span></h3>
 <ol>
 <li>客户端向服务器端索要并验证公钥。</li>
 <li>双方协商生成&#8221;对话密钥&#8221;。</li>
@@ -249,7 +289,7 @@
 <li>服务器握手结束通知，表示服务器的握手阶段已经结束。这一项同时也是前面发送的所有内容的hash值，用来供客户端校验。</li>
 </ol>
 <p>至此，整个握手阶段全部结束。接下来，客户端与服务器进入加密通信，就完全是使用普通的HTTP协议，只不过用&#8221;会话密钥&#8221;加密内容。</p>
-<h4>6.2.1. 那么为什么一定要用三个随机数，来生成&#8221;会话密钥&#8221;呢？</h4>
+<h4><span id="621_82218221">6.2.1. 那么为什么一定要用三个随机数，来生成&#8221;会话密钥&#8221;呢？</span></h4>
 <ul>
 <li>&#8220;不管是客户端还是服务器，都需要随机数，这样生成的密钥才不会每次都一样。由于SSL协议中证书是静态的，因此十分有必要引入一种随机因素来保证协商出来的密钥的随机性。
 </li>
@@ -282,11 +322,11 @@
 </li>
 <li>特定警报消息：TLS提供更多的特定和附加警报，以指示任一会话端点检测到的问题。TLS还对何时应该发送某些警报进行记录。</li>
 </ul>
-<h3>6.3. SSL的三大误区</h3>
+<h3><span id="63_SSL">6.3. SSL的三大误区</span></h3>
 <p>(此文刊登在《计算机世界》第5期)</p>
 <p><strong>说明：此文中所指的 SSL数字证书 应该是指只验证域名所有权的 <a class="wp-editor-md-post-content-link" href="https://www.wosign.com/DVSSL/DV_SSL.htm">超快SSL证书</a>，因为WoSign 当时(2005年1月)代理销售GeoTrust QuickSSL Premium产品。GeoTrust QuickSSL + TrueSite认证 = 超真SSL，笔者实际上是强调购买验证真实身份的“超真SSL证书”的重要性！</strong></p>
 <p>网站欺诈（Phishing）目前日益猖獗，而很多安全厂商对此却束手无策，在目前条件下，这类攻击不是靠技术能解决的，需要靠人们搽亮眼睛。此外，网站作为受害方之一，也可以采取一定的措施自我保护。<a class="wp-editor-md-post-content-link" href="https://www.wosign.com/">SSL认证</a>曾经被认为是好方法，但目前存在认识误区。那么，还有什么好方法呢？</p>
-<h4>6.3.1. 误区一:</h4>
+<h4><span id="631">6.3.1. 误区一:</span></h4>
 <p>对SSL数字证书(SSL证书)功能的误解。</p>
 <p>许多网站开发者认为只要部署了SSL数字证书(SSL证书)就万事大吉了，错误地夸大了数字证书的功能。实际上部署了SSL数字证书(SSL证书)，只能证明如下三点：</p>
 <ol>
@@ -299,15 +339,15 @@
 <p>说明用户正在访问的Web服务器已经申请了SSL数字证书(SSL证书)，并且正在访问的网站的域名的所有者与SSL数字证书(SSL证书)申请时填写的域名所有者是一致的。</p>
 </li>
 </ol>
-<h4>6.3.2. 误区二:</h4>
+<h4><span id="632">6.3.2. 误区二:</span></h4>
 <p>以为在屏幕右下角有“显示锁标志”就可以放心地在线填写信用卡等机密信息了。</p>
 <p>有锁标志只能说明机密数据在传输过程是安全的，但是网上用户首先应该搞清楚的是您正在与谁交易，正在付钱给谁。一个假冒在线购物的网站也可以申请一个SSL数字证书(SSL证书)来麻痹用户，用户应该检查正在访问的网站是否就是要访问的购物网站，域名是否正确。点击锁标志，检查此证书是颁发给哪个网站的?此证书的网址是否就是您要访问的网址?再点击“详细信息”的“主题”项，WoSign的数字证书一般在“O”或“OU”字段会列出此证书的网站的所有者，即会清楚地告诉您此网站是否是您计划与之交易的公司的网站。而一个假冒的网站即使也有SSL数字证书(SSL证书)，如果检查证书的详细信息就会发现问题。如招商银行信用卡网站的安全链接网址为：https://creditcard.cmbchina.com，访问后会发现浏览器下面有锁标志，点击锁标志后会显示此证书是颁发给creditcard.cmbchina.com，而再点击“详细信息”的“主题”项后会显示：CN = creditcard.cmbchina.com (Web服务器公用名称), OU = head office (申请机构的部门信息), O = China Merchants Bank (申请机构信息), L = Shenzhen (机构所在城市), S = Guangdong (机构所在州/省), C = CN (机构国家)。</p>
 <p>但是，用户一定要明白，SSL数字证书(SSL证书)仅仅是为了保证数据传输的安全，它并不等于身份验证。要搞清楚的是用户正在访问的网站是否就是用户希望与之发生交易的公司的网站，这是最重要的。所以，要保证网上安全交易，还需要对网站的身份进行验证，验证此网站是否就是交易方的正宗网站。假如有一个假冒招商银行信用卡网站的安全链接网址为：https://creditcard.cmb-china.com，该假冒者在注册域名时也是填写域名注册者为China Merchants Bank，申请SSL数字证书(SSL证书)时也都是填写与域名cmbchina.com一样的信息，该假冒者当然也可以申请到SSL数字证书(SSL证书)，只要申请证书时的信息与注册域名的信息一样。所以，此假冒网站也会显示锁标志，按以上方法验证证书，都可以是同样的正确信息。但是此网站是假冒网站，而用户只能以网站的网址做判断了。</p>
-<h4>6.3.3. 误区三:</h4>
+<h4><span id="633">6.3.3. 误区三:</span></h4>
 <p>选择SSL数字证书(SSL证书)颁发机构的误区。</p>
 <p>目前国内各种数字证书颁发机构有近百家，网站应该根据自己的业务需要正确选择数字证书颁发机构。对于面向国际市场和希望有国际合作的网站(希望国外用户也能正确浏览安全页面的网站)，推荐申请支持所有浏览器的WoSign服务器数字证书，此类证书无需要求客户端浏览器下载和安装根证书，使用非常方便。</p>
 <p>总之，目前国内电子商务和网上购物网站越来越多，而且盗版的银行网站也越来越猖狂，通过互联网的欺骗和盗用行为日益增加，作者认为，对于要求用户输入机密信息的网站，一定要部署SSL数字证书(SSL证书)来确保用户输入的机密信息的安全，保护输入的机密信息不会被泄露，让人们放心地进行网上消费。同时，我们建议所有网站都应该申请认证，让现实世界的真实企业与网络虚拟世界的企业网站实现真正的一一对应关系，让假冒网站没有可乘之机。而对于网上消费者，一定要提高安全防范意识，掌握辨别真伪网站的方法，不给网络犯罪分子有可乘之机</p>
-<h2>7. HTTPS很安全，很古老也很成熟，为什么一直到今天我们还有66%的网站不支持HTTPS呢？</h2>
+<h2><span id="7_HTTPS66HTTPS">7. HTTPS很安全，很古老也很成熟，为什么一直到今天我们还有66%的网站不支持HTTPS呢？</span></h2>
 <ol>
 <li>慢，HTTPS未经任何优化的情况下要比HTTP慢几百毫秒以上，特别在移动端可能要慢500毫秒以上，关于HTTPS慢和如何优化已经是一个非常系统和复杂的话题
 </li>
@@ -321,7 +361,7 @@
 <li>网站改用 HTTPS 以后，由 HTTP 跳转到 HTTPS 的方式增加了用户访问耗时（多数网站采用 301、302 跳转）</li>
 <li>HTTPS 涉及到的安全算法会消耗 CPU 资源，需要增加服务器资源（https 访问过程需要加解密）</li>
 </ol>
-<h3>7.1. HTTPS涉及的计算环节</h3>
+<h3><span id="71_HTTPS">7.1. HTTPS涉及的计算环节</span></h3>
 <ul>
 <li>
 <p>非对称密钥交换。比如RSA, Diffie-Hellman, ECDHE.这类算法的主要作用就是根据客户端和服务端不对称的信息，经过高强度的密钥生成算法，生成对称密钥，用于加解密后续应用消息。</p>
@@ -336,7 +376,7 @@
 <p>证书签名校验。这个阶段主要发生在客户端校验服务端证书身份时，需要对证书签名进行校验，确保证书的真实性。</p>
 </li>
 </ul>
-<h3>7.2. 如何优化HTTPS的速度?</h3>
+<h3><span id="72_HTTPS">7.2. 如何优化HTTPS的速度?</span></h3>
 <ul>
 <li>HSTS重定向技术</li>
 </ul>
@@ -370,7 +410,7 @@
 <li>采用OCSP Stapling ，提升 HTTPS 性能。服务端主动获取 OCSP 查询结果并随着证书一起发送给客户端，从而客户端可直接通过 Web Server 验证证书，提高 TLS 握手效率。</li>
 <li>服务器模拟浏览器向 CA 发起请求，并将带有 CA 机构签名的 OCSP 响应保存到本地，然后在与客户端握手阶段，将 OCSP 响应下发给浏览器，省去浏览器的在线验证过程。由于浏览器不需要直接向 CA 站点查询证书状态，这个功能对访问速度的提升非常明显。</li>
 </ol>
-<h2>8. 面试常见问题,HTTPS优化总结</h2>
+<h2><span id="8_HTTPS">8. 面试常见问题,HTTPS优化总结</span></h2>
 <p>面试常见问题，HTTPS优化总结易记版：</p>
 <ol>
 <li>HSTS重定向技术：将http自动转换为https，减少301重定向</li>
@@ -379,20 +419,20 @@
 <li>OSCP Stapling：服务器将带有 CA 机构签名的 OCSP 响应在握手时发给客户端，省的客户端再去CA查询</li>
 <li>完全前向加密PFS：使用更牛逼复杂的秘钥算法</li>
 </ol>
-<h2>9. 百度发布公告，对https站点的优先收录</h2>
+<h2><span id="9_https">9. 百度发布公告，对https站点的优先收录</span></h2>
 <p>百度站长平台发布公告，百度放开对<a class="wp-editor-md-post-content-link" href="https://www.wosign.com/">https站点</a>的收录，https站点不需要再做任何额外的工作就可以被百度顺利抓取。这是百度继今年3月份全站启用https加密之后的又一重大举措，再度体现百度在https安全加密方面的积极态度，势必加快https全网化进程。以下是公告原文：</p>
-<h3>9.1. 百度开放收录https站点公告</h3>
+<h3><span id="91_https">9.1. 百度开放收录https站点公告</span></h3>
 <p>亲爱的网站管理员:</p>
 <p>从今天开始，百度放开对https站点的收录，https站点不需要再做任何额外的工作就可以被百度顺利抓收。</p>
 <p>在此之前，百度站长学院曾发表文章，指导https站点制作http可访问版便于百度抓收。技术升级后，<strong>百度视同一个域名的http版和https版为一个站点，优先收录https版。</strong>建议站长关闭http版，或者将http页面直接跳转到对应的https页面。</p>
 <p>文章来源：百度官方站长平台,原文地址：<a class="wp-editor-md-post-content-link" href="https://zhanzhang.baidu.com/wiki/392">http://zhanzhang.baidu.com/wiki/392</a></p>
-<h3>9.2. 百度spider工程师给https站点的技术建议(11月16日更新)</h3>
+<h3><span id="92_spiderhttps1116">9.2. 百度spider工程师给https站点的技术建议(11月16日更新)</span></h3>
 <p>核心摘录：</p>
 <p>“全面支持https页面直接收录”；</p>
 <p>“百度搜索引擎认为权值相同的站点，<strong>采用https协议的页面更加安全，排名上会优先对待</strong>。”；</p>
 <p>“链接提交工具的sitemap工具已也支持站长提交https数据”；</p>
 <p>文章来源：百度官方站长平台,原文地址：<a class="wp-editor-md-post-content-link" href="https://zhanzhang.baidu.com/college/articleinfo?id=489">http://zhanzhang.baidu.com/college/articleinfo?id=489</a></p>
-<h3>9.3. http协议逐步被弃用</h3>
+<h3><span id="93_http">9.3. http协议逐步被弃用</span></h3>
 <p>http协议是互联网建立初期的一种超文本传输协议，传统的HTTP明文传输模式，存在着大量的灰色中间环节，明文信息在中间代理服务器、路由器、wifi热点、通信服务运营商等层层节点中转，每一层都有可能导致传输数据被窃取或被第三方篡改，http协议已经被认为是非常不安全的传输协议。</p>
 <p>HTTPS加密协议，在用户浏览器与服务器之间建立SSL加密通道，将数据加密后传输，大大降低了被第三方窃取或篡改的风险。搜索引擎厂商以及浏览器厂商都纷纷提出弃用http的计划，支持https全网化。</p>
 <p><strong>· 百度搜索引擎</strong></p>
@@ -403,7 +443,7 @@
 <p>火狐安全团队负责人Richard Barnes公开表示，将会逐步淘汰“不安全”的HTTP协议。</p>
 <p><strong>· 谷歌浏览器</strong></p>
 <p>年初，谷歌发布了最新版本Chrome浏览器的测试版本，该版本可在用户试图打开没有使用https加密传输的连接时向用户发出明确警告，用户将会在地址栏左侧看到红色“X”符号。</p>
-<h2>10. 为保护用户隐私安全,谷歌优先索引HTTPS网页</h2>
+<h2><span id="10_HTTPS">10. 为保护用户隐私安全,谷歌优先索引HTTPS网页</span></h2>
 <p>摘要：近日，为进一步保护用户隐私信息安全，谷歌宣布将搜索结果优先指向<strong>HTTPS 网页</strong>。此举旨在鼓励全球网站采用安全度更高的HTTPS加密通讯以保证访客安全。在去年谷歌已经调整其搜索引擎算法，采用<a class="wp-editor-md-post-content-link" href="https://www.wosign.com/">HTTPS加密</a>的网站在搜索结果中的排名将会更高。</p>
 <p>谷歌本周宣布将调整搜索引擎的索引系统，以HTTPS网页为优先索引对象。当谷歌发现两个拥有同样内容但分别采用HTTP与HTTPS不同协议时，就算没有其他网站链接到该HTTPS网页，谷歌也会优先索引基于HTTPS的网页，此举意味着谷歌搜索结果所出现的HTTPS网页比例将会迅速增长。<br>
 过去几年来，谷歌已相继将全球的谷歌搜索首页、Gmail及YouTube从未加密的HTTP协议改为加密的HTTPS协议，并在去年8月提高HTTPS网页的搜索排名。<br>
@@ -441,7 +481,7 @@
       <span class="xshare-title">分享到：</span>
             <a etap="share" data-share="qq" class="share-qq"><i class="fa fa-qq"></i></a>
       <a etap="share" data-share="weibo" class="share-weibo"><i class="fa fa-weibo"></i></a>
-              <a href="javascript:;" class="btn-bigger-cover share-weixin" data-nonce="710c66f345" data-id="41" data-action="create-bigger-image" id="bigger-cover"><i class="fa fa-paper-plane"></i></a>
+              <a href="javascript:;" class="btn-bigger-cover share-weixin" data-nonce="55a80f60af" data-id="41" data-action="create-bigger-image" id="bigger-cover"><i class="fa fa-paper-plane"></i></a>
         </div>
    
 </div>    </div>
@@ -466,7 +506,7 @@
                   <div class="entry-media">
     <div class="placeholder" style="padding-bottom: 66.666666666667%;">
       <a target="_blank" href="https://blog.lixypro.com/diannaojichu/dns-over-tls-collection-how-to-set-up-a-more-secure-dns.html">
-        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/uploads/2021/04/1618048229-9b8d05929b6de56.jpg&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="DNS-over-TLS 收集，如何设置一个更安全的 DNS？">  
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618048229-9b8d05929b6de56.jpg" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="DNS-over-TLS 收集，如何设置一个更安全的 DNS？">  
       </a>
             <div class="cao-cover">
 <img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" width="50" height="50px"></noscript>
@@ -606,8 +646,8 @@
 </div>
 <script>
     console.log("\n %c RiPro V7.1.0 %c https://blog.lixypro.com \n\n", "color: #fadfa3; background: #030307; padding:5px 0;", "background: #fadfa3; padding:5px 0;");
-    console.log("SQL 请求数：66");
-    console.log("页面生成耗时： 0.31973");
+    console.log("SQL 请求数：65");
+    console.log("页面生成耗时： 0.32625");
 </script>
 
 

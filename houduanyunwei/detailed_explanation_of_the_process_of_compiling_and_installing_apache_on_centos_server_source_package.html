@@ -124,17 +124,38 @@
             <div class="entry-content u-text-format u-clearfix">
         <p>Apache 起初由伊利诺伊大学香槟分校的国家超级电脑应用中心（NCSA）开发。此后，Apache 被开放源代码团体的成员不断的发展和加强。Apache 服务器拥有牢靠可信的美誉，已用在超过半数的因特网站中－特别是几乎所有最热门和访问量最大的网站。</p>
 <p>开始，Apache只是Netscape网页服务器（现在是Sun ONE）之外的开放源代码选择。渐渐的，它开始在功能和速度超越其他的基于Unix的HTTP服务器。1996年4月以来，Apache一直是Internet上最流行的HTTP服务器: 1999年5月它在 57% 的网页服务器上运行；到了2005年7月这个比例上升到了69%。在2005年11月的时候达到接近70％的市占率，不过随着拥有大量域名数量的主机域名商转换为微软IIS平台，Apache市占率近年来呈现些微下滑。而Google自己的网页服务器平台GWS推出后，加上Lighttpd这 个轻量化网页服务器软件使用的网站慢慢增加，反应在整体网页服务器市占率上，根据netcraft在2007年7月的最新统计数据，Apache的市占率 已经降为52.65％，8月时又滑落到50.92％。尽管如此，它仍旧是现阶段因特网市场上，市占率最高的网页服务器软件。</p>
-<h2>Apache编译安装和Apache RPm安装区别</h2>
+<div id="toc_container" class="no_bullets">
+<p class="toc_title">Contents</p>
+<ul class="toc_list">
+<li><a href="#ApacheApache_RPm"><span class="toc_number toc_depth_1">1</span> Apache编译安装和Apache RPm安装区别</a></li>
+<li>
+<a href="#Apache"><span class="toc_number toc_depth_1">2</span> 安裝Apache工作开始</a><ul>
+<li>
+<a href="#apache"><span class="toc_number toc_depth_2">2.1</span> 安装前的系统需求（apache依賴一些其他的包）</a><ul>
+<li><a href="#wget"><span class="toc_number toc_depth_3">2.1.1</span> wget安装（必备）</a></li>
+<li><a href="#GCC"><span class="toc_number toc_depth_3">2.1.2</span> GCC和各种编译工具(依赖包)</a></li>
+<li><a href="#Apache-2"><span class="toc_number toc_depth_3">2.1.3</span> 下载Apache源码包</a></li>
+<li><a href="#APR_and_APR-Util"><span class="toc_number toc_depth_3">2.1.4</span> 下载APR and APR-Util</a></li>
+</ul>
+</li>
+<li>
+<a href="#Apache-3"><span class="toc_number toc_depth_2">2.2</span> 安装Apache</a><ul><li><a href="#i"><span class="toc_number toc_depth_3">2.2.1</span> 启动</a></li></ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<h2><span id="ApacheApache_RPm">Apache编译安装和Apache RPm安装区别</span></h2>
 <p>编译安装：指的是将源码包编成二进制文件。<br>
 优点：可以自行调整编译参数。自己可以调整需要的结果，也比较安全。<br>
 缺点：安装较为复杂。需要调试参数，维护也比较麻烦。</p>
 <p>RPM：指的是把已经编译好的二进制文件。安装到对应的目录。<br>
 优点：安装快捷。方便。<br>
 缺点：卸载的时候可能会出现问题，卸载时有时把依赖包可能直接卸载掉，导致影响其他的程序不能正常使用。</p>
-<h2>安裝Apache工作开始</h2>
-<h3>安装前的系统需求（apache依賴一些其他的包）</h3>
+<h2><span id="Apache">安裝Apache工作开始</span></h2>
+<h3><span id="apache">安装前的系统需求（apache依賴一些其他的包）</span></h3>
 <p>下载apache源码包，但是你如果直接编译安装，会报错，原因是apache依赖一些其他的包，但是我们的机子上并没有安装，所以我们要先下载一些apache依赖的包。</p>
-<h4>wget安装（必备）</h4>
+<h4><span id="wget">wget安装（必备）</span></h4>
 <p><strong>wget</strong>是一个下载文件的工具，它用在命令行下。对于Linux用户是必不可少的工具，我们经常要下载一些软件或从远程服务器恢复备份到本地服务器。<br>
 wget支持HTTP，HTTPS和FTP协议，可以使用HTTP代理。所谓的自动下载是指，wget可以在用户退出系统的之后在后台执行。这意味这你可以登录系统，启动一个wget下载任务，然后退出系统，wget将在后台执行直到任务完成<br>
 wget 可以跟踪HTML页面上的链接依次下载来创建远程服务器的本地版本，完全重建原始站点的目录结构。这又常被称作”递归下载”。<br>
@@ -184,11 +205,11 @@ Running transaction
 完毕！
 [root@lixy ~]# 
 </code></pre>
-<h4>GCC和各种编译工具(依赖包)</h4>
+<h4><span id="GCC">GCC和各种编译工具(依赖包)</span></h4>
 <p>这个不用多说明了吧？必须要用的，复制进去运行就可以了！</p>
 <pre><code class="language-shell line-numbers">yum install make apr* autoconf automake gcc gcc-c++ zlib-devel openssl openssl-devel pcre-devel gd  kernel keyutils  patch  perl kernel-headers compat* mpfr cpp glibc libgomp libstdc++-devel ppl cloog-ppl keyutils-libs-devel libcom_err-devel libsepol-devel libselinux-devel krb5-devel zlib-devel libXpm* freetype libjpeg* libpng* php-common php-gd ncurses* libtool* libxml2 libxml2-devel patch expat-devel -y
 </code></pre>
-<h4>下载Apache源码包</h4>
+<h4><span id="Apache-2">下载Apache源码包</span></h4>
 <pre><code class="language-shell line-numbers">[root@lixy src]# wget http://apache.opencas.org//httpd/httpd-2.4.18.tar.gz
 --2020-02-14 07:56:01--  http://apache.opencas.org//httpd/httpd-2.4.18.tar.gz
 正在解析主机 apache.opencas.org (apache.opencas.org)... 失败：未知的名称或服务。
@@ -217,7 +238,7 @@ drwxr-xr-x. 12 root root     131 2月  13 18:16 ..
 又或者到<a class="wp-editor-md-post-content-link" href="http://www.apache.org/dyn/closer.cgi">官方自动识别系统</a>，系统会自动推荐出以你为中心，网络速度最优的地址，这招也是可以的。</p>
 <p>然后就是解压命令：<code>tar -zxvf ./httpd-2.4.38.tar.gz</code><br>
 解压完之后别动先，还有事情要做，请继续往下看。</p>
-<h4>下载APR and APR-Util</h4>
+<h4><span id="APR_and_APR-Util">下载APR and APR-Util</span></h4>
 <pre><code class="language-shell line-numbers">[root@lixy src]# wget https://mirrors.tuna.tsinghua.edu.cn/apache/apr/apr-1.6.5.tar.gz
 --2020-02-14 08:19:13--  https://mirrors.tuna.tsinghua.edu.cn/apache/apr/apr-1.6.5.tar.gz
 正在解析主机 mirrors.tuna.tsinghua.edu.cn (mirrors.tuna.tsinghua.edu.cn)... 101.6.8.193, 2402:f000:1:408:8100::1
@@ -303,7 +324,7 @@ drwxr-xr-x. 20 1001 1001 4096 10月 18 2017 apr-util
 /usr/local/src/httpd-2.4.38/srclib
 
 </code></pre>
-<h3>安装Apache</h3>
+<h3><span id="Apache-3">安装Apache</span></h3>
 <p>首先需要创建一个目录，这个目录就是安装Apache的位置；</p>
 <pre><code class="language-python line-numbers">[root@lixy local]# mkdir -p /usr/local/apache24
 </code></pre>
@@ -325,7 +346,7 @@ Apache.dsw       BuildAll.dsp     CHANGES       config.nice     docs           h
 <pre><code class="language-python line-numbers">[root@lixy httpd-2.4.38]# make &amp;&amp; make install
 </code></pre>
 <p>如果有错误，具体请谷歌或者百度，因为机器不同，环境不同，很多种玄学，你懂的</p>
-<h4>启动</h4>
+<h4><span id="i">启动</span></h4>
 <p><code>/usr/local/apache24/bin/apachectl -k star</code></p>
 <p>更多参考：<a class="wp-editor-md-post-content-link" href="https://httpd.apache.org/docs/2.4/install.html">官方说明</a></p>
       </div>
@@ -353,7 +374,7 @@ Apache.dsw       BuildAll.dsp     CHANGES       config.nice     docs           h
       <span class="xshare-title">分享到：</span>
             <a etap="share" data-share="qq" class="share-qq"><i class="fa fa-qq"></i></a>
       <a etap="share" data-share="weibo" class="share-weibo"><i class="fa fa-weibo"></i></a>
-              <a href="javascript:;" class="btn-bigger-cover share-weixin" data-nonce="db6c30d6b2" data-id="26" data-action="create-bigger-image" id="bigger-cover"><i class="fa fa-paper-plane"></i></a>
+              <a href="javascript:;" class="btn-bigger-cover share-weixin" data-nonce="6a73f243c0" data-id="26" data-action="create-bigger-image" id="bigger-cover"><i class="fa fa-paper-plane"></i></a>
         </div>
    
 </div>    </div>
@@ -377,32 +398,8 @@ Apache.dsw       BuildAll.dsp     CHANGES       config.nice     docs           h
               <article class="post">
                   <div class="entry-media">
     <div class="placeholder" style="padding-bottom: 66.666666666667%;">
-      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/explanation-dns-cache-poisoning-is-also-called-dns-spoofing.html">
-        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/themes/ripro/assets/images/thumb/1.jpg&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="解释:DNS缓存中毒也称为DNS欺骗">  
-      </a>
-            <div class="cao-cover">
-<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
-<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
-<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
-<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" width="50" height="50px"></noscript>
-</noscript>
-</noscript>
-</noscript>
-</div>
-          </div>
-      </div>
-                  <div class="entry-wrapper">
-                  
-  <header class="entry-header">    
-    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/explanation-dns-cache-poisoning-is-also-called-dns-spoofing.html" title="解释:DNS缓存中毒也称为DNS欺骗" rel="bookmark">解释:DNS缓存中毒也称为DNS欺骗</a></h4>  </header>                </div>
-              </article>
-            </div>
-                      <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
-              <article class="post">
-                  <div class="entry-media">
-    <div class="placeholder" style="padding-bottom: 66.666666666667%;">
       <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/use-firewalld-to-build-a-dynamic-firewall.html">
-        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/uploads/2021/04/1618139043-b6db0c73a979ae8.png&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Linux的FirewallD详细基础说明">  
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618139043-b6db0c73a979ae8.png" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Linux的FirewallD详细基础说明">  
       </a>
             <div class="cao-cover">
 <img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
@@ -425,8 +422,32 @@ Apache.dsw       BuildAll.dsp     CHANGES       config.nice     docs           h
               <article class="post">
                   <div class="entry-media">
     <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/iptables-for-linux-detailed-explanation-and-examples.html">
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618049585-9d70a7e2c2e0fdb.png" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="IPtables for Linux详解以及实例">  
+      </a>
+            <div class="cao-cover">
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
+<img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" width="50" height="50px"></noscript>
+</noscript>
+</noscript>
+</noscript>
+</div>
+          </div>
+      </div>
+                  <div class="entry-wrapper">
+                  
+  <header class="entry-header">    
+    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/iptables-for-linux-detailed-explanation-and-examples.html" title="IPtables for Linux详解以及实例" rel="bookmark">IPtables for Linux详解以及实例</a></h4>  </header>                </div>
+              </article>
+            </div>
+                      <div class="col-6 col-sm-3 col-md-3 mt-10 mb-10">
+              <article class="post">
+                  <div class="entry-media">
+    <div class="placeholder" style="padding-bottom: 66.666666666667%;">
       <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/the_role_of_configure_make_make_install.html">
-        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/themes/ripro/assets/images/thumb/1.jpg&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="configure,make,make install的作用">  
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618230220-c4ca4238a0b9238.jpg" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="configure,make,make install的作用">  
       </a>
             <div class="cao-cover">
 <img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
@@ -449,8 +470,8 @@ Apache.dsw       BuildAll.dsp     CHANGES       config.nice     docs           h
               <article class="post">
                   <div class="entry-media">
     <div class="placeholder" style="padding-bottom: 66.666666666667%;">
-      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/iptables-for-linux-detailed-explanation-and-examples.html">
-        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/uploads/2021/04/1618049585-9d70a7e2c2e0fdb.png&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="IPtables for Linux详解以及实例">  
+      <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/dns-server-construction-and-configuration.html">
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618139491-b3bf60b851ebaeb.png" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="DNS服务器搭建与配置">  
       </a>
             <div class="cao-cover">
 <img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
@@ -466,7 +487,7 @@ Apache.dsw       BuildAll.dsp     CHANGES       config.nice     docs           h
                   <div class="entry-wrapper">
                   
   <header class="entry-header">    
-    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/iptables-for-linux-detailed-explanation-and-examples.html" title="IPtables for Linux详解以及实例" rel="bookmark">IPtables for Linux详解以及实例</a></h4>  </header>                </div>
+    <h4 class="entry-title"><a target="_blank" href="https://blog.lixypro.com/houduanyunwei/dns-server-construction-and-configuration.html" title="DNS服务器搭建与配置" rel="bookmark">DNS服务器搭建与配置</a></h4>  </header>                </div>
               </article>
             </div>
                   </div>
@@ -596,8 +617,8 @@ Apache.dsw       BuildAll.dsp     CHANGES       config.nice     docs           h
 </div>
 <script>
     console.log("\n %c RiPro V7.1.0 %c https://blog.lixypro.com \n\n", "color: #fadfa3; background: #030307; padding:5px 0;", "background: #fadfa3; padding:5px 0;");
-    console.log("SQL 请求数：67");
-    console.log("页面生成耗时： 0.32134");
+    console.log("SQL 请求数：68");
+    console.log("页面生成耗时： 0.32277");
 </script>
 
 

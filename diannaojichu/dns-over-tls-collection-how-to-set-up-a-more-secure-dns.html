@@ -139,20 +139,49 @@
 <li>经常性地遇到有些页面打不开（无法解析这个网址），但是过了一会儿又好了。</li>
 </ul>
 <p>这些问题很多时候都是和你家的 DNS 设置有关系。</p>
-<h2>1. 为什么会发生这些问题</h2>
+<div id="toc_container" class="no_bullets">
+<p class="toc_title">Contents</p>
+<ul class="toc_list">
+<li><a href="#1"><span class="toc_number toc_depth_1">1</span> 1. 为什么会发生这些问题</a></li>
+<li>
+<a href="#2_DNS"><span class="toc_number toc_depth_1">2</span> 2. 利用公共 DNS 服务来解决这个问题</a><ul><li>
+<a href="#21"><span class="toc_number toc_depth_2">2.1</span> 2.1. 小知识：怎么快速知道我到某个服务器之间的延迟？🤔</a><ul><li><a href="#211_ping"><span class="toc_number toc_depth_3">2.1.1</span> 2.1.1. 使用 ping 指令</a></li></ul>
+</li></ul>
+</li>
+<li>
+<a href="#3_DNS"><span class="toc_number toc_depth_1">3</span> 3. 利用安全的公共 DNS 服务解决这个问题</a><ul>
+<li><a href="#31_DNS"><span class="toc_number toc_depth_2">3.1</span> 3.1. 红鱼 DNS展开目录</a></li>
+<li><a href="#32_Google_DNS"><span class="toc_number toc_depth_2">3.2</span> 3.2. Google DNS展开目录</a></li>
+<li><a href="#33_1111"><span class="toc_number toc_depth_2">3.3</span> 3.3. 1.1.1.1展开目录</a></li>
+<li><a href="#34_Quad9"><span class="toc_number toc_depth_2">3.4</span> 3.4. Quad9展开目录</a></li>
+<li><a href="#35_CleanBrowsing"><span class="toc_number toc_depth_2">3.5</span> 3.5. CleanBrowsing展开目录</a></li>
+<li><a href="#36_Blah_DNS"><span class="toc_number toc_depth_2">3.6</span> 3.6. Blah DNS展开目录</a></li>
+<li><a href="#37_GeekDNS"><span class="toc_number toc_depth_2">3.7</span> 3.7. GeekDNS展开目录</a></li>
+</ul>
+</li>
+<li>
+<a href="#4_DoH_DoT"><span class="toc_number toc_depth_1">4</span> 4. 我应该怎么使用 DoH 和 DoT 技术</a><ul>
+<li><a href="#41_Firefox_DNS"><span class="toc_number toc_depth_2">4.1</span> 4.1. 通过 Firefox 使用安全的公共 DNS 服务器</a></li>
+<li><a href="#42_Chrome_DNS"><span class="toc_number toc_depth_2">4.2</span> 4.2. 通过 Chrome使用安全的公共 DNS 服务器</a></li>
+</ul>
+</li>
+<li><a href="#5"><span class="toc_number toc_depth_1">5</span> 5. 完结</a></li>
+</ul>
+</div>
+<h2><span id="1">1. 为什么会发生这些问题</span></h2>
 <p>只要你接入了互联网，互联网服务提供商（也被称为 ISP，以下简称： 运营商）都会下发两个 DNS 给你，这个就是运营商 DNS。</p>
 <p>和电话对应起来，<strong>DNS 服务器则将网址和 IP 对应起来</strong>。随着互联网技术的日新月异，DNS 服务器也经过了一段漫长的发展，衍生出了更多更棒的功能，让用户能自由地在网上冲浪。</p>
 <p>每个运营商在几乎在每个城市都会部署自己的独立的 DNS 服务器，这也是为什么同一个运营商在不同城市分发下来的 DNS 服务器的地址也都不一样。加上运营商是最了解 <a class="wp-editor-md-post-content-link" href="https://www.zhihu.com/question/36514327?rf=37353035">内容分发网络</a>（也就是我们经常说的 CDN，CDN 主要起到两大作用，第一个是能让用户用最快的速度访问到用户想要访问的内容，第二点是能减少主服务器的所需要的带宽和维护成本）的位置和自家网络的情况，所以运营商 DNS 返回的结果应该是：<strong>最准确的、最合适的，响应时间短的以及 CDN 解析结果最准确的</strong>，简单来说就是：你能快速访问到<strong>位于你附近</strong>的有你想要访问到内容的服务器。</p>
 <p>中国电信的路由表-图源 <a class="wp-editor-md-post-content-link" href="http://bgp.he.net/">http://bgp.he.net</a></p>
 <p>在每个城市都要维护一个 DNS 服务器开销自然不会小到那里去，所以运营商经常在 DNS 结果上进行改动，发生文章开头所说的问题。运营商那么做主要是为了减少成本。当然还有种情况是附近的 DNS 服务器没有及时扩容或者维护不善，导致了上述的情况。</p>
-<h2>2. 利用公共 DNS 服务来解决这个问题</h2>
+<h2><span id="2_DNS">2. 利用公共 DNS 服务来解决这个问题</span></h2>
 <p><a class="wp-editor-md-post-content-link" href="https://blog.lixypro.com/wp-content/uploads/2021/04/1618047771-cda495b91253a6b.jpg"><img class="lazyload " src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="https://blog.lixypro.com/wp-content/uploads/2021/04/1618047771-cda495b91253a6b.jpg" alt="公共 DNS 服务"><noscript>
 <img alt="公共 DNS 服务" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618047771-cda495b91253a6b.jpg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618047771-cda495b91253a6b.jpg" alt="公共 DNS 服务"></noscript>
 </noscript></a></p>
 <p>解决上述这个问题的最快的办法就是使用<strong>公共 DNS 服务</strong>。</p>
 <p>公共 DNS 服务器一般是由大公司搭建的，或者非盈利组织搭建的。公共 DNS 的本质上就是把你的查询请求转发给上游更权威的 DNS，所以一般这些公司或者组织提供的公共 DNS 服务器提供都是更安全、更准确的结果。当然由于资金限制，公共 DNS 服务器不会每个城市都有一个。自然就会遇到使用公共 DNS 服务解析到的 IP 不是最快的情况。</p>
-<h3>2.1. 小知识：怎么快速知道我到某个服务器之间的延迟？🤔</h3>
-<h4>2.1.1. 使用 ping 指令</h4>
+<h3><span id="21">2.1. 小知识：怎么快速知道我到某个服务器之间的延迟？🤔</span></h3>
+<h4><span id="211_ping">2.1.1. 使用 ping 指令</span></h4>
 <p><code>ping</code> 是一种计算机网络工具，用来测试数据包能否透过IP协议到达特定主机。按时间和成功响应的次数估算丢失数据包率（丢包率）和数据包往返时间（网络时延，Round-trip delay time）</p>
 <p><strong>ping 会直接附带在任何的操作系统的内置终端（或者命令提示符）中</strong>，使用时，用户只需要使用 <code>ping +网址/IP 地址</code>(如 <code>ping 17.253.84.251</code>）并敲击回车即可得到结果。</p>
 <p>因此，我们在挑选公共 DNS 的时候，要注意以下方面：</p>
@@ -164,40 +193,40 @@
 <li>DNS 出口位置： 在没有 ECS 的情况下，CDN 的权威 DNS 会根据公共 DNS 使用的请求 IP（也就是 DNS 出口）来判定你的运营商、你所在的位置，从而返回距离你最近的节点 IP。在有 ECS 的情况下，返回结果的所需要的时间会更低，CDN 判断会更准确。</li>
 </ul>
 <p>受限于篇幅限制，下图只介绍符合 RFC 规范的（排除 IBM Quad9 DNS），拥有多个响应地点的（排除 360 公共 DNS）大型的，准确性也相对较好的（不会刻意投毒的），更重要的是 <strong>CDN 友好型的</strong> 公共 DNS 服务。延迟则由各个地方各个运营商决定，请自行测试。</p>
-<h2>3. 利用安全的公共 DNS 服务解决这个问题</h2>
+<h2><span id="3_DNS">3. 利用安全的公共 DNS 服务解决这个问题</span></h2>
 <p>不过在一部分 DNS 问题严重的地方，将运营商 DNS 更换为公共 DNS 可能还是不能解决本文开头的问题。</p>
 <p>这是因为<strong>我们的 DNS 流量没有经过加密</strong>，就和曾经的 http 协议一样，运营商或是第三方还是能够清楚的知道：我们发起了一个 DNS 请求，我们想要知道 xxx 网站的地址。如果我们给我们的 DNS 流量加个密，就和 https 流量一样，那么运营商不就不知道我们我们的 DNS 请求了吗。这就是 <strong>DNS over HTTPS</strong> (下文简称 <strong>DoH</strong> )和 <strong>DNS over TLS</strong> (下文简称 <strong>DoT</strong> )技术要做的事。他们分别利用 HTTPS （<a class="wp-editor-md-post-content-link" href="https://baike.baidu.com/item/%25E8%25B6%2585%25E6%2596%2587%25E6%259C%25AC%25E4%25BC%25A0%25E8%25BE%2593%25E5%25AE%2589%25E5%2585%25A8%25E5%258D%258F%25E8%25AE%25AE">超文本传输安全协议</a><a class="wp-editor-md-post-content-link" href="https://baike.baidu.com/item/%25E8%25B6%2585%25E6%2596%2587%25E6%259C%25AC%25E4%25BC%25A0%25E8%25BE%2593%25E5%25AE%2589%25E5%2585%25A8%25E5%258D%258F%25E8%25AE%25AE"></a>）和 TLS（<a class="wp-editor-md-post-content-link" href="https://baike.baidu.com/item/%25E4%25BC%25A0%25E8%25BE%2593%25E5%25B1%2582%25E5%25AE%2589%25E5%2585%25A8%25E5%258D%258F%25E8%25AE%25AE">传输层安全协议</a>）这两种行业通用的安全协议，将我们的 DNS 请求发往 DNS 服务器。运营商或是第三方在整个传输过程中，只能知道发起者和目的地，除此以外别的什么都知道，甚至都不知道你发起了 DNS 请求。同时 HTTPS 和 TLS 都会使用网络数字证书确保对面的身份，这样传输的<strong>过程中</strong>无论是任何第三方都不能修改 DNS 的请求内容和最后的结果。保证你请求的结果就是你最后想要的。DoH 和 DoT 不仅能为经常被运营商和第三方劫持 DNS 的人群提供安全可靠的 DNS 解析结果，还能给极为看重隐私人群补上上网隐私保护流程中的最后一块短板。</p>
 <p><a class="wp-editor-md-post-content-link" href="https://blog.lixypro.com/wp-content/uploads/2021/04/1618048229-9b8d05929b6de56.jpg"><img class="lazyload " src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="https://blog.lixypro.com/wp-content/uploads/2021/04/1618048229-9b8d05929b6de56.jpg" alt="安全的公共 DNS 服务"><noscript>
 <img alt="安全的公共 DNS 服务" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618048229-9b8d05929b6de56.jpg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618048229-9b8d05929b6de56.jpg" alt="安全的公共 DNS 服务"></noscript>
 </noscript></a></p>
-<h3>3.1. 红鱼 DNS展开目录</h3>
+<h3><span id="31_DNS">3.1. 红鱼 DNS展开目录</span></h3>
 <p>官网:<a class="wp-editor-md-post-content-link" href="http://www.rubyfish.cn/">www.rubyfish.cn</a></p>
 <p>DNS-over-TLS 地址:</p>
 <pre><code class="language-shell line-numbers">dns.rubyfish.cn
 
 </code></pre>
 <p>这是我唯一知道的一个服务器位于国内的公共 DNS 提供 DNS-over-TLS（缩写为 DoT）和 DNS-over-HTTPS（缩写为 DoH）服务</p>
-<h3>3.2. Google DNS展开目录</h3>
+<h3><span id="32_Google_DNS">3.2. Google DNS展开目录</span></h3>
 <p>DNS-over-TLS 地址:</p>
 <pre><code class="language-shell line-numbers">dns.google.com
 
 </code></pre>
 <p>这个我相信应该是大家相当收悉的一个 DNS 了不用什么过多的介绍了吧？</p>
-<h3>3.3. 1.1.1.1展开目录</h3>
+<h3><span id="33_1111">3.3. 1.1.1.1展开目录</span></h3>
 <p>官网:<a class="wp-editor-md-post-content-link" href="https://cloudflare-dns.com/">cloudflare-dns.com</a></p>
 <p>DNS-over-TLS 地址:</p>
 <pre><code class="language-shell line-numbers">1dot1dot1dot1.cloudflare-dns.com
 
 </code></pre>
 <p>是 Cloudflare 与 APNIC 的合作项目官方宣称无记录。即使 Cloudflare 运营着全球规模最大、速度最快的网络，但是到了中国就卡的不行了，我家 Ping 他们的 DNS 一直是 100ms 左右~（又不是不能用）~。支持 DNS-over-HTTPS 和 DNS-over-TLS</p>
-<h3>3.4. Quad9展开目录</h3>
+<h3><span id="34_Quad9">3.4. Quad9展开目录</span></h3>
 <p>官网:<a class="wp-editor-md-post-content-link" href="http://www.quad9.net/">www.quad9.net</a><br>
 DNS-over-TLS 地址:</p>
 <pre><code class="language-shell line-numbers">dns.quad9.net
 
 </code></pre>
 <p>这是蓝色巨人 IBM 提供的公共 DNS 支持 DNS-over-HTTPS 和 DNS-over-TLS，比 1.1.1.1 的响应时间还要⑨我家这边经常 300ms 上下</p>
-<h3>3.5. CleanBrowsing展开目录</h3>
+<h3><span id="35_CleanBrowsing">3.5. CleanBrowsing展开目录</span></h3>
 <p>官网:<a class="wp-editor-md-post-content-link" href="https://cleanbrowsing.org/">cleanbrowsing.org</a><br>
 DNS-over-TLS 地址:</p>
 <pre><code class="language-shell line-numbers">security-filter-dns.cleanbrowsing.org
@@ -206,7 +235,7 @@ adult-filter-dns.cleanbrowsing.org
 
 </code></pre>
 <p>CleanBrowsing 可以阻止访问成人网站、钓鱼网站、垃圾邮件、阻止代理，但是这玩意是付费的还 5 美元起在国内速度也不怎么样</p>
-<h3>3.6. Blah DNS展开目录</h3>
+<h3><span id="36_Blah_DNS">3.6. Blah DNS展开目录</span></h3>
 <p>官网:<a class="wp-editor-md-post-content-link" href="http://blahdns.com/">blahdns.com</a><br>
 DNS-over-TLS 地址:</p>
 <pre><code class="language-shell line-numbers">dot-jp.blahdns.com
@@ -214,7 +243,7 @@ dot-de.blahdns.com
 
 </code></pre>
 <p>Blah DNS 是朋友告诉我的一个公共 DNS 服务听朋友说可以阻止广告，有日本和德国台 DNS 服务器支持 DNS-over-HTTPS 和 DNS-over-TLS 还有 DNSCrypt v2，虽然我并不知道这个 DNS 是怎么样的（上面只测了日本节点）</p>
-<h3>3.7. GeekDNS展开目录</h3>
+<h3><span id="37_GeekDNS">3.7. GeekDNS展开目录</span></h3>
 <p>官网:<a class="wp-editor-md-post-content-link" href="http://dns.233py.com/">dns.233py.com</a><br>
 DNS-over-TLS 地址:</p>
 <pre><code class="language-shell line-numbers">edns.233py.com
@@ -230,12 +259,12 @@ hk-dns.233py.com
 <p><a class="wp-editor-md-post-content-link" href="https://blog.lixypro.com/wp-content/uploads/2021/04/1618048229-9b8d05929b6de56.jpg"><img class="lazyload " src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="https://blog.lixypro.com/wp-content/uploads/2021/04/1618048229-9b8d05929b6de56.jpg" alt="目前支持 DoH 或者 DoT 的 DNS 服务器列表"><noscript>
 <img alt="目前支持 DoH 或者 DoT 的 DNS 服务器列表" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618048229-9b8d05929b6de56.jpg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618048229-9b8d05929b6de56.jpg" alt="目前支持 DoH 或者 DoT 的 DNS 服务器列表"></noscript>
 </noscript></a></p>
-<h2>4. 我应该怎么使用 DoH 和 DoT 技术</h2>
-<h3>4.1. 通过 Firefox 使用安全的公共 DNS 服务器</h3>
+<h2><span id="4_DoH_DoT">4. 我应该怎么使用 DoH 和 DoT 技术</span></h2>
+<h3><span id="41_Firefox_DNS">4.1. 通过 Firefox 使用安全的公共 DNS 服务器</span></h3>
 <p>对于完全不熟悉终端命令的用户来说，现在想在 macOS 或者 Windows 上得到安全可靠的解析，那么 Firefox 浏览器是目前唯一的选择，前往 Firefox 的设置，<code>常规</code>&#8211;<code>网络设置</code>&#8211;<code>设置</code>，选择<code>启用基于 HTTPS 的 DNS</code>，这样就打开了 Firefox 上的 DoH 服务了。</p>
-<h3>4.2. 通过 Chrome使用安全的公共 DNS 服务器</h3>
+<h3><span id="42_Chrome_DNS">4.2. 通过 Chrome使用安全的公共 DNS 服务器</span></h3>
 <p>当然，用户基数更大的 Chrome 在未来也会在实验性设置里提供对应的选项（本文写作时 Chrome 正式版本为 77，从 78 版本开始将在实验性设置里提供对应的选项，78 正式版本将在 10 月 22 日推送）。<code>打开你的 Chrome，在地址栏中输入 chrome://flags/#dns-over-https，回车，在右侧下拉箭头中选择 Enable。</code>这样就打开了 Chrome 78 上的 DoH 服务了。</p>
-<h2>5. 完结</h2>
+<h2><span id="5">5. 完结</span></h2>
 <p>以上就是这篇文章的所有内容了，希望能够让你能够了解到目前的 DNS 的发展情况，并帮助到因为 DNS 被劫持或是默认 DNS 不那么好用，备受苦恼的你。<br>
 本文经过网络上部分文章作为参考对象，如果又侵权等行为，请联系我，我会作出修改或者删除，谢谢</p>
 <p>部分参考链接：<br>
@@ -289,7 +318,7 @@ hk-dns.233py.com
       <span class="xshare-title">分享到：</span>
             <a etap="share" data-share="qq" class="share-qq"><i class="fa fa-qq"></i></a>
       <a etap="share" data-share="weibo" class="share-weibo"><i class="fa fa-weibo"></i></a>
-              <a href="javascript:;" class="btn-bigger-cover share-weixin" data-nonce="8126bf1f93" data-id="30" data-action="create-bigger-image" id="bigger-cover"><i class="fa fa-paper-plane"></i></a>
+              <a href="javascript:;" class="btn-bigger-cover share-weixin" data-nonce="86196886e7" data-id="30" data-action="create-bigger-image" id="bigger-cover"><i class="fa fa-paper-plane"></i></a>
         </div>
    
 </div>    </div>
@@ -314,7 +343,7 @@ hk-dns.233py.com
                   <div class="entry-media">
     <div class="placeholder" style="padding-bottom: 66.666666666667%;">
       <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/explanation-dns-cache-poisoning-is-also-called-dns-spoofing.html">
-        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/themes/ripro/assets/images/thumb/1.jpg&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="解释:DNS缓存中毒也称为DNS欺骗">  
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618230220-c4ca4238a0b9238.jpg" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="解释:DNS缓存中毒也称为DNS欺骗">  
       </a>
             <div class="cao-cover">
 <img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
@@ -336,7 +365,7 @@ hk-dns.233py.com
                   <div class="entry-media">
     <div class="placeholder" style="padding-bottom: 66.666666666667%;">
       <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/dns-server-construction-and-configuration.html">
-        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/uploads/2021/04/1618139491-b3bf60b851ebaeb.png&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="DNS服务器搭建与配置">  
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618139491-b3bf60b851ebaeb.png" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="DNS服务器搭建与配置">  
       </a>
             <div class="cao-cover">
 <img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
@@ -358,7 +387,7 @@ hk-dns.233py.com
                   <div class="entry-media">
     <div class="placeholder" style="padding-bottom: 66.666666666667%;">
       <a target="_blank" href="https://blog.lixypro.com/houduanyunwei/the-difference-and-introduction-between-http-and-https-and-ssl-and-tls.html">
-        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/uploads/2021/04/1618140921-5e056c500a1c4b6.png&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="HTTP与HTTPS与SSL与TLS的区别以及介绍">  
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618140921-5e056c500a1c4b6.png" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="HTTP与HTTPS与SSL与TLS的区别以及介绍">  
       </a>
             <div class="cao-cover">
 <img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript>
@@ -502,8 +531,8 @@ hk-dns.233py.com
 </div>
 <script>
     console.log("\n %c RiPro V7.1.0 %c https://blog.lixypro.com \n\n", "color: #fadfa3; background: #030307; padding:5px 0;", "background: #fadfa3; padding:5px 0;");
-    console.log("SQL 请求数：69");
-    console.log("页面生成耗时： 0.32255");
+    console.log("SQL 请求数：68");
+    console.log("页面生成耗时： 0.32332");
 </script>
 
 

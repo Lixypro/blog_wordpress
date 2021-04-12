@@ -2604,7 +2604,7 @@ div.wpcf7-response-output {
 }
 
 .header-top .zuanshi {
-    background: url(https://blog.lixypro.com/wp-content/themes/ripro/assets/img/header/zuanshi.svg) no-repeat center;
+    background: url(../img/header/zuanshi.svg) no-repeat center;
     width: 15px;
     height: 15px;
     display: -webkit-inline-box;
@@ -2615,7 +2615,7 @@ div.wpcf7-response-output {
     margin-left: 5px
 }
 .header-top .zuanshi.is-vip{
-    background: url(https://blog.lixypro.com/wp-content/themes/ripro/assets/img/header/zuanshi_vip.svg) no-repeat center;
+    background: url(../img/header/zuanshi_vip.svg) no-repeat center;
     background-size: contain;
 }
 .header-top .fa-user-crown{
@@ -2874,23 +2874,23 @@ div.wpcf7-response-output {
 }
 
 .header-bottom li i.ico_1 {
-    background-image: url(https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/shoucang.svg)
+    background-image: url(../images/svg/shoucang.svg)
 }
 
 .header-bottom li i.ico_2 {
-    background-image: url(https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/xiangmu.svg)
+    background-image: url(../images/svg/xiangmu.svg)
 }
 
 .header-bottom li i.ico_3 {
-    background-image: url(https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/anquan.svg)
+    background-image: url(../images/svg/anquan.svg)
 }
 
 .header-bottom li i.ico_4 {
-    background-image: url(https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/dingdan.svg)
+    background-image: url(../images/svg/dingdan.svg)
 }
 
 .header-bottom li i.ico_5 {
-    background-image: url(https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/xiazai.svg)
+    background-image: url(../images/svg/xiazai.svg)
 }
 
 
@@ -9152,7 +9152,7 @@ input[type=range] {
     width: 40px;
     height: 100%;
     vertical-align: middle;
-    background: url(https://blog.lixypro.com/wp-content/themes/ripro/assets/icons/alic.png) center no-repeat;
+    background: url(../icons/alic.png) center no-repeat;
 }
 
 .swal2-popup .pay-button-box .pay-item i.weixinpay {
@@ -9160,7 +9160,7 @@ input[type=range] {
     width: 40px;
     height: 100%;
     vertical-align: middle;
-    background: url(https://blog.lixypro.com/wp-content/themes/ripro/assets/icons/wxc.png) center no-repeat;
+    background: url(../icons/wxc.png) center no-repeat;
 }
 
 .swal2-popup .pay-button-box .pay-item i.yecpay {
@@ -9168,7 +9168,7 @@ input[type=range] {
     width: 40px;
     height: 100%;
     vertical-align: middle;
-    background: url(https://blog.lixypro.com/wp-content/themes/ripro/assets/icons/yec.png) center no-repeat;
+    background: url(../icons/yec.png) center no-repeat;
 }
 
 .swal2-popup .pay-button-box .pay-item:hover {

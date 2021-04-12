@@ -16,7 +16,7 @@
 	<meta property="og:locale" content="zh_CN">
 	<meta property="og:type" content="article">
 	<meta property="og:title" content="万字长文,什么是React,自学入门专用详细文档 - Lixypro博客">
-	<meta property="og:description" content="万字长文,什么是React,自学入门专用详细文档 什么是React？ React 是 [&hellip;]">
+	<meta property="og:description" content="Contents1 万字长文,什么是React,自学入门专用详细文档1.1 什么是R [&hellip;]">
 	<meta property="og:url" content="https://blog.lixypro.com/qianduansixiang/ten-thousand-characters-long-text-what-is-react-detailed-documentation-for-self-study-introduction.html">
 	<meta property="og:site_name" content="Lixypro博客">
 	<meta property="article:published_time" content="2021-04-10T14:37:59+00:00">
@@ -126,11 +126,33 @@
 </div>  <div class="container">
     <div class="entry-wrapper">
             <div class="entry-content u-text-format u-clearfix">
-        <h1>万字长文,什么是<em>React</em>,自学入门专用详细文档</h1>
+        <div id="toc_container" class="no_bullets">
+<p class="toc_title">Contents</p>
+<ul class="toc_list"><li>
+<a href="#React"><span class="toc_number toc_depth_1">1</span> 万字长文,什么是React,自学入门专用详细文档</a><ul>
+<li><a href="#React-2"><span class="toc_number toc_depth_2">1.1</span> 什么是React？</a></li>
+<li>
+<a href="#React-3"><span class="toc_number toc_depth_2">1.2</span> React有什么优点？</a><ul>
+<li>
+<a href="#DOM"><span class="toc_number toc_depth_3">1.2.1</span> 虚拟DOM</a><ul>
+<li><a href="#DOM-2"><span class="toc_number toc_depth_4">1.2.1.1</span> 直接操作DOM为什么很慢？</a></li>
+<li><a href="#DOM-3"><span class="toc_number toc_depth_4">1.2.1.2</span> 虚拟DOM为什么很快？</a></li>
+</ul>
+</li>
+<li><a href="#i"><span class="toc_number toc_depth_3">1.2.2</span> 模板化</a></li>
+<li><a href="#i-2"><span class="toc_number toc_depth_3">1.2.3</span> 灵活</a></li>
+<li><a href="#React_Native"><span class="toc_number toc_depth_3">1.2.4</span> React Native</a></li>
+</ul>
+</li>
+<li><a href="#React-4"><span class="toc_number toc_depth_2">1.3</span> React缺点</a></li>
+</ul>
+</li></ul>
+</div>
+<h1><span id="React">万字长文,什么是<em>React</em>,自学入门专用详细文档</span></h1>
 <p><a class="wp-editor-md-post-content-link" href="https://blog.lixypro.com/wp-content/uploads/2021/04/1618133300-1e5facf40263759.png"><img class="lazyload " src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="https://blog.lixypro.com/wp-content/uploads/2021/04/1618133300-1e5facf40263759.png" alt="万字长文,什么是*React*,自学入门专用详细文档"><noscript>
 <img alt="万字长文,什么是*React*,自学入门专用详细文档" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618133300-1e5facf40263759.png" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618133300-1e5facf40263759.png" alt="万字长文,什么是*React*,自学入门专用详细文档"></noscript>
 </noscript></a></p>
-<h2>什么是<em>React</em>？</h2>
+<h2><span id="React-2">什么是<em>React</em>？</span></h2>
 <p><em>React</em> 是一个用于构建用户界面的 JAVASCRIPT 库。</p>
 <p><em>React</em> 主要用于构建UI，很多人认为 <em>React</em> 是 MVC 中的 V（视图）。</p>
 <p><em>React</em> 起源于 Facebook 的内部项目，用来架设 Instagram 的网站，并于 2013 年 5 月开源。</p>
@@ -150,8 +172,7 @@
 <li>组件 − 通过 <em>React</em> 构建组件，使得代码更加容易得到复用，能够很好的应用在大项目的开发中。</li>
 <li>单向响应的数据流 − <em>React</em> 实现了单向响应的数据流，从而减少了重复代码，这也是它为什么比传统数据绑定更简单。</li>
 </ul>
-<h2>
-<em>React</em>有什么优点？</h2>
+<h2><span id="React-3"><em>React</em>有什么优点？</span></h2>
 <ul>
 <li>
 <em>React</em>速度很快<br>
@@ -184,7 +205,7 @@ Flux是一个用于在JavaScript应用中创建单向数据层的架构，它随
 <li>学起来非常容易，几个小时就可以入门。</li>
 <li>因为强调只从this.props和this.state生成HTML，写起来bug比较少。</li>
 </ul>
-<h3>虚拟DOM</h3>
+<h3><span id="DOM">虚拟DOM</span></h3>
 <p>虚拟DOM。 当需要更改DOM树的状态时，虚拟DOM机制将比较同一事件循环前后的DOM树。 如果两个DOM树不同，那么<em>React</em>将只关注这些差异。 该区域执行响应式DOM修改以实现最有效的DOM操作和表示。</p>
 <p>例如，如果我们修改绑定到DOM树的某些节点或UI组件的状态，<em>React</em>将立即将其标记为“脏状态”。 在事件循环结束时，<em>React</em>将计算需要在DOM树上修改的位置及其最终状态，并将这些位置重新呈现一次。</p>
 <p>好处是显而易见的。 它不会在每次修改组件状态时重新呈现，而是在Event循环结束后进行计算以减少冗余DOM操作。 另外，<em>React</em>只为需要修改的地方制作新的渲染图，而不是重新渲染整个DOM树，这自然非常有效。</p>
@@ -197,20 +218,18 @@ Flux是一个用于在JavaScript应用中创建单向数据层的架构，它随
 <li>绘制（paint)：根据计算出的规则，通过显卡，将内容绘制在屏幕上。</li>
 </ul>
 <p>其中布局和绘制是两个非常耗时的过程。</p>
-<h4>直接操作DOM为什么很慢？</h4>
+<h4><span id="DOM-2">直接操作DOM为什么很慢？</span></h4>
 <p>直接对DOM对象进行操作，例如：在现有DOM树中新增节点，删除节点，或改变当前节点的位置和大小等，将引起浏览器的reflow操作；改变背景颜色，改变字体大小，将引起浏览器的repaint操作。这些操作都会增加耗时，降低浏览器渲染的性能。</p>
-<h4>虚拟DOM为什么很快？</h4>
+<h4><span id="DOM-3">虚拟DOM为什么很快？</span></h4>
 <p><em>React</em>的虚拟DOM，是一个存储于内存中的JavaScript对象，<em>React</em>先将页面发生的变化更新到虚拟DOM，每一次的变化都和上一次虚拟DOM的状态进行比较，找到变化的部分，最终raect会将包含了所有变化的虚拟DOM与真实DOM进行比较，找到DOM发生变化的部分，一次性应用到DOM上，从而提高页面渲染速度与性能。</p>
-<h3>模板化</h3>
+<h3><span id="i">模板化</span></h3>
 <p>组件可以嵌套或模板化-实际上，<em>React</em>中提到的“组件”通常是可以封装和重用的UI模块，可以理解为“在DOM区域具有良好UI功能的部分”。 然后我们可以逐层嵌套这些组件，当然，组件之间会有依赖关系。组件是<em>React</em>的核心，一个完整的<em>React</em>应用是由若干个组件搭建起来的，每个组件有自己的数据和方法，组件具体如何划分，需要根据不同的项目来确定。组件的特征是可复用，可维护性高。<br>
 至于模块化，类似于ejs，它可以用作要在页面上引用以供重用的独立模块。 它可以直接使用UI组件作为脚本模块。 它可以与CommonJS，AMD，CMD和其他规范一起使用，以需要必需的组件。 模块并处理它们的依赖关系，<em>React</em>自然受到某些开发人员的青睐。</p>
-<h3>灵活</h3>
+<h3><span id="i-2">灵活</span></h3>
 <p><em>React</em>只是MVC中的View层，自己无法构建大型的应用，需要与已有的框架和库来配合，如：、Flux（前端架构） 、Redux（状态管理）、Axios/Fetch（异步请求）等。</p>
-<h3>
-<em>React</em> Native</h3>
+<h3><span id="React_Native"><em>React</em> Native</span></h3>
 <p><em>React</em> Native 是使用JavaScript和<em>React</em>编写的原生移动应用，在设计原理上与<em>React</em>一致，通过声明式的组件机制来搭建丰富多彩的用户界面。<em>React</em> Native并不是“网页应用”或者说是“HTML5应用”又或者“是混合应用”，而是一个真正的移动应用。在使用感受上与C和JAVA编写的应用几乎是无法区分。<em>React</em> Native兼容了原生代码，应用的一部分用原生，一部分用<em>React</em> Native也是没问题的（如Facebook）。</p>
-<h2>
-<em>React</em>缺点</h2>
+<h2><span id="React-4"><em>React</em>缺点</span></h2>
 <ul>
 <li>本身只是View，如果是大型项目基本都需要加上<em>React</em> Router和Redux
 </li>
@@ -259,7 +278,7 @@ Flux是一个用于在JavaScript应用中创建单向数据层的架构，它随
       <span class="xshare-title">分享到：</span>
             <a etap="share" data-share="qq" class="share-qq"><i class="fa fa-qq"></i></a>
       <a etap="share" data-share="weibo" class="share-weibo"><i class="fa fa-weibo"></i></a>
-              <a href="javascript:;" class="btn-bigger-cover share-weixin" data-nonce="1087715ec6" data-id="57" data-action="create-bigger-image" id="bigger-cover"><i class="fa fa-paper-plane"></i></a>
+              <a href="javascript:;" class="btn-bigger-cover share-weixin" data-nonce="1593a1def9" data-id="57" data-action="create-bigger-image" id="bigger-cover"><i class="fa fa-paper-plane"></i></a>
         </div>
    
 </div>    </div>
@@ -284,7 +303,7 @@ Flux是一个用于在JavaScript应用中创建单向数据层的架构，它随
                   <div class="entry-media">
     <div class="placeholder" style="padding-bottom: 66.666666666667%;">
       <a target="_blank" href="https://blog.lixypro.com/qianduansixiang/react-scaffolding-installation-demo-detailed-example-and-detailed-explanation.html">
-        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/themes/ripro/timthumb.php?src=https://blog.lixypro.com/wp-content/themes/ripro/assets/images/thumb/1.jpg&#038;h=200&#038;w=300&#038;zc=1&#038;a=c&#038;q=100&#038;s=1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="React脚手架安装Demo详细示例，以及细节讲解">  
+        <img class="lazyload" data-src="https://blog.lixypro.com/wp-content/uploads/2021/04/1618230220-c4ca4238a0b9238.jpg" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="React脚手架安装Demo详细示例，以及细节讲解">  
       </a>
             <div class="cao-cover">
 <img width="50" height="50px" data-src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><noscript><img src="https://blog.lixypro.com/wp-content/themes/ripro/assets/images/svg/rings.svg" width="50" height="50px"></noscript>
@@ -424,8 +443,8 @@ Flux是一个用于在JavaScript应用中创建单向数据层的架构，它随
 </div>
 <script>
     console.log("\n %c RiPro V7.1.0 %c https://blog.lixypro.com \n\n", "color: #fadfa3; background: #030307; padding:5px 0;", "background: #fadfa3; padding:5px 0;");
-    console.log("SQL 请求数：63");
-    console.log("页面生成耗时： 0.32058");
+    console.log("SQL 请求数：62");
+    console.log("页面生成耗时： 0.32904");
 </script>
 
 
